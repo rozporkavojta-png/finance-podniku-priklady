@@ -1,7 +1,12 @@
-# Finance podniku – příklady k procvičení
+# Finance podniku – příklady a teorie
 
-Souhrn příkladů z předmětu NE_FIP Finance podniku (přednášky, semináře a seminární úkoly 1–5 + Gordonův model z tématu 13).
+Studijní web k předmětu NE_FIP Finance podniku (zima 2026).
 
-U každého příkladu: **zadání → vzorce → postup → výsledek**. Vzorce, postup i výsledky jdou schovat (globálně i u jednotlivých příkladů), výsledek si můžeš napsat do políčka a stránka ukáže, jestli sedí.
+**Příklady** (`index.html`, pole `TOPICS`) – přednášky, semináře a seminární úkoly 1–5 + Gordonův model z tématu 13. U každého příkladu: **zadání → vzorce → postup → výsledek**, vše jde schovat a výsledek zkontrolovat v políčku. Filtry „Jen úkoly za bod“ a „Jen obsáhlé výpočty“ (štítek 🔥 = dlouhý výpočet, pravděpodobně v testu; vlastnost `narocny` u příkladu).
 
-Otevřít: https://rozporkavojta-png.github.io/finance-podniku-priklady/
+**Teorie** (`teorie.js`, `window.TEORIE`) – přednášky 1P–5P:
+- **Výklad** – teorie po tématech, bloky „na test“ zvýrazněné,
+- **Kartičky** – pojmy a definice, otáčení, „umím / ještě ne“, zamíchat, obráceně,
+- **Kvíz** – otázky s jednou i více správnými odpověďmi a pravda/nepravda, procházení nebo zkušební test (30 otázek), opakování chyb, statistika po tématech.
+
+Otevřít: https://rozporkavojta-png.github.io/finance-podniku-priklady/ (teorie: `#teorie`)

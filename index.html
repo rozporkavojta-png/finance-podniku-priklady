@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Finance podniku – příklady</title>
-<meta name="description" content="NE_FIP Finance podniku: souhrn příkladů z přednášek, seminářů a úkolů 1–5 (zadání, vzorce, postup, výsledky).">
+<title>Finance podniku – příklady a teorie</title>
+<meta name="description" content="NE_FIP Finance podniku: příklady s postupem, výklad teorie, kartičky pojmů a kvízy pro přípravu na test.">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
@@ -13,21 +13,21 @@
 <style>
 :root{
   --bg:#f6f5f1; --card:#ffffff; --ink:#1d2129; --muted:#5d6472; --line:#e3e1da;
-  --accent:#1f5f8b; --accent-soft:#e6eff6; --ok:#1d7a4c; --ok-soft:#e3f3ea; --bad:#b3362d; --bad-soft:#f8e5e3;
+  --accent:#1f5f8b; --accent-soft:#e6eff6; --accent-ink:#fff; --ok:#1d7a4c; --ok-soft:#e3f3ea; --bad:#b3362d; --bad-soft:#f8e5e3;
   --f:#7a4b00; --f-soft:#fbf1df; --p:#3a3f8f; --p-soft:#ecedf8; --r:#1d7a4c; --r-soft:#e3f3ea;
   --shadow:0 1px 2px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.04);
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
     --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
-    --accent:#6fb0de; --accent-soft:#1d2d3b; --ok:#5fcf95; --ok-soft:#173527; --bad:#ef8077; --bad-soft:#3a1f1d;
+    --accent:#6fb0de; --accent-soft:#1d2d3b; --accent-ink:#15171c; --ok:#5fcf95; --ok-soft:#173527; --bad:#ef8077; --bad-soft:#3a1f1d;
     --f:#f0c070; --f-soft:#33291a; --p:#a9adf5; --p-soft:#24264a; --r:#5fcf95; --r-soft:#173527;
     --shadow:none;
   }
 }
 :root[data-theme="dark"]{
   --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
-  --accent:#6fb0de; --accent-soft:#1d2d3b; --ok:#5fcf95; --ok-soft:#173527; --bad:#ef8077; --bad-soft:#3a1f1d;
+  --accent:#6fb0de; --accent-soft:#1d2d3b; --accent-ink:#15171c; --ok:#5fcf95; --ok-soft:#173527; --bad:#ef8077; --bad-soft:#3a1f1d;
   --f:#f0c070; --f-soft:#33291a; --p:#a9adf5; --p-soft:#24264a; --r:#5fcf95; --r-soft:#173527;
   --shadow:none;
 }
@@ -43,7 +43,7 @@ h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:0 0 4px;letter-spacing:-.02em}
 .bar .grp{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
 .bar .lbl{font-size:.8rem;color:var(--muted);margin-right:2px}
 .chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;font:500 .85rem Inter,sans-serif;cursor:pointer}
-.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
 .chip.ghost{background:transparent}
 .spacer{flex:1}
 nav.toc{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 8px}
@@ -103,32 +103,131 @@ footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px so
   .ans input{width:100px}
 }
 @media print{.bar,.btns,.check,nav.toc{display:none!important}.hidden{display:block!important}article.ex{break-inside:avoid}}
+/* Study modes reuse the existing surface, accent and feedback tokens. */
+[hidden]{display:none!important}
+button,a,input,select,summary,[role="button"]{touch-action:manipulation}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px}
+.chip.ghost[aria-pressed="true"]{background:var(--accent);color:var(--accent-ink)}
+.section-switch{display:flex;gap:6px}
+.section-switch a{text-decoration:none;display:inline-flex;align-items:center;min-height:40px}
+.section-switch a[aria-current="page"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
+.extensive-badge{display:inline-block;margin:10px 0 0;padding:6px 10px;border-radius:8px;background:var(--f-soft);color:var(--f);font-size:.84rem;font-weight:700}
+.extensive-note{margin:4px 0;color:var(--f);font-size:.88rem}
+.study-head{margin:24px 0 16px}
+.study-head h2{margin:0;font-size:1.45rem}
+.study-controls,.study-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin:14px 0}
+.study-controls label{display:inline-flex;align-items:center;gap:7px;min-height:40px;font-size:.9rem}
+.study-controls input[type="checkbox"],.quiz-option input{accent-color:var(--accent);width:18px;height:18px;flex-shrink:0}
+.study-controls select,.study-controls input[type="number"]{border:1px solid var(--line);border-radius:8px;background:var(--card);color:var(--ink);font:inherit;padding:8px;max-width:100%;min-width:0}
+.study-controls input[type="number"]{width:82px}
+#theory .chip,#theory .btn{min-height:40px}
+.study-tabs{display:flex;gap:6px;padding:8px 0 14px;border-bottom:1px solid var(--line)}
+.study-tabs .chip{flex:1;max-width:180px}
+.study-tabs [aria-selected="true"]{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.study-card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px;margin:16px 0;box-shadow:var(--shadow);min-width:0;overflow-wrap:anywhere}
+.study-card h3{margin:0 0 8px;font-size:1.12rem}
+.study-card h4{margin:0 0 8px;font-size:1rem}
+.study-card p:first-child{margin-top:0}
+.study-card p:last-child{margin-bottom:0}
+.study-card ul,.study-card ol{padding-left:1.4em}
+.study-topic{margin:24px 0;scroll-margin-top:100px}
+.study-topic>summary{cursor:pointer;font-weight:700;font-size:1.3rem;overflow-wrap:anywhere}
+.study-topic>summary::marker{color:var(--accent)}
+.study-key{border-left:4px solid var(--f);background:var(--f-soft)}
+.test-tag{display:inline-block;font-size:.73rem;font-weight:700;color:var(--f);border:1px solid var(--f);border-radius:6px;padding:1px 7px;margin-bottom:8px}
+.empty-state{text-align:center;padding:32px 16px;color:var(--muted)}
+.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn:disabled{opacity:.5;cursor:default}
+.card-stage{max-width:700px;margin:0 auto}
+.flashcard{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:280px;cursor:pointer;text-align:center;padding:28px 22px}
+.flashcard.is-flipped{border-color:var(--accent);background:var(--accent-soft)}
+.card-face{width:100%;font-size:1.3rem;line-height:1.6}
+.card-face p{margin:.5em 0}
+.card-meta{font-size:.8rem;color:var(--muted);margin-bottom:16px}
+.card-hint{font-size:.8rem;color:var(--muted);margin-top:20px}
+.card-nav{justify-content:center}
+.card-nav .btn{padding:10px 16px}
+.card-known{background:var(--ok-soft);color:var(--ok);border-color:var(--ok)}
+.study-status{font-size:.88rem;color:var(--muted);margin:12px 0}
+.quiz-question{min-width:0;margin:0;padding:0;border:0}
+.quiz-question legend{font-weight:600;font-size:1.08rem;width:100%;margin-bottom:6px;overflow-wrap:anywhere}
+.quiz-help{font-size:.85rem;color:var(--muted);margin:0 0 12px}
+.quiz-option{display:flex;gap:10px;align-items:flex-start;padding:12px;border:1px solid var(--line);border-radius:9px;margin:8px 0;cursor:pointer;min-width:0}
+.quiz-option input{margin-top:4px}
+.quiz-option>span{min-width:0;flex:1}
+.quiz-option:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.quiz-option.correct,.quiz-option.correct:has(input:checked){border-color:var(--ok);background:var(--ok-soft)}
+.quiz-option.wrong,.quiz-option.wrong:has(input:checked){border-color:var(--bad);background:var(--bad-soft)}
+.quiz-option.missed{border:2px solid var(--ok)}
+.option-result{display:block;font-size:.78rem;font-weight:600;margin-top:4px}
+.correct .option-result,.missed .option-result,.result-ok{color:var(--ok)}
+.wrong .option-result,.result-bad{color:var(--bad)}
+.quiz-explanation{border-top:1px solid var(--line);padding-top:12px;margin-top:16px}
+.quiz-explanation h4{font-size:.92rem}
+.quiz-summary .score{font-size:2rem;font-weight:700;color:var(--accent);margin:0}
+.quiz-summary a{color:var(--accent)}
+.stats-list{list-style:none;margin:8px 0;padding:0}
+.stats-list li{display:flex;justify-content:space-between;gap:12px;border-bottom:1px solid var(--line);padding:8px 0;font-size:.85rem}
+.stats-list li span:last-child{white-space:nowrap}
+.study-card table{display:block;max-width:100%;overflow-x:auto}
+#theory{min-width:0}
+@media(max-width:600px){
+  .bar .wrap{gap:6px}.bar .chip{padding:6px 9px;font-size:.78rem}
+  .bar .spacer{display:none}.section-switch{margin-right:auto}
+  .study-card{padding:16px 12px}.study-controls{gap:6px 10px}
+  #theoryTopics>.quiz-help{width:100%;margin:0}
+  .card-nav{gap:6px}.card-nav .btn{padding:8px 11px}
+  .flashcard{min-height:260px;padding:22px 16px}
+  .card-face{font-size:1.15rem}.stats-list li{flex-wrap:wrap;gap:2px}
+  .ans{max-width:100%;flex-wrap:wrap} .ex-head>div{min-width:0;overflow-wrap:anywhere}
+}
+@media print{#examples[hidden],#theory[hidden]{display:none!important}.study-controls,.study-tabs,.study-actions{display:none!important}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <h1>Finance podniku – příklady k procvičení</h1>
-  <p class="sub">NE_FIP · přednášky, semináře a úkoly za bod 1–5 (+ Gordonův model z tématu 13). U každého příkladu: zadání → vzorce → postup → výsledek. Všechno kromě zadání jde schovat a počítat ručně.</p>
+  <h1>Finance podniku – příklady a teorie</h1>
+  <p class="sub">NE_FIP · Počítej příklady, projdi výklad a procvič pojmy i otázky s více správnými odpověďmi. Příprava na test za 30 bodů.</p>
 </div></header>
 
 <div class="bar"><div class="wrap">
-  <div class="grp"><span class="lbl">Zobrazit:</span>
+  <nav class="section-switch" aria-label="Hlavní sekce">
+    <a class="chip" href="#priklady" data-section="priklady">Příklady</a>
+    <a class="chip" href="#teorie" data-section="teorie">Teorie</a>
+  </nav>
+  <div class="grp examples-only"><span class="lbl">Zobrazit:</span>
     <button class="chip" data-g="f" aria-pressed="true">Vzorce</button>
     <button class="chip" data-g="p" aria-pressed="true">Postup</button>
     <button class="chip" data-g="r" aria-pressed="true">Výsledky</button>
   </div>
-  <button class="chip ghost" id="practice">✍️ Režim procvičování (skrýt vše)</button>
+  <button class="chip ghost examples-only" id="practice">✍️ Režim procvičování (skrýt vše)</button>
   <div class="spacer"></div>
   <div class="grp">
-    <button class="chip ghost" id="onlyTasks" aria-pressed="false">Jen úkoly za bod</button>
+    <button class="chip ghost examples-only" id="onlyTasks" aria-pressed="false">Jen úkoly za bod</button>
+    <button class="chip ghost examples-only" id="onlyExtensive" aria-pressed="false">Jen obsáhlé výpočty</button>
     <button class="chip ghost" id="theme" title="Přepnout světlý/tmavý režim">◐</button>
   </div>
 </div></div>
 
 <main class="wrap">
+  <section id="examples" aria-label="Příklady">
   <nav class="toc" id="toc"></nav>
   <p class="progress" id="progress"></p>
   <div id="content"></div>
+  <p id="examplesEmpty" class="empty-state" hidden>Žádný příklad neodpovídá vybraným filtrům. Zkus některý filtr vypnout.</p>
+  </section>
+  <section id="theory" aria-labelledby="theoryTitle" hidden>
+    <div class="study-head"><h2 id="theoryTitle">Teorie k testu</h2><p class="sub">Vyber přednášky a způsob procvičování.</p></div>
+    <div id="theoryTopics" class="study-controls" role="group" aria-label="Výběr témat"></div>
+    <div class="study-tabs" role="tablist" aria-label="Režim teorie">
+      <button class="chip" id="tab-vyklad" role="tab" data-mode="vyklad" aria-controls="theoryPanel" aria-selected="true">Výklad</button>
+      <button class="chip" id="tab-karty" role="tab" data-mode="karty" aria-controls="theoryPanel" aria-selected="false" tabindex="-1">Kartičky</button>
+      <button class="chip" id="tab-kviz" role="tab" data-mode="kviz" aria-controls="theoryPanel" aria-selected="false" tabindex="-1">Kvíz</button>
+    </div>
+    <div id="theoryPanel" role="tabpanel" aria-labelledby="tab-vyklad"></div>
+    <p id="storageNotice" class="note" role="status" hidden>Prohlížeč nepovolil uložení. Pokrok zůstane dostupný jen do obnovení stránky.</p>
+  </section>
 </main>
 
 <footer><div class="wrap">
@@ -136,6 +235,7 @@ footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px so
   Tip: v režimu procvičování spočítej příklad ručně, výsledek napiš do políčka dole (desetinná čárka i tečka fungují) – zezelená, když sedí.
 </div></footer>
 
+<script src="teorie.js"></script>
 <script>
 const R = String.raw;
 /* ---------- DATA ---------- */
@@ -154,7 +254,7 @@ const TOPICS = [
   R`Vnitřní hodnota \(>\) tržní cena → podhodnocená → <b>koupit</b>; \(<\) → nadhodnocená → <b>prodat</b>.`
  ],
  ex:[
- {id:'1-cit', title:'Analýza citlivosti – výrobek A', tags:['lec:Přednáška 1','solved'],
+ {id:'1-cit', narocny:true, narocnyPozn:'4 části: dopočet v, pak 4 rovnice zisku a procentní změny.', title:'Analýza citlivosti – výrobek A', tags:['lec:Přednáška 1','solved'],
   zadani:R`<p>Výroba a prodej 2 500 ks výrobku A, rozpočtovaný zisk 325 000 Kč, cena 660 Kč/ks, fixní náklady 300 000 Kč. Pesimistický zisk, který firma ještě akceptuje, je 280 000 Kč.</p>
   <p>O kolik % může (ostatní beze změny) <b>a)</b> klesnout objem prodeje, <b>b)</b> klesnout cena, <b>c)</b> vzrůst jednotkové variabilní náklady, <b>d)</b> vzrůst fixní náklady?</p>`,
   vzorce:R`$$Z=Q(p-v)-FC\qquad Q_1=\frac{FC+Z}{p-v}$$ $$\text{změna}=\frac{\text{nová}-\text{původní}}{\text{původní}}\cdot100\,\%$$`,
@@ -210,7 +310,7 @@ const TOPICS = [
   vysledek:R`<p>a) <b>40 €</b> · b) dividenda <b>2 €</b>, \(g=\) <b>9 %</b>, cena <b>57,14 €</b>, PVGO <b>17,14 €</b>.</p><p class="note">Cena roste jen proto, že ROE (15 %) &gt; r (12,5 %).</p>`,
   ans:[['a) P₀ (€)',40],['g (%)',9],['b) P₀ (€)',57.14],['PVGO (€)',17.14]]},
 
- {id:'1-7', title:'TT, Inc. – nekompetentní management (takeover)', tags:['Seminář 1 – Př. 7','ukol:Úkol 1 – př. 1'],
+ {id:'1-7', narocny:true, narocnyPozn:'Úkol 1: dividenda, g = b·ROE, cena akcie, PVGO a vysvětlení.', title:'TT, Inc. – nekompetentní management (takeover)', tags:['Seminář 1 – Př. 7','ukol:Úkol 1 – př. 1'],
   zadani:R`<p>Management firmy TT, Inc. trvá na reinvestování 60 % zisků do projektů s ROE 10 %, ačkoli míra kapitalizace je 15 %. Dividenda na konci roku je 2 $ (EPS = 5 $).</p><ol><li>Za jakou cenu se bude akcie prodávat?</li><li>Jaká je PVGO?</li><li>Proč je firma výhodným cílem pro „takeover“?</li></ol>`,
   vzorce:R`$$g=b\cdot ROE\qquad P_0=\frac{D_1}{r-g}\qquad PVGO=P_0-\frac{E_1}{r}$$`,
   postup:R`<ol><li>\(g=0{,}6\cdot0{,}10=6\,\%\).</li><li>\(P_0=\frac{2}{0{,}15-0{,}06}=\frac{2}{0{,}09}=22{,}22\) $.</li><li>Hodnota bez růstu \(\frac{E_1}{r}=\frac{5}{0{,}15}=33{,}33\) $.</li><li>\(PVGO=22{,}22-33{,}33=-11{,}11\) $.</li><li>Takeover: nový vlastník zastaví ztrátové reinvestice, vyplatí celý zisk → akcie má hodnotu 33,33 $ místo 22,22 $ (+11,11 $, tj. +50 %).</li></ol>`,
@@ -253,7 +353,7 @@ const TOPICS = [
   postup:R`<ol><li>\(\frac{E_1}{r}=\frac{5}{0{,}10}=50\) $.</li><li>\(PVGO=80-50=30\) $.</li><li>\(P/E=80/5=16\).</li></ol>`,
   vysledek:R`<p>PVGO = <b>30 $</b> (37,5 % ceny tvoří růstové příležitosti), P/E = <b>16</b> – investor platí 16 $ za 1 $ zisku.</p>`,
   ans:[['PVGO ($)',30],['P/E',16]]},
- {id:'13-5', title:'Samostatně: \(V_0\), implikované g a r', tags:['Seminář 13 – Př. 5'],
+ {id:'13-5', narocny:true, narocnyPozn:'Vnitřní hodnota plus implikované g i r – tři výpočty za sebou.', title:'Samostatně: \(V_0\), implikované g a r', tags:['Seminář 13 – Př. 5'],
   zadani:R`<p>Bezriziková míra 2,0 %, prémie za riziko 5,5 %, beta 1,5, \(D_0=5{,}00\) $, \(g=1{,}5\,\%\), aktuální cena 60 $.</p><ol><li>Odhadněte teoretickou cenu \(V_0\).</li><li>Implikovaná míra růstu při ceně 60 $?</li><li>Implikovaná výnosová míra?</li></ol>`,
   vzorce:R`$$r=r_f+\beta\,RP\qquad V_0=\frac{D_0(1+g)}{r-g}\qquad g=\frac{P_0 r-D_0}{P_0+D_0}\qquad r=\frac{D_1}{P_0}+g$$`,
   postup:R`<ol><li>\(r=2+1{,}5\cdot5{,}5=10{,}25\,\%\); \(D_1=5\cdot1{,}015=5{,}075\).</li><li>\(V_0=\frac{5{,}075}{0{,}1025-0{,}015}=\frac{5{,}075}{0{,}0875}=58{,}00\) $.</li><li>\(g=\frac{60\cdot0{,}1025-5}{65}=\frac{1{,}15}{65}=0{,}01769\).</li><li>\(r=\frac{5{,}075}{60}+0{,}015=0{,}0846+0{,}015=0{,}0996\).</li></ol>`,
@@ -275,7 +375,7 @@ const TOPICS = [
   R`Kupónový výnos \(C/F\) · běžný výnos \(C/P\) · YTM = IRR dluhopisu`
  ],
  ex:[
- {id:'2-L', title:'Pětiletý dluhopis 8 % při YTM 10 % (roční vs. pololetní kupón)', tags:['lec:Přednáška 2','solved'],
+ {id:'2-L', narocny:true, narocnyPozn:'Diskontování 5 toků ročně i 10 toků pololetně.', title:'Pětiletý dluhopis 8 % při YTM 10 % (roční vs. pololetní kupón)', tags:['lec:Přednáška 2','solved'],
   zadani:R`<p>Pětiletý dluhopis s nominální hodnotou 100 Kč, roční kupónová sazba 8 %, výnos do splatnosti 10 %. Určete peněžní toky a cenu dluhopisu. Jak se cena změní, pokud se kupón vyplácí pololetně?</p>`,
   vzorce:R`$$P_0=\sum\frac{C}{(1+i)^t}+\frac{F}{(1+i)^n}$$`,
   postup:R`<ol><li>Toky: 8, 8, 8, 8, 108 (součet 140).</li><li>Diskontováno 10 %: 7,27 + 6,61 + 6,01 + 5,46 + 67,06 = 92,42.</li><li>Pololetně: 10 období po 4 Kč, sazba 5 %: \(\sum_{t=1}^{10}\frac{4}{1{,}05^t}+\frac{100}{1{,}05^{10}}=92{,}28\).</li></ol>`,
@@ -305,7 +405,7 @@ const TOPICS = [
   postup:R`<p>\(P_0=\frac{10\,000}{1{,}05^5}=\frac{10\,000}{1{,}27628}\)</p>`,
   vysledek:R`<p><b>7 835,26 Kč</b> (78,3526 %).</p>`,
   ans:[['P₀ (Kč)',7835.26]]},
- {id:'2-4', title:'Tržní hodnota držených dluhopisů (oceňování podniku)', tags:['Seminář 2 – Př. 4','solved'],
+ {id:'2-4', narocny:true, narocnyPozn:'Ocenění více emisí dluhopisů a součet tržní hodnoty.', title:'Tržní hodnota držených dluhopisů (oceňování podniku)', tags:['Seminář 2 – Př. 4','solved'],
   zadani:R`<p>Nominální hodnota držených dluhopisů je 1 274 tis. Kč (splatné jednorázově na konci). Kupón 5 % → 63,7 tis. Kč ročně, zdanění výnosů 20 % → po dani 51 tis. Kč. Do splatnosti zbývá 7 let, výnos do splatnosti podobných dluhopisů je 7 %. Oceňte dluhopisy tržní hodnotou.</p>`,
   vzorce:R`$$P=C_{\text{po dani}}\cdot\frac{1-(1+i)^{-n}}{i}+\frac{F}{(1+i)^n}$$`,
   postup:R`<ol><li>Kupón po dani \(63{,}7\cdot0{,}8=50{,}96\approx51\) tis. (slide zaokrouhluje na 51).</li><li>Zásobitel \(\frac{1-1{,}07^{-7}}{0{,}07}=5{,}3893\) → \(51\cdot5{,}3893=274{,}9\).</li><li>\(\frac{1274}{1{,}07^7}=793{,}4\).</li><li>\(274{,}9+793{,}4=1\,068{,}2\)</li></ol>`,
@@ -329,19 +429,19 @@ const TOPICS = [
   postup:R`<ol><li>Diskont \(=20\,000\cdot0{,}05\cdot\frac{60}{360}=166{,}67\) Kč.</li><li>\(P=20\,000-166{,}67\).</li></ol>`,
   vysledek:R`<p>Cena <b>19 833,33 Kč</b>.</p>`,
   ans:[['P (Kč)',19833.33]]},
- {id:'2-7', title:'Tříleté státní dluhopisy 2 % se zdaněním', tags:['Seminář 2 – Př. 7'],
+ {id:'2-7', narocny:true, narocnyPozn:'Dluhopis se zdaněním kupónů – ceny i výnos.', title:'Tříleté státní dluhopisy 2 % se zdaněním', tags:['Seminář 2 – Př. 7'],
   zadani:R`<p>Stát emituje tříleté dluhopisy, nominál 1 000 Kč, roční kupónová sazba 2 %. Kupóny se vyplácí vždy na začátku (následujícího) roku, po třech letech se s posledním kupónem vyplatí nominál. Kupóny podléhají dani 15 %. Na začátku roku koupíme 1 dluhopis.</p><ol><li>Kolik dostaneme celkem na kupónech?</li><li>Jaká bude hodnota kapitálu po třech letech?</li><li>Jaká je současná hodnota kapitálu při požadované výnosnosti 1 %?</li></ol>`,
   vzorce:R`$$C_{\text{čistý}}=F\cdot c\cdot(1-t)\qquad PV=\frac{K_3}{(1+r)^3}$$`,
   postup:R`<ol><li>Hrubý kupón 20 Kč, čistý \(20\cdot0{,}85=17\) Kč → za 3 roky \(3\cdot17=51\) Kč (hrubě 60 Kč).</li><li>Kapitál po 3 letech \(=1\,000+51=1\,051\) Kč.</li><li>Diskontuj skutečné toky: \(PV=\frac{17}{1{,}01}+\frac{17}{1{,}01^2}+\frac{1\,017}{1{,}01^3}=1\,020{,}59\) Kč.</li></ol>`,
   vysledek:R`<p>1) <b>51 Kč</b> (čistě) · 2) <b>1 051 Kč</b> · 3) <b>≈ 1 020,59 Kč</b></p><p class="note">Zjednodušeně (celých 1 051 Kč diskontovaných až z 3. roku) \(1\,051/1{,}01^3=1\,020{,}09\) Kč. Správnější je diskontovat každý tok v jeho roce – zadání to ale přesně neříká, obě čísla kontrola přijme.</p>`,
   ans:[['kupóny (Kč)',51],['kapitál (Kč)',1051],['PV (Kč)',1020.59,0.6]]},
- {id:'2-8', title:'Dluhopis s pololetním kupónem 250 Kč', tags:['Seminář 2 – Př. 8','ukol:Úkol 2 – př. 1'],
+ {id:'2-8', narocny:true, narocnyPozn:'Úkol 2: pololetní kupón – sazby /2, období ×2.', title:'Dluhopis s pololetním kupónem 250 Kč', tags:['Seminář 2 – Př. 8','ukol:Úkol 2 – př. 1'],
   zadani:R`<p>Cena dluhopisu s dobou do splatnosti 2 roky, nominál 50 000 Kč. Kupón 250 Kč se vyplácí pololetně. Roční tržní výnosová míra je 8,5 % p. a.</p>`,
   vzorce:R`$$P=C\cdot\frac{1-(1+i/2)^{-2n}}{i/2}+\frac{F}{(1+i/2)^{2n}}$$`,
   postup:R`<ol><li>Pololetní sazba \(0{,}085/2=0{,}0425\), počet období \(2\cdot2=4\), kupón za pololetí 250 Kč.</li><li>Kupóny: \(250\cdot\frac{1-1{,}0425^{-4}}{0{,}0425}=250\cdot3{,}60861=902{,}15\).</li><li>Nominál: \(\frac{50\,000}{1{,}0425^4}=\frac{50\,000}{1{,}181148}=42\,331{,}70\).</li></ol>`,
   vysledek:R`<p>Cena <b>43 233,86 Kč</b> (kupón je jen 1 % ročně → hluboko pod nominálem).</p>`,
   ans:[['P (Kč)',43233.86]]},
- {id:'2-9', title:'Pan Koutný – čistý výnos z dluhopisu', tags:['Seminář 2 – Př. 9','ukol:Úkol 2 – př. 3'],
+ {id:'2-9', narocny:true, narocnyPozn:'Úkol 2: čistý výnos se zdaněním a poplatky.', title:'Pan Koutný – čistý výnos z dluhopisu', tags:['Seminář 2 – Př. 9','ukol:Úkol 2 – př. 3'],
   zadani:R`<p>Pan Koutný koupil dluhopis za 10 000 Kč, splatnost 5 let, úroková míra 3,2 %. Každý rok dostane úrok z 10 000 Kč, daň z úroku 15 %. Na konci 5. roku dostane s úrokem i vloženou částku. Vypočítejte čistý výnos (zohledněte čas a riziko – alternativní výnos termínovaného vkladu je 1,5 % p. a.).</p>`,
   vzorce:R`$$NPV=\sum_{t=1}^{5}\frac{CF_t}{(1+r)^t}-I_0$$`,
   postup:R`<ol><li>Hrubý úrok 320 Kč, daň 48 Kč → čistý 272 Kč ročně.</li><li>Toky: 272, 272, 272, 272, 10 272.</li><li>Diskont 1,5 %: 267,98 + 264,02 + 260,12 + 256,27 + 9 535,09 = 10 583,48.</li><li>\(NPV=10\,583{,}48-10\,000\).</li></ol>`,
@@ -381,7 +481,7 @@ const TOPICS = [
   postup:R`<ol><li>Koupí 1 000 akcií po 7 Kč = 7 000 Kč, prodá vypisovateli po 10 Kč = 10 000 Kč.</li><li>Zisk \(=10\,000-7\,000-2\,000=1\,000\) Kč.</li><li>Výnos na vložený kapitál (prémie 2 000 Kč): 50 % při poklesu akcie o 36,4 % (11 → 7 Kč).</li></ol>`,
   vysledek:R`<p>Zisk <b>1 000 Kč</b>, tj. <b>50 %</b> z vložené prémie.</p>`,
   ans:[['zisk (Kč)',1000]]},
- {id:'3-4', title:'Call na 100 akcií (X = 50, prémie 5)', tags:['Seminář 3 – Př. 4','ukol:Úkol 3 – př. 1'],
+ {id:'3-4', narocny:true, narocnyPozn:'Úkol 3: výplaty callu pro více cen, zisk/ztráta, bod zvratu.', title:'Call na 100 akcií (X = 50, prémie 5)', tags:['Seminář 3 – Př. 4','ukol:Úkol 3 – př. 1'],
   zadani:R`<p>Kontrakt s právem koupit 100 akcií za 50 Kč/ks. Současná cena 45 Kč, opční poplatek 5 Kč/ks.</p><ol type="a"><li>Jak se zachová držitel, když cena krátce před splatností vzroste na 60 Kč? Finanční důsledky?</li><li>Jak se zachová, když cena zůstane pod 50 Kč? Důsledky?</li></ol><p>Situaci popište graficky s konkrétními hodnotami.</p>`,
   vzorce:R`$$Z=\big(\max(S-X,0)-c\big)\cdot n\qquad \text{bod zvratu}=X+c$$`,
   postup:R`<ol><li>Zaplacená prémie \(5\cdot100=500\) Kč.</li><li>a) 60 &gt; 50 → uplatní: koupí za 50, hodnota 60 → \((60-50)\cdot100=1\,000\); čistý zisk \(1\,000-500=500\) Kč.</li><li>b) &lt; 50 → neuplatní (na trhu koupí levněji), ztráta = prémie 500 Kč.</li><li>Bod zvratu 55 Kč/akcii.</li></ol>`,
@@ -400,7 +500,7 @@ const TOPICS = [
   postup:R`<ol><li>2 100: \(\max(100,0)=100\) → \(100\cdot0{,}3=30\).</li><li>2 200: 0 → 0. 2 400: 0 → 0.</li><li>(Očekávaná cena akcie \(=630+880+720=2\,230\).)</li></ol>`,
   vysledek:R`<p>Hodnota put opce <b>30</b>.</p>`,
   ans:[['E(P)',30]]},
- {id:'3-L1', title:'Binomický model – call opce s X = 525', tags:['lec:Přednáška 3','solved'],
+ {id:'3-L1', narocny:true, narocnyPozn:'Binomický model: Δ, hodnota portfolia, spojité diskontování, cena opce.', title:'Binomický model – call opce s X = 525', tags:['lec:Přednáška 3','solved'],
   zadani:R`<p>Akcie stojí 500 Kč, za 3 měsíce bude buď 550 Kč, nebo 450 Kč. Kolik by měla stát evropská call opce s realizační cenou 525 Kč a splatností 3 měsíce? Bezriziková úroková míra 10 % (spojité úročení).</p>`,
   vzorce:R`$$\Delta S_u-C_u=\Delta S_d-C_d\qquad PV=\Pi\,e^{-rT}\qquad C=\Delta S_0-PV$$`,
   postup:R`<ol><li>Hodnota opce na konci: \(C_u=550-525=25\), \(C_d=0\).</li><li>Bezrizikové portfolio (long Δ akcií, short 1 call): \(550\Delta-25=450\Delta\Rightarrow\Delta=0{,}25\).</li><li>Hodnota portfolia v obou stavech \(=112{,}5\).</li><li>\(PV=112{,}5\cdot e^{-0{,}10\cdot0{,}25}=109{,}722\).</li><li>\(0{,}25\cdot500-C=109{,}722\Rightarrow C=125-109{,}722\).</li></ol>`,
@@ -412,7 +512,7 @@ const TOPICS = [
   postup:R`<ol><li>A) akcie \(-5\), put uplatní \(+5\), prémie \(-2\) → celkem \(-2\) (opce sama: \(5-2=+3\)).</li><li>B) akcie \(+5\), put nevyužije, prémie \(-2\) → celkem \(+3\).</li></ol>`,
   vysledek:R`<p>A) celkem <b>−2 EUR</b> (ztráta omezena na prémii) · B) <b>+3 EUR</b>.</p><p class="note">Ve slidu je u scénáře A „celkem = 3“ – to je jen výsledek opce bez poklesu akcie.</p>`,
   ans:[['A) celkem',-2],['B) celkem',3]]},
- {id:'3-L3', title:'Reálná opce – výzkum a vývoj', tags:['lec:Přednáška 3'],
+ {id:'3-L3', narocny:true, narocnyPozn:'Strom 6 scénářů s pravděpodobnostmi, s reálnou opcí i bez ní.', title:'Reálná opce – výzkum a vývoj', tags:['lec:Přednáška 3'],
   zadani:R`<p>VaV nového produktu stojí 10 mil. Kč. Výrobní náklady budou se stejnou pravděpodobností 30, 60 nebo 90 mil. Kč. Výnosy z prodeje 125 mil. Kč (p = 0,6) nebo 65 mil. Kč (p = 0,4). Ostatní nevýrobní náklady 25 mil. Kč. Jaká je očekávaná NPV bez opce a s opcí projekt nespustit, když vychází ztrátově?</p>`,
   vzorce:R`$$ČV=\text{výnosy}-\text{výrobní n.}-25\qquad E(ČV)=\sum p_i\,ČV_i\qquad NPV=-10+E(ČV)$$`,
   postup:R`<ol><li>Scénáře (p = 1/3 · 0,6 = 0,2 a 1/3 · 0,4 = 0,133): náklady 30 → 70 / 10; 60 → 40 / −20; 90 → 10 / −50.</li><li>Bez opce: \(0{,}2(70+40+10)+0{,}133(10-20-50)=24-8=16\) → \(NPV=+6\).</li><li>S opcí (záporné scénáře = 0): \(0{,}2\cdot120+0{,}133\cdot10=25{,}33\) → \(NPV=+15{,}33\).</li></ol>`,
@@ -433,13 +533,13 @@ const TOPICS = [
   R`Beta: $$\beta_i=\frac{\sigma_{iM}}{\sigma_M^2}=\rho_{iM}\frac{\sigma_i}{\sigma_M}$$`
  ],
  ex:[
- {id:'4-1', title:'Tři scénáře – výnos a směrodatná odchylka', tags:['Seminář 4 – Př. 1','solved'],
+ {id:'4-1', narocny:true, narocnyPozn:'E(R), rozptyl i σ pro tři scénáře.', title:'Tři scénáře – výnos a směrodatná odchylka', tags:['Seminář 4 – Př. 1','solved'],
   zadani:R`<table class="t"><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>Pravděpodobnost</td><td>0,5</td><td>0,3</td><td>0,2</td></tr><tr><td>Výnosnost (%)</td><td>25</td><td>10</td><td>−25</td></tr></table><p>Vypočítejte očekávanou výnosnost, rozptyl a směrodatnou odchylku.</p>`,
   vzorce:R`$$E(r)=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
   postup:R`<ol><li>\(E=25\cdot0{,}5+10\cdot0{,}3-25\cdot0{,}2=10{,}5\,\%\).</li><li>\(\sigma^2=14{,}5^2\cdot0{,}5+(-0{,}5)^2\cdot0{,}3+(-35{,}5)^2\cdot0{,}2=105{,}125+0{,}075+252{,}05=357{,}25\).</li><li>\(\sigma=\sqrt{357{,}25}\).</li></ol>`,
   vysledek:R`<p>\(E=\) <b>10,5 %</b>, \(\sigma^2=\) <b>357,25</b>, \(\sigma=\) <b>18,9 %</b>.</p><p class="note">Ve slidu je rozptyl 357,21 – ze zadaných čísel ale vychází přesně 357,25 (asi překlep). σ je v obou případech 18,9 %.</p>`,
   ans:[['E (%)',10.5],['σ² ',357.25,0.1],['σ (%)',18.9]]},
- {id:'4-2', title:'Tři scénáře – samostatně', tags:['Seminář 4 – Př. 2'],
+ {id:'4-2', narocny:true, narocnyPozn:'E(R), rozptyl i σ pro tři scénáře – samostatně.', title:'Tři scénáře – samostatně', tags:['Seminář 4 – Př. 2'],
   zadani:R`<table class="t"><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>Pravděpodobnost</td><td>0,5</td><td>0,4</td><td>0,1</td></tr><tr><td>Výnosnost (%)</td><td>20</td><td>15</td><td>−30</td></tr></table><p>Vypočítejte výnosnost, rozptyl a směrodatnou odchylku.</p>`,
   vzorce:R`$$E(r)=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
   postup:R`<ol><li>\(E=10+6-3=13\,\%\).</li><li>\(\sigma^2=7^2\cdot0{,}5+2^2\cdot0{,}4+(-43)^2\cdot0{,}1=24{,}5+1{,}6+184{,}9=211\).</li><li>\(\sigma=\sqrt{211}\).</li></ol>`,
@@ -451,7 +551,7 @@ const TOPICS = [
   postup:R`<ol><li>\(E=150\,000-50\,000=100\,000\) Kč.</li><li>\(\sigma^2=0{,}5\cdot200\,000^2+0{,}5\cdot(-200\,000)^2=4\cdot10^{10}\).</li><li>\(\sigma=200\,000\) Kč.</li></ol>`,
   vysledek:R`<p>\(E=\) <b>100 000 Kč</b>, \(\sigma^2=\) <b>40 000 000 000 Kč²</b>, \(\sigma=\) <b>200 000 Kč</b> (2× víc než očekávaný výnos → velmi rizikové).</p>`,
   ans:[['E (Kč)',100000],['σ (Kč)',200000]]},
- {id:'4-U1', title:'Příznivý / nepříznivý / realistický výsledek', tags:['ukol:Úkol 4 – př. 1'],
+ {id:'4-U1', narocny:true, narocnyPozn:'Úkol 4: E(R), rozptyl, σ a interpretace.', title:'Příznivý / nepříznivý / realistický výsledek', tags:['ukol:Úkol 4 – př. 1'],
   zadani:R`<table class="t"><tr><th>Výsledek</th><th>Pravděpodobnost</th><th>Výnos</th></tr><tr><td>Příznivý</td><td>0,4</td><td>300 000 Kč</td></tr><tr><td>Nepříznivý</td><td>0,3</td><td>−100 000 Kč</td></tr><tr><td>Realistický</td><td>0,3</td><td>100 000 Kč</td></tr></table><p>Vypočítejte očekávaný výnos, rozptyl a směrodatnou odchylku. Vysvětlete z pohledu rozhodovatele.</p>`,
   vzorce:R`$$E=\sum p_iR_i\qquad \sigma^2=\sum p_i(R_i-E)^2\qquad V=\frac{\sigma}{E}$$`,
   postup:R`<ol><li>\(E=120\,000-30\,000+30\,000=120\,000\) Kč.</li><li>\(\sigma^2=0{,}4\cdot180\,000^2+0{,}3\cdot(-220\,000)^2+0{,}3\cdot(-20\,000)^2\) \(=(12{,}96+14{,}52+0{,}12)\cdot10^9=27{,}6\cdot10^9\).</li><li>\(\sigma=\sqrt{27{,}6\cdot10^9}=166\,132{,}48\) Kč; \(V=1{,}38\).</li></ol>`,
@@ -463,7 +563,7 @@ const TOPICS = [
   postup:R`<ol><li>Náklady: 40 000 + 80 000 + 40 000 = 160 000 EUR → váhy 0,25 / 0,5 / 0,25.</li><li>\(E(r_p)=0{,}25\cdot17+0{,}5\cdot13+0{,}25\cdot23=4{,}25+6{,}5+5{,}75\).</li></ol>`,
   vysledek:R`<p>Výnos portfolia <b>16,5 %</b>.</p>`,
   ans:[['E(rₚ) (%)',16.5]]},
- {id:'4-5', title:'Dva investiční záměry – který je rizikovější?', tags:['Seminář 4 – Př. 5'],
+ {id:'4-5', narocny:true, narocnyPozn:'Dva záměry: E(R), σ a variační koeficient pro oba.', title:'Dva investiční záměry – který je rizikovější?', tags:['Seminář 4 – Př. 5'],
   zadani:R`<table class="t"><tr><th>Investice I – r (%)</th><th>p</th><th>Investice II – r (%)</th><th>p</th></tr><tr><td>30</td><td>0,5</td><td>46</td><td>0,5</td></tr><tr><td>15</td><td>0,3</td><td>5</td><td>0,3</td></tr><tr><td>5</td><td>0,1</td><td>−15</td><td>0,1</td></tr><tr><td>−20</td><td>0,1</td><td>−50</td><td>0,1</td></tr></table><p>Propočítejte rozptyly a směrodatné odchylky, interpretujte rizikovost.</p>`,
   vzorce:R`$$E=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
   postup:R`<ol><li>I: \(E=15+4{,}5+0{,}5-2=18\,\%\); \(\sigma^2=72+2{,}7+16{,}9+144{,}4=236\) → \(\sigma=15{,}36\,\%\).</li><li>II: \(E=23+1{,}5-1{,}5-5=18\,\%\); \(\sigma^2=392+50{,}7+108{,}9+462{,}4=1\,014\) → \(\sigma=31{,}84\,\%\).</li></ol>`,
@@ -475,7 +575,7 @@ const TOPICS = [
   postup:R`<ol><li>Samostatně: VŠČ E = 10 %, σ = 2 %; LL E = 5 %, σ = 10 %.</li><li>Recese: \(\frac56\cdot12+\frac16\cdot(-5)=10-0{,}833=9{,}17\,\%\).</li><li>Konjunktura: \(\frac56\cdot8+\frac16\cdot15=6{,}67+2{,}5=9{,}17\,\%\).</li></ol>`,
   vysledek:R`<p>Portfolio vynáší v obou stavech <b>9,17 %</b>, σ = <b>0</b> – diverzifikace (záporná korelace) odstranila veškeré riziko.</p>`,
   ans:[['rₚ (%)',9.17]]},
- {id:'4-6', title:'CAPM – akcie A s betou 1,4 a posuny SML', tags:['Seminář 4 – Př. 6','solved'],
+ {id:'4-6', narocny:true, narocnyPozn:'CAPM a posuny SML – několik variant výpočtu.', title:'CAPM – akcie A s betou 1,4 a posuny SML', tags:['Seminář 4 – Př. 6','solved'],
   zadani:R`<p>Akcie A má \(\beta=1{,}4\), bezrizikové aktivum vynáší 11 % p. a., očekávaný výnos trhu je 14 % p. a.</p><ol type="a"><li>Jaká je požadovaná míra výnosu akcie A?</li><li>Bezriziková sazba vzroste na 12 %. Jak se změní přímka SML?</li><li>Bezriziková sazba klesne na 10 %. Jak se změní SML?</li><li>Investoři budou více riskovat (změní se averze k riziku). Dopad na SML?</li></ol>`,
   vzorce:R`$$E(r_A)=r_f+\beta\,[E(r_m)-r_f]$$`,
   postup:R`<ol><li>a) \(11+1{,}4\cdot(14-11)=11+4{,}2=15{,}2\,\%\).</li><li>b) \(+1\) p. b. → SML se posune <b>paralelně nahoru</b> o 1 % (při stejné tržní prémii 3 % je \(E(r_A)=12+1{,}4\cdot3=16{,}2\,\%\)).</li><li>c) \(-1\) p. b. → SML <b>paralelně dolů</b> (\(E(r_A)=14{,}2\,\%\)).</li><li>d) Mění se sklon (tržní riziková prémie): vyšší averze → strmější SML, ochota riskovat → plošší SML; přímka se otáčí kolem bodu \(r_f\).</li></ol>`,
@@ -520,19 +620,19 @@ const TOPICS = [
   postup:R`<ol><li>\(0{,}45\cdot20\cdot0{,}65=5{,}85\,\%\).</li><li>\(0{,}55\cdot15=8{,}25\,\%\).</li></ol>`,
   vysledek:R`<p>WACC = <b>14,10 %</b>.</p>`,
   ans:[['WACC (%)',14.1]]},
- {id:'5-3', title:'WACC společnosti XYZ (obligace + akcie)', tags:['Seminář 5 – Př. 3','solved'],
+ {id:'5-3', narocny:true, narocnyPozn:'WACC: tržní hodnoty, YTM obligace iteračně, Gordon, vážení.', title:'WACC společnosti XYZ (obligace + akcie)', tags:['Seminář 5 – Př. 3','solved'],
   zadani:R`<p><b>Obligace:</b> nominál 800 Kč, tržní hodnota 670 Kč, úrok na konci roku 70 Kč, 10 000 ks, do splatnosti 12 let.<br><b>Akcie:</b> nominál 1 000 Kč, tržní hodnota 1 500 Kč, očekávaná dividenda 180 Kč, růst dividend 3 %, 30 000 ks.<br>Daň ze zisku 24 %. Vypočítejte aktuální WACC.</p>`,
   vzorce:R`$$r_d=\frac{\acute{u}+\frac{N-P}{n}}{0{,}6P+0{,}4N}\qquad r_e=\frac{D_1}{P}+g\qquad WACC=\frac{D}{V}r_d(1-t)+\frac{E}{V}r_e$$`,
   postup:R`<ol><li>Tržní hodnoty: obligace \(670\cdot10\,000=6{,}7\) mil.; akcie \(1500\cdot30\,000=45\) mil.; celkem 51,7 mil. (podíly 0,13 / 0,87).</li><li>\(r_d=\frac{70+\frac{800-670}{12}}{0{,}6\cdot670+0{,}4\cdot800}=\frac{80{,}83}{722}=11{,}2\,\%\).</li><li>Daňový štít: \(11{,}2\cdot(1-0{,}24)=8{,}512\,\%\).</li><li>\(r_e=\frac{180}{1500}+3\,\%=12+3=15\,\%\).</li><li>\(WACC=8{,}512\cdot\frac{6{,}7}{51{,}7}+15\cdot\frac{45}{51{,}7}\).</li></ol>`,
   vysledek:R`<p>\(r_d\) = 11,2 % (po dani 8,51 %), \(r_e\) = 15 %, <b>WACC = 14,16 %</b>.</p>`,
   ans:[['rd (%)',11.2],['re (%)',15],['WACC (%)',14.16]]},
- {id:'5-4', title:'WACC společnosti XYZ – samostatně', tags:['Seminář 5 – Př. 4','ukol:Úkol 5 – př. 1'],
+ {id:'5-4', narocny:true, narocnyPozn:'Úkol 5: WACC s YTM iteračně – nejdelší výpočet.', title:'WACC společnosti XYZ – samostatně', tags:['Seminář 5 – Př. 4','ukol:Úkol 5 – př. 1'],
   zadani:R`<p><b>Obligace:</b> nominál 900 Kč, tržní hodnota 780 Kč, úrok na konci roku 60 Kč, 20 000 ks, do splatnosti 20 let.<br><b>Akcie:</b> nominál 2 000 Kč, tržní hodnota 2 500 Kč, očekávaná dividenda 280 Kč, růst dividend 2 %, 40 000 ks.<br>Daň ze zisku 24 %. Vypočítejte aktuální WACC.</p>`,
   vzorce:R`$$r_d=\frac{\acute{u}+\frac{N-P}{n}}{0{,}6P+0{,}4N}\qquad r_e=\frac{D_1}{P}+g\qquad WACC=\frac{D}{V}r_d(1-t)+\frac{E}{V}r_e$$`,
   postup:R`<ol><li>Tržní hodnoty: obligace \(780\cdot20\,000=15{,}6\) mil.; akcie \(2500\cdot40\,000=100\) mil.; celkem 115,6 mil. → \(D/V=0{,}1349\), \(E/V=0{,}8651\).</li><li>\(r_d=\frac{60+\frac{900-780}{20}}{0{,}6\cdot780+0{,}4\cdot900}=\frac{66}{828}=7{,}97\,\%\).</li><li>Po dani: \(7{,}97\cdot0{,}76=6{,}06\,\%\).</li><li>\(r_e=\frac{280}{2500}+2\,\%=11{,}2+2=13{,}2\,\%\).</li><li>\(WACC=0{,}1349\cdot6{,}06+0{,}8651\cdot13{,}2=0{,}82+11{,}42\).</li></ol>`,
   vysledek:R`<p>\(r_d\) ≈ 7,97 % (po dani 6,06 %), \(r_e\) = 13,2 %, <b>WACC ≈ 12,24 %</b>.</p><p class="note">Přesný výnos do splatnosti (iteračně, IRR) je 8,03 % → po dani 6,10 % → WACC vyjde také 12,24 %. Na semináři se počítá zjednodušeným vzorcem.</p>`,
   ans:[['rd (%)',7.97],['re (%)',13.2],['WACC (%)',12.24]]},
- {id:'5-5', title:'CAPM – beta z kovariance a korelace, SML, alfa (5 akcií)', tags:['Seminář 5 – Př. 5','solved'],
+ {id:'5-5', narocny:true, narocnyPozn:'Beta z kovariance a korelace, SML a alfa pro 5 akcií.', title:'CAPM – beta z kovariance a korelace, SML, alfa (5 akcií)', tags:['Seminář 5 – Př. 5','solved'],
   zadani:R`<p>Na burze se obchoduje 5 společností. Bezrizikové aktivum vynáší 4 % (σ<sub>f</sub> = 0), očekávaná výnosnost trhu 8 % (σ<sub>M</sub> = 9,6 %).</p>
   <table class="t"><tr><th>Akcie</th><th>r<sub>i</sub></th><th>σ<sub>i</sub></th><th>σ<sub>iM</sub></th></tr><tr><td>A</td><td>10,0 %</td><td>9,0 %</td><td>0,0021</td></tr><tr><td>B</td><td>6,0 %</td><td>10,0 %</td><td>0,0092</td></tr><tr><td>C</td><td>8,3 %</td><td>12,0 %</td><td>0,0100</td></tr><tr><td>D</td><td>10,0 %</td><td>14,0 %</td><td>0,0090</td></tr><tr><td>E</td><td>14,0 %</td><td>20,0 %</td><td>0,0164</td></tr></table>
   <ol><li>β z kovariance,</li><li>β z korelace,</li><li>rovnovážné výnosnosti \(E(r_i)\),</li><li>přímka SML,</li><li>alfa a investiční doporučení.</li></ol>`,
@@ -542,7 +642,7 @@ const TOPICS = [
   vysledek:R`<p>Koupit <b>A, E, D</b> (nad SML, podhodnocené), prodat <b>B</b> (pod SML), <b>C</b> držet (α = −0,04 ≈ 0, leží prakticky na SML).</p>`,
   chart:{type:'sml',rf:4,rm:8,stocks:[['A',0.228,10],['B',0.998,6],['C',1.085,8.3],['D',0.977,10],['E',1.780,14]]},
   ans:[['β A',0.228,0.003],['β E',1.78,0.003],['α A (p.b.)',5.09],['α B (p.b.)',-1.99]]},
- {id:'5-6', title:'CAPM – 6 akcií, SML a alfa', tags:['Seminář 5 – Př. 6','ukol:Úkol 5 – př. 2'],
+ {id:'5-6', narocny:true, narocnyPozn:'Úkol 5: E(r), SML a alfa pro 6 akcií + doporučení.', title:'CAPM – 6 akcií, SML a alfa', tags:['Seminář 5 – Př. 6','ukol:Úkol 5 – př. 2'],
   zadani:R`<p>Na burze je 6 společností. Bezrizikové aktivum vynáší 3 % (σ<sub>f</sub> = 0), očekávaná výnosnost trhu 9 % (σ<sub>M</sub> = 10,6 %). Vypočtěte rovnovážné výnosnosti \(E(r_i)\), sestavte SML, vypočtěte \(\alpha_i\) a doporučte nákup/prodej.</p>
   <table class="t"><tr><th>Akcie</th><th>β<sub>i</sub></th><th>Skutečná výnosnost</th></tr><tr><td>A</td><td>1,9</td><td>14 %</td></tr><tr><td>B</td><td>0,78</td><td>3 %</td></tr><tr><td>C</td><td>1,6</td><td>10 %</td></tr><tr><td>D</td><td>1,02</td><td>6 %</td></tr><tr><td>E</td><td>0,61</td><td>2 %</td></tr><tr><td>F</td><td>1,1</td><td>7 %</td></tr></table>`,
   vzorce:R`$$E(r_i)=r_f+\beta_i\,(E(r_m)-r_f)\qquad \alpha_i=r_i-E(r_i)$$`,
@@ -612,9 +712,10 @@ function render(){
     h+=`<details class="cheat"><summary>Tahák vzorců k tématu</summary><div class="fl">${t.cheat.map(c=>`<div>${c}</div>`).join('')}</div></details>`;
     t.ex.forEach((e,i)=>{
       const isTask=e.tags.some(x=>x.startsWith('ukol:'));
-      h+=`<article class="ex${done[e.id]?' done':''}" id="ex-${e.id}" data-task="${isTask?1:0}">
+      h+=`<article class="ex${done[e.id]?' done':''}${e.narocny?' extensive':''}" id="ex-${e.id}" data-task="${isTask?1:0}" data-extensive="${e.narocny?1:0}">
        <div class="ex-head"><div><h3>${esc(t.title.split(' · ')[0])}.${i+1} ${e.title}</h3><div class="tags">${e.tags.map(tagHtml).join('')}</div></div>
        <label class="umim"><input type="checkbox" data-done="${e.id}" ${done[e.id]?'checked':''}> umím</label></div>
+       ${e.narocny?`<div class="extensive-badge">🔥 Obsáhlý výpočet – pravděpodobně v testu</div>${e.narocnyPozn?`<p class="extensive-note">${esc(e.narocnyPozn)}</p>`:''}`:''}
        <div class="zadani">${e.zadani}</div>
        <div class="btns">
          <button class="btn f" data-t="f" aria-expanded="true">Vzorce</button>
@@ -629,7 +730,7 @@ function render(){
     });
     h+='</section>';
   });
-  toc.innerHTML=th; cont.innerHTML=h;
+  toc.innerHTML=th; cont.innerHTML=h; mathIn(cont);
 }
 
 const state={f:true,p:true,r:true};
@@ -643,19 +744,249 @@ function applyGlobal(){
   });
 }
 function updProgress(){
-  const all=document.querySelectorAll('article.ex').length, d=Object.values(done).filter(Boolean).length;
-  document.getElementById('progress').textContent=`Umím ${d} z ${all} příkladů · ${document.querySelectorAll('article.ex[data-task="1"]').length} z nich jsou úkoly za bod`;
+  const cards=[...document.querySelectorAll('article.ex')], d=cards.filter(a=>a.classList.contains('done')).length;
+  document.getElementById('progress').textContent=`Umím ${d} z ${cards.length} příkladů · ${cards.filter(a=>a.dataset.task==='1').length} z nich jsou úkoly za bod · z toho ${cards.filter(a=>a.dataset.extensive==='1').length} obsáhlých · zobrazeno ${cards.filter(a=>!a.classList.contains('hidden')).length}`;
+}
+function filterExamples(){
+  const tasks=document.getElementById('onlyTasks').getAttribute('aria-pressed')==='true';
+  const extensive=document.getElementById('onlyExtensive').getAttribute('aria-pressed')==='true';
+  document.querySelectorAll('#content .topic').forEach(t=>{
+    t.querySelectorAll('article.ex').forEach(a=>a.classList.toggle('hidden',(tasks&&a.dataset.task!=='1')||(extensive&&a.dataset.extensive!=='1')));
+    t.hidden=![...t.querySelectorAll('article.ex')].some(a=>!a.classList.contains('hidden'));
+  });
+  document.querySelectorAll('#toc a').forEach(a=>a.hidden=document.getElementById(a.hash.slice(1))?.hidden||false);
+  document.getElementById('examplesEmpty').hidden=!!document.querySelector('#content article.ex:not(.hidden)');
+  updProgress();
+}
+function mathIn(container){
+  if(window.renderMathInElement) window.renderMathInElement(container,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
 }
 function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(/[−–]/g,'-').replace('%','').replace(',', '.');return s===''?NaN:Number(s)}
 
+/* ---------- THEORY (data are read only; no dependency on teorie.js being present) ---------- */
+function initTheory(){
+  const root=document.getElementById('theory'), panel=document.getElementById('theoryPanel');
+  const list=v=>Array.isArray(v)?v:[];
+  const topics=list(window.TEORIE).filter(t=>t&&typeof t.id==='string').map(t=>({...t,vyklad:list(t.vyklad),pojmy:list(t.pojmy),otazky:list(t.otazky)}));
+  const selected=new Set(topics.map(t=>t.id));
+  let mode='vyklad', deck=[], cardIndex=0, flipped=false, onlyUnknown=false, reversed=false, shuffled=false;
+  let quiz=null, quizMode='browse', quizCount=30;
+  function readStore(key){
+    try{const v=JSON.parse(localStorage.getItem(key)||'{}');return v&&typeof v==='object'&&!Array.isArray(v)?v:{}}catch(e){return {}}
+  }
+  let known=readStore('fip-karty-v1'), stats=readStore('fip-kviz-v1');
+  function persist(key,value){
+    try{localStorage.setItem(key,JSON.stringify(value))}catch(e){document.getElementById('storageNotice').hidden=false}
+  }
+  function shuffle(items){
+    const a=[...items];for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a;
+  }
+  const chosen=()=>topics.filter(t=>selected.has(t.id));
+  const allCards=()=>chosen().flatMap(t=>t.pojmy.filter(p=>p&&typeof p.pojem==='string').map(p=>({...p,topic:t,id:JSON.stringify([t.id,p.pojem])})));
+  function allQuestions(){
+    return chosen().flatMap(t=>t.otazky.map((q,i)=>({...q,topic:t,id:JSON.stringify([t.id,i]),moznosti:q?.typ==='tf'&&!Array.isArray(q.moznosti)?['Pravda','Nepravda']:list(q?.moznosti)})))
+      .filter(q=>['multi','single','tf'].includes(q.typ)&&q.moznosti.length&&Array.isArray(q.spravne)&&q.spravne.every(i=>Number.isInteger(i)&&i>=0&&i<q.moznosti.length));
+  }
+  function topicChips(){
+    document.getElementById('theoryTopics').innerHTML=`<span class="quiz-help">Přednášky:</span><button class="chip" data-topic-all aria-pressed="${topics.length>0&&selected.size===topics.length}">Vše</button>`+
+      topics.map((t,i)=>`<button class="chip" data-topic="${esc(t.id)}" aria-pressed="${selected.has(t.id)}" title="${esc(t.title)}">${esc(t.id.match(/\d+/)?.[0]||String(i+1))}</button>`).join('');
+  }
+  function empty(message){return `<div class="study-card empty-state">${message}</div>`}
+  function resetDeck(){
+    deck=allCards().filter(c=>!onlyUnknown||!known[c.id]);if(shuffled)deck=shuffle(deck);
+    cardIndex=0;flipped=false;
+  }
+  function renderTheory(){
+    document.querySelectorAll('[data-mode]').forEach(b=>{const active=b.dataset.mode===mode;b.setAttribute('aria-selected',active);b.tabIndex=active?0:-1});
+    panel.setAttribute('aria-labelledby','tab-'+mode);
+    if(!topics.length){panel.innerHTML=empty('Teorie zatím není k dispozici. Jakmile bude soubor teorie.js doplněný, objeví se zde výklad, kartičky i kvíz.');mathIn(panel);return}
+    if(!selected.size){panel.innerHTML=empty('Vyber alespoň jednu přednášku nahoře, nebo zapni „Vše“.');mathIn(panel);return}
+    if(mode==='vyklad')renderReading();
+    if(mode==='karty')renderCards();
+    if(mode==='kviz')renderQuiz();
+    mathIn(panel);
+  }
+  function renderReading(){
+    panel.innerHTML=`<nav class="toc" aria-label="Obsah teorie">${chosen().map(t=>`<a href="#teorie-${encodeURIComponent(t.id)}">${esc(t.title)}</a>`).join('')}</nav>`+
+      chosen().map(t=>`<details class="study-topic" id="theory-${esc(t.id)}" open><summary>${esc(t.title)}</summary><p class="topic-desc">${esc(t.desc||'')}</p>`+
+        (t.vyklad.length?t.vyklad.map(b=>`<article class="study-card${b.klic?' study-key':''}">${b.klic?'<span class="test-tag">na test</span>':''}<h3>${esc(b.nadpis||'')}</h3><div>${b.html||''}</div></article>`).join(''):empty('Výklad pro toto téma zatím není doplněný.'))+'</details>').join('');
+  }
+  function renderCards(){
+    const cards=allCards(), mastered=cards.filter(c=>known[c.id]).length, card=deck[cardIndex];
+    panel.innerHTML=`<div class="study-controls" role="group" aria-label="Nastavení kartiček">
+      <label><input type="checkbox" data-card-setting="shuffle" ${shuffled?'checked':''}> Zamíchat</label>
+      <label><input type="checkbox" data-card-setting="unknown" ${onlyUnknown?'checked':''}> Jen neumím</label>
+      <label><input type="checkbox" data-card-setting="reverse" ${reversed?'checked':''}> Obráceně (definice → pojem)</label>
+      <button class="btn" data-action="reset-cards">Vynulovat umím</button></div>
+      <div class="card-stage"><p class="study-status" role="status">${card?`${cardIndex+1}/${deck.length}`:`${deck.length}/${deck.length}`} · umím ${mastered} z ${cards.length} pojmů${deck.length>cards.length?' · včetně vrácených kartiček':''}</p>`+
+      (card?`<div class="study-card flashcard${flipped?' is-flipped':''}" role="button" tabindex="0" data-action="flip" aria-label="Otočit kartičku" aria-describedby="cardMeta cardFace" aria-pressed="${flipped}">
+        <div class="card-meta" id="cardMeta">${esc(card.topic.title)} · ${(flipped?!reversed:reversed)?'Definice':'Pojem'}${known[card.id]?' · umím':''}</div>
+        <div class="card-face" id="cardFace">${(flipped?!reversed:reversed)?card.definice||'':esc(card.pojem)}</div>
+        <div class="card-hint">Klikni nebo stiskni mezerník pro otočení</div></div>
+        <div class="study-actions card-nav"><button class="btn" data-action="prev-card" ${cardIndex===0?'disabled':''} aria-label="Předchozí kartička">←</button>
+        <button class="btn" data-action="unknown-card">Ještě ne</button><button class="btn card-known" data-action="known-card">Umím</button>
+        <button class="btn" data-action="next-card" aria-label="Další kartička">→</button></div>
+        <p class="quiz-help">Šipky ← → mění kartičku. „Ještě ne“ ji vrátí za několik dalších; na konci balíčku se vrátí dříve.</p>`:
+        empty(cards.length?(onlyUnknown&&mastered===cards.length?'Všechny vybrané pojmy už umíš.':'Balíček je projitý. Vrať se k pojmům, které ještě neumíš.'):'Ve vybraných tématech zatím nejsou pojmy.')+
+        `<div class="study-actions card-nav"><button class="btn primary" data-action="restart-cards">Projít znovu</button>${cardIndex>0?'<button class="btn" data-action="prev-card">← Předchozí</button>':''}</div>`)+ '</div>';
+  }
+  function statsHtml(){
+    return `<details class="study-card"><summary>Úspěšnost po tématech · uložená v tomto prohlížeči</summary><ul class="stats-list">${chosen().map(t=>{
+      const s=stats[t.id], attempts=Number(s?.attempts)||0, correct=Number(s?.correct)||0;
+      return `<li><span>${esc(t.title)}</span><span>${attempts?`${Math.round(100*correct/attempts)} % · ${correct}/${attempts}`:'zatím bez odpovědí'}</span></li>`;
+    }).join('')}</ul><p class="quiz-help">Počítá každé vyhodnocení, včetně opakování. Správně = přesná shoda všech možností.</p></details>`;
+  }
+  function prepareQuestion(source){
+    return {source,options:source.typ==='tf'?source.moznosti.map((text,index)=>({text,index})):shuffle(source.moznosti.map((text,index)=>({text,index}))),answer:new Set(),graded:false,correct:false};
+  }
+  function startQuiz(sources){
+    const pool=shuffle(sources||allQuestions()), n=quizMode==='exam'&&!sources?Math.min(quizCount,pool.length):pool.length;
+    quiz={items:pool.slice(0,n).map(prepareQuestion),index:0,mode:quizMode,finished:false};
+    renderTheory();focusQuestion();
+  }
+  function grade(item){
+    if(item.graded)return;
+    const expected=new Set(item.source.spravne);
+    item.correct=item.answer.size===expected.size&&[...expected].every(i=>item.answer.has(i));item.graded=true;
+    const id=item.source.topic.id, previous=stats[id];
+    stats[id]={attempts:(Number(previous?.attempts)||0)+1,correct:(Number(previous?.correct)||0)+(item.correct?1:0)};
+  }
+  function questionHtml(item,i){
+    const q=item.source;
+    return `<article class="study-card" id="quiz-question-${i}"><p class="card-meta">${esc(q.topic.title)} · otázka ${i+1}/${quiz.items.length}</p>
+      <fieldset class="quiz-question"><legend tabindex="-1">${q.otazka||''}</legend><p class="quiz-help">${q.typ==='multi'?'Může být více správných odpovědí. Označ všechny správné možnosti.':q.typ==='tf'?'Rozhodni, zda je tvrzení pravdivé.':'Vyber jednu správnou odpověď.'}</p>
+      ${item.options.map(o=>{
+        const checked=item.answer.has(o.index), right=q.spravne.includes(o.index);
+        const result=item.graded?(checked?(right?'correct':'wrong'):(right?'missed':'')):'';
+        const label={correct:'✓ Správně zaškrtnuto',wrong:'✕ Špatně zaškrtnuto',missed:'Měl jsi zaškrtnout'}[result]||'';
+        return `<label class="quiz-option ${result}"><input type="${q.typ==='multi'?'checkbox':'radio'}" name="question-${i}" data-question="${i}" value="${o.index}" ${checked?'checked':''} ${item.graded?'disabled':''}><span>${o.text}${label?`<span class="option-result">${label}</span>`:''}</span></label>`;
+      }).join('')}</fieldset>${item.graded?`<div class="quiz-explanation"><h4 class="${item.correct?'result-ok':'result-bad'}">${item.correct?'✓ Správně · 1 bod':'✕ Nesprávně · 0 bodů'}</h4><div>${q.vysvetleni||''}</div></div>`:''}</article>`;
+  }
+  function summaryHtml(){
+    const correct=quiz.items.filter(q=>q.correct).length, wrong=quiz.items.map((q,i)=>({q,i})).filter(x=>!x.q.correct), total=quiz.items.length;
+    return `<div class="study-card quiz-summary" tabindex="-1"><h3>${quiz.mode==='exam'?'Výsledek zkušebního testu':'Výsledek procvičování'}</h3><p class="score">${Math.round(100*correct/total)} % · ${correct}/${total} bodů</p>
+      <p class="quiz-help">Každá otázka má 1 bod jen při přesné shodě. Přepočet na 30bodový test: ${(30*correct/total).toLocaleString('cs-CZ',{maximumFractionDigits:1})}/30 bodů.</p>
+      ${wrong.length?`<h4>Chyby (${wrong.length})</h4><ol>${wrong.map(({q,i})=>`<li><a href="#quiz-question-${i}" data-review="${i}">${esc(q.source.otazka)}</a></li>`).join('')}</ol><button class="btn primary" data-action="retry-wrong">Opakovat jen chybné</button>`:'<p class="result-ok">✓ Všechny odpovědi jsou správně.</p>'}</div>`;
+  }
+  function renderQuiz(){
+    const available=allQuestions().length;
+    panel.innerHTML=`<div class="study-controls"><label>Režim <select id="quizMode"><option value="browse" ${quizMode==='browse'?'selected':''}>Procházet</option><option value="exam" ${quizMode==='exam'?'selected':''}>Zkušební test</option></select></label>
+      <label ${quizMode==='exam'?'':'hidden'}>Počet otázek <input id="quizCount" type="number" min="1" max="${Math.max(30,available)}" step="1" value="${quizCount}"></label>
+      <button class="btn primary" data-action="start-quiz" ${available?'':'disabled'}>${quiz?'Začít nový kvíz':'Spustit kvíz'}</button></div>
+      <p class="quiz-help">${available} otázek ve vybraných tématech. ${quizMode==='exam'?'Test vybere nejvýše dostupný počet otázek. Odpovědi a vysvětlení se ukážou až po odevzdání.':'Otázky i možnosti jsou zamíchané; Pravda/Nepravda zůstává ve stejném pořadí.'}</p>`;
+    if(!available){panel.innerHTML+=empty('Ve vybraných tématech zatím nejsou otázky.');return}
+    if(!quiz){panel.innerHTML+=empty('Spusť procvičování po jednotlivých otázkách, nebo si vyzkoušej test.');panel.innerHTML+=statsHtml();return}
+    if(quiz.finished){
+      panel.innerHTML+=summaryHtml()+quiz.items.map(questionHtml).join('');
+    }else if(quiz.mode==='exam'){
+      panel.innerHTML+=`<p class="study-status" id="quizAnswered" role="status">Zodpovězeno ${quiz.items.filter(q=>q.answer.size).length}/${quiz.items.length}</p>`+quiz.items.map(questionHtml).join('')+
+        '<div class="study-actions"><button class="btn primary" data-action="finish-quiz">Odevzdat a vyhodnotit test</button></div>';
+    }else{
+      const item=quiz.items[quiz.index];
+      panel.innerHTML+=questionHtml(item,quiz.index)+`<div class="study-actions">${item.graded?`<button class="btn primary" data-action="next-question">${quiz.index===quiz.items.length-1?'Dokončit a zobrazit výsledek':'Další otázka →'}</button>`:'<button class="btn primary" data-action="grade-question">Vyhodnotit</button>'}</div>`;
+    }
+    panel.innerHTML+=statsHtml();
+  }
+  function focusCard(){panel.querySelector('.flashcard')?.focus({preventScroll:true})}
+  function focusQuestion(){panel.querySelector('.quiz-summary,.quiz-question legend')?.focus({preventScroll:true})}
+  function changeCard(delta){cardIndex=Math.max(0,Math.min(deck.length,cardIndex+delta));flipped=false;renderTheory();focusCard()}
+  root.addEventListener('click',e=>{
+    const topic=e.target.closest('[data-topic]'), all=e.target.closest('[data-topic-all]'), tab=e.target.closest('[data-mode]');
+    if(topic||all){
+      if(all){if(selected.size===topics.length)selected.clear();else topics.forEach(t=>selected.add(t.id))}
+      else{const id=topic.dataset.topic;selected.has(id)?selected.delete(id):selected.add(id)}
+      quiz=null;resetDeck();topicChips();renderTheory();
+      document.getElementById('theoryTopics').querySelector(all?'[data-topic-all]':`[data-topic="${CSS.escape(topic.dataset.topic)}"]`)?.focus({preventScroll:true});return;
+    }
+    if(tab){mode=tab.dataset.mode;renderTheory();return}
+    const link=e.target.closest('[data-review]');
+    if(link){e.preventDefault();document.getElementById('quiz-question-'+link.dataset.review)?.scrollIntoView({block:'start'});return}
+    const action=e.target.closest('[data-action]')?.dataset.action;
+    if(!action)return;
+    if(action==='flip'){flipped=!flipped;renderTheory();focusCard()}
+    if(action==='prev-card')changeCard(-1);
+    if(action==='next-card')changeCard(1);
+    if(action==='restart-cards'){resetDeck();renderTheory();focusCard()}
+    if(action==='reset-cards'){known={};persist('fip-karty-v1',known);resetDeck();renderTheory()}
+    if(action==='known-card'||action==='unknown-card'){
+      const card=deck[cardIndex];if(!card)return;
+      if(action==='known-card')known[card.id]=true;else{delete known[card.id];deck.splice(Math.min(cardIndex+4,deck.length),0,card)}
+      persist('fip-karty-v1',known);
+      if(onlyUnknown&&action==='known-card'){const id=card.id;const preceding=deck.slice(0,cardIndex).filter(c=>c.id!==id).length;deck=deck.filter(c=>c.id!==id);cardIndex=preceding;flipped=false;renderTheory();focusCard()}
+      else changeCard(1);
+    }
+    if(action==='start-quiz')startQuiz();
+    if(action==='grade-question'){grade(quiz.items[quiz.index]);persist('fip-kviz-v1',stats);renderTheory();panel.querySelector('[data-action="next-question"]')?.focus({preventScroll:true})}
+    if(action==='next-question'){if(quiz.index<quiz.items.length-1)quiz.index++;else quiz.finished=true;renderTheory();focusQuestion()}
+    if(action==='finish-quiz'){quiz.items.forEach(grade);persist('fip-kviz-v1',stats);quiz.finished=true;renderTheory();focusQuestion()}
+    if(action==='retry-wrong')startQuiz(quiz.items.filter(q=>!q.correct).map(q=>q.source));
+  });
+  root.addEventListener('change',e=>{
+    const setting=e.target.dataset.cardSetting;
+    if(setting){
+      if(setting==='shuffle')shuffled=e.target.checked;
+      if(setting==='unknown')onlyUnknown=e.target.checked;
+      if(setting==='reverse'){reversed=e.target.checked;flipped=false}else resetDeck();
+      renderTheory();panel.querySelector(`[data-card-setting="${setting}"]`)?.focus({preventScroll:true});return;
+    }
+    if(e.target.id==='quizMode'){quizMode=e.target.value;quiz=null;renderTheory();document.getElementById('quizMode')?.focus({preventScroll:true})}
+    if(e.target.id==='quizCount'){
+      quizCount=Math.max(1,Math.min(Math.max(30,allQuestions().length),Math.floor(Number(e.target.value)||30)));e.target.value=quizCount;
+    }
+    if(e.target.matches('[data-question]')){
+      const item=quiz?.items[Number(e.target.dataset.question)];if(!item||item.graded)return;
+      const index=Number(e.target.value);
+      if(item.source.typ!=='multi')item.answer.clear();
+      if(e.target.checked)item.answer.add(index);else item.answer.delete(index);
+      const progress=document.getElementById('quizAnswered');if(progress)progress.textContent=`Zodpovězeno ${quiz.items.filter(q=>q.answer.size).length}/${quiz.items.length}`;
+    }
+  });
+  root.addEventListener('keydown',e=>{
+    const tab=e.target.closest('[data-mode]');
+    if(tab&&['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){
+      e.preventDefault();const tabs=[...root.querySelectorAll('[data-mode]')], i=tabs.indexOf(tab);
+      const next=e.key==='Home'?tabs[0]:e.key==='End'?tabs[tabs.length-1]:tabs[(i+(e.key==='ArrowRight'?1:-1)+tabs.length)%tabs.length];next.click();next.focus();
+    }
+    if(e.target.matches('.flashcard')&&e.key==='Enter'){e.preventDefault();e.target.click()}
+  });
+  document.addEventListener('keydown',e=>{
+    if(root.hidden||mode!=='karty'||!selected.size||!deck[cardIndex]||e.ctrlKey||e.altKey||e.metaKey)return;
+    if(e.target.closest('input,select,textarea,a,button,[contenteditable="true"]'))return;
+    if(['ArrowLeft','ArrowRight',' '].includes(e.key)){
+      e.preventDefault();if(e.repeat)return;
+      if(e.key===' '){flipped=!flipped;renderTheory();focusCard()}else changeCard(e.key==='ArrowLeft'?-1:1);
+    }
+  });
+  function route(){
+    const hash=location.hash, theory=hash==='#teorie'||hash.startsWith('#teorie-');
+    root.hidden=!theory;document.getElementById('examples').hidden=theory;
+    document.querySelectorAll('.examples-only').forEach(el=>el.hidden=theory);
+    document.querySelectorAll('[data-section]').forEach(a=>{if((a.dataset.section==='teorie')===theory)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+    if(hash.startsWith('#teorie-')){
+      let id;try{id=decodeURIComponent(hash.slice(8))}catch(e){return}
+      const topic=topics.find(t=>t.id===id);if(!topic)return;
+      const needsRender=mode!=='vyklad'||!selected.has(id);
+      mode='vyklad';if(!selected.has(id)){selected.add(id);resetDeck();quiz=null;topicChips()}
+      if(needsRender)renderTheory();
+      const target=document.getElementById('theory-'+id);if(target){target.open=true;target.scrollIntoView({block:'start'})}
+    }
+  }
+  window.addEventListener('hashchange',route);
+  root.addEventListener('click',e=>{
+    const link=e.target.closest('a[href^="#teorie-"]');
+    if(link&&link.hash===location.hash){e.preventDefault();route()}
+  });
+  topicChips();resetDeck();renderTheory();route();
+}
+
 document.addEventListener('DOMContentLoaded',()=>{
   render();
-  if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})}
   applyGlobal(); updProgress();
+  initTheory();
 
   document.querySelectorAll('.bar .chip[data-g]').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.g]=!state[b.dataset.g];applyGlobal()}));
   document.getElementById('practice').addEventListener('click',()=>{const any=state.f||state.p||state.r;state.f=state.p=state.r=!any;applyGlobal();document.getElementById('practice').textContent=any?'👀 Ukázat vše':'✍️ Režim procvičování (skrýt vše)'});
-  document.getElementById('onlyTasks').addEventListener('click',e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);document.querySelectorAll('article.ex').forEach(a=>a.classList.toggle('hidden',on&&a.dataset.task!=='1'))});
+  ['onlyTasks','onlyExtensive'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{e.currentTarget.setAttribute('aria-pressed',e.currentTarget.getAttribute('aria-pressed')!=='true');filterExamples()}));
   document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
 
   document.getElementById('content').addEventListener('click',e=>{
