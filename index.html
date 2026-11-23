@@ -231,7 +231,7 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
 </main>
 
 <footer><div class="wrap">
-  Zdroj zadání: studijní materiály předmětu NE_FIP (přednášky 1P–5P, semináře 1–5 a 13, seminární úkoly 1–5), zima 2026. Výsledky přepočítané a zkontrolované; kde se slidy liší nebo je zadání nejednoznačné, je to u příkladu poznamenané.<br>
+  Zdroj zadání: studijní materiály předmětu NE_FIP (přednášky 1P–5P, semináře 1–7 a 13, seminární úkoly 1–7), zima 2026. Výsledky přepočítané a zkontrolované; kde se slidy liší nebo je zadání nejednoznačné, je to u příkladu poznamenané.<br>
   Tip: v režimu procvičování spočítej příklad ručně, výsledek napiš do políčka dole (desetinná čárka i tečka fungují) – zezelená, když sedí.
 </div></footer>
 
@@ -651,6 +651,82 @@ const TOPICS = [
   chart:{type:'sml',rf:3,rm:9,stocks:[['A',1.9,14],['B',0.78,3],['C',1.6,10],['D',1.02,6],['E',0.61,2],['F',1.1,7]]},
   ans:[['E(r) A (%)',14.4],['E(r) B (%)',7.68],['α A',-0.4],['α B',-4.68],['α E',-4.66]]}
  ]
+},
+{
+ id:'t6', title:'6 · Portfolio – výnos, riziko, efektivita',
+ desc:'Očekávaná výnosnost a riziko z historických výnosů, výnos dvousložkového portfolia, kombinace s bezrizikovou půjčkou (páka) a výběr efektivního a optimálního portfolia.',
+ cheat:[
+  R`Očekávaná výnosnost (průměr z T období): $$E(r)=\frac{\sum r_t}{T}$$`,
+  R`Riziko: $$\sigma^2=\frac{\sum (r_t-E(r))^2}{T}\qquad \sigma=\sqrt{\sigma^2}$$`,
+  R`Váhy portfolia: $$w_A=\frac{\text{vklad do A}}{\text{celkový vklad}},\quad w_A+w_B=1$$`,
+  R`Výnos portfolia v daném roce: $$r_P=w_A\,r_A+w_B\,r_B$$`,
+  R`Kombinace s bezrizikovou půjčkou (u, σ = 0): $$w=\frac{\text{vloženo do P}}{\text{vlastní hotovost}},\quad E(P)=w\,E(P_1)+(1-w)\,u,\quad \sigma_P=w\,\sigma_1$$ Při vypůjčení je \(w>1\) a \(1-w<0\).`,
+  R`Efektivní = neexistuje jiná investice s vyšším (stejným) výnosem a nižším (stejným) rizikem.`,
+  R`Optimální vzhledem k bezrizikové sazbě = nejvyšší sklon: $$\frac{E-u}{\sigma}\to\max$$`
+ ],
+ ex:[
+ {id:'6-1', title:'Očekávaná výnosnost a riziko investic A a B', tags:['Seminář 6 – Př. 1','ukol:Úkol 6 – př. 1'],
+  zadani:R`<p>Tabulka udává roční procentní výnosové míry \(r_A\) a \(r_B\) investic A a B v šesti po sobě jdoucích obdobích. Vypočtěte očekávanou výnosnost a riziko u obou titulů.</p>
+  <table class="t"><tr><th>rok</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr><tr><td>r<sub>A</sub> (%)</td><td>8</td><td>4</td><td>7</td><td>5</td><td>8</td><td>9</td></tr><tr><td>r<sub>B</sub> (%)</td><td>5</td><td>6</td><td>12</td><td>3</td><td>10</td><td>6</td></tr></table>`,
+  vzorce:R`$$E(r)=\frac{\sum r_t}{T}\qquad \sigma^2=\frac{\sum (r_t-E(r))^2}{T}\qquad \sigma=\sqrt{\sigma^2}$$`,
+  postup:R`<ol><li>\(E(A)=\frac{8+4+7+5+8+9}{6}=\frac{41}{6}=6{,}83\,\%\).</li><li>Odchylky A na druhou: \(1{,}3611+8{,}0278+0{,}0278+3{,}3611+1{,}3611+4{,}6944=18{,}8333\) → \(\sigma^2_A=18{,}8333/6=3{,}139\) → \(\sigma_A=1{,}77\,\%\).</li><li>\(E(B)=\frac{5+6+12+3+10+6}{6}=\frac{42}{6}=7{,}00\,\%\).</li><li>Odchylky B na druhou: \(4+1+25+16+9+1=56\) → \(\sigma^2_B=56/6=9{,}333\) → \(\sigma_B=3{,}06\,\%\).</li></ol>`,
+  vysledek:R`<p>A: <b>E = 6,83 %</b>, <b>σ = 1,77 %</b> · B: <b>E = 7,00 %</b>, <b>σ = 3,06 %</b>. B má o něco vyšší výnos, ale skoro dvojnásobné riziko.</p>`,
+  ans:[['E(A) (%)',6.83],['σA (%)',1.77],['E(B) (%)',7.00],['σB (%)',3.06]]},
+ {id:'6-2', title:'Výnosové míry portfolií P1 a P2', tags:['Seminář 6 – Př. 2','ukol:Úkol 6 – př. 2'],
+  zadani:R`<p>P1 vzniklo vkladem 200 Kč do A a 200 Kč do B; P2 vkladem 100 Kč do A a 300 Kč do B. Doplňte výnosové míry \(r_1\), \(r_2\) portfolií v jednotlivých letech (výnosy A a B jsou v tabulce u př. 6.1).</p>`,
+  vzorce:R`$$w_A=\frac{\text{vklad do A}}{\text{celkem}}\qquad r_P=w_A\,r_A+w_B\,r_B$$`,
+  postup:R`<ol><li>P1: \(w_A=200/400=0{,}5\), \(w_B=0{,}5\).</li><li>P2: \(w_A=100/400=0{,}25\), \(w_B=0{,}75\).</li><li>Rok 1: \(r_1=0{,}5\cdot8+0{,}5\cdot5=6{,}5\,\%\); \(r_2=0{,}25\cdot8+0{,}75\cdot5=5{,}75\,\%\). Stejně pro další roky.</li></ol>
+  <table class="t"><tr><th>rok</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr><tr><td>r<sub>1</sub> (%)</td><td>6,5</td><td>5</td><td>9,5</td><td>4</td><td>9</td><td>7,5</td></tr><tr><td>r<sub>2</sub> (%)</td><td>5,75</td><td>5,5</td><td>10,75</td><td>3,5</td><td>9,5</td><td>6,75</td></tr></table>`,
+  vysledek:R`<p>r<sub>1</sub>: <b>6,5 · 5 · 9,5 · 4 · 9 · 7,5 %</b><br>r<sub>2</sub>: <b>5,75 · 5,5 · 10,75 · 3,5 · 9,5 · 6,75 %</b></p>`,
+  ans:[['r1 rok 3 (%)',9.5],['r2 rok 1 (%)',5.75],['r2 rok 3 (%)',10.75],['r2 rok 6 (%)',6.75]]},
+ {id:'6-3', title:'Očekávaný výnos a riziko portfolií P1 a P2', tags:['Seminář 6 – Př. 3','ukol:Úkol 6 – př. 3'],
+  zadani:R`<p>Vypočtěte očekávané výnosové míry \(E(P_1)\), \(E(P_2)\) a rizika \(\sigma_1\), \(\sigma_2\) dvousložkových portfolií P1 a P2 (výnosy z př. 6.2).</p>`,
+  vzorce:R`$$E(P)=\frac{\sum r_t}{T}\qquad \sigma^2=\frac{\sum (r_t-E(P))^2}{T}$$`,
+  postup:R`<ol><li>\(E(P_1)=\frac{6{,}5+5+9{,}5+4+9+7{,}5}{6}=\frac{41{,}5}{6}=6{,}92\,\%\) (zároveň \(0{,}5\cdot6{,}83+0{,}5\cdot7=6{,}92\)).</li><li>\(\sigma_1^2=\frac{0{,}1736+3{,}6736+6{,}6736+8{,}5069+4{,}3403+0{,}3403}{6}=\frac{23{,}7083}{6}=3{,}951\) → \(\sigma_1=1{,}99\,\%\).</li><li>\(E(P_2)=\frac{41{,}75}{6}=6{,}96\,\%\).</li><li>\(\sigma_2^2=\frac{36{,}4271}{6}=6{,}071\) → \(\sigma_2=2{,}46\,\%\).</li></ol>`,
+  vysledek:R`<p>P1: <b>E = 6,92 %</b>, <b>σ = 1,99 %</b> · P2: <b>E = 6,96 %</b>, <b>σ = 2,46 %</b>.</p><p class="note">Riziko portfolia není vážený průměr rizik (\(0{,}5\cdot1{,}77+0{,}5\cdot3{,}06=2{,}42\ne1{,}99\)) – to je efekt diverzifikace. Výnos vážený průměr je.</p>`,
+  ans:[['E(P1) (%)',6.92],['σ1 (%)',1.99],['E(P2) (%)',6.96],['σ2 (%)',2.46]]},
+ {id:'6-4', narocny:true, narocnyPozn:'Páka: váha w > 1, záporná váha půjčky, riziko roste w-krát.', title:'P1 financované bezrizikovou půjčkou (páka)', tags:['Seminář 6 – Př. 4','ukol:Úkol 6 – př. 4'],
+  zadani:R`<p>Vypočtěte očekávanou výnosovou míru \(E(P)\) a riziko \(\sigma_P\) portfolia vzniklého kombinací P1 s bezrizikovou půjčkou s úrokovou sazbou \(u=6\,\%\) p. a., byla-li k vypůjčené částce 1 000 Kč přidána vlastní hotovost 200 Kč a celá suma vložena do P1.</p>`,
+  vzorce:R`$$w=\frac{\text{vloženo do }P_1}{\text{vlastní hotovost}}\qquad E(P)=w\,E(P_1)+(1-w)\,u\qquad \sigma_P=w\,\sigma_1$$`,
+  postup:R`<ol><li>Vloženo do P1: \(200+1\,000=1\,200\) Kč, vlastní hotovost 200 Kč → \(w=1\,200/200=6\), \(1-w=-5\) (půjčka).</li><li>\(E(P)=6\cdot6{,}9167-5\cdot6=41{,}50-30=11{,}50\,\%\).</li><li>\(\sigma_P=6\cdot1{,}9878=11{,}93\,\%\).</li></ol>`,
+  vysledek:R`<p><b>E(P) = 11,50 %</b>, <b>σ<sub>P</sub> = 11,93 %</b>. Páka zvýší výnos, ale riziko vzroste šestkrát.</p><p class="note">Počítej s nezaokrouhlenými \(E(P_1)=6{,}9167\) a \(\sigma_1=1{,}9878\). S 6,92 a 1,99 vyjde 11,52 % a 11,94 %.</p>`,
+  ans:[['E(P) (%)',11.5,0.03],['σP (%)',11.93,0.02]]},
+ {id:'6-5', narocny:true, narocnyPozn:'Porovnání 5 investic: dominance a sklon (E − u)/σ.', title:'Efektivní a optimální portfolio', tags:['Seminář 6 – Př. 5','ukol:Úkol 6 – př. 5'],
+  zadani:R`<p>Které z investic A, B, P1, P2 a P jsou efektivní portfolia? Která z nich je optimálním portfoliem vzhledem k bezrizikové půjčce s úrokovou sazbou 6 % p. a.? (Hodnoty z př. 6.1–6.4.)</p>`,
+  vzorce:R`<p>Efektivní: žádná jiná investice nemá vyšší (stejný) výnos při nižším (stejném) riziku.</p>$$\text{optimální: }\frac{E-u}{\sigma}\to\max$$`,
+  postup:R`<table class="t"><tr><th>Investice</th><th>E (%)</th><th>σ (%)</th><th>(E − 6) / σ</th></tr><tr><td>A</td><td>6,83</td><td>1,77</td><td><b>0,470</b></td></tr><tr><td>P1</td><td>6,92</td><td>1,99</td><td>0,461</td></tr><tr><td>P2</td><td>6,96</td><td>2,46</td><td>0,389</td></tr><tr><td>B</td><td>7,00</td><td>3,06</td><td>0,327</td></tr><tr><td>P</td><td>11,50</td><td>11,93</td><td>0,461</td></tr></table>
+  <ol><li>Seřazeno podle rizika roste i výnos (A &lt; P1 &lt; P2 &lt; B &lt; P) → žádná investice není jinou překonána.</li><li>Nejvyšší sklon přímky z bodu [0; 6 %] má A (0,470).</li></ol>`,
+  vysledek:R`<p>Mezi pěti porovnávanými jsou <b>efektivní všechny</b> (s vyšším výnosem vždy roste i riziko). <b>Optimální portfolio je A</b> – nejvyšší poměr \((E-u)/\sigma=0{,}470\).</p><p class="note">P má stejný sklon jako P1 (0,461), protože je to jen P1 s pákou – leží na stejné přímce z bezrizikové sazby. Kdyby se počítalo i s libovolnou kombinací A a půjčky, byla by efektivní jen přímka přes A (ostatní investice leží pod ní).</p>`,
+  chart:{type:'cml',u:6,best:'A',pts:[['A',1.7717,6.8333],['P1',1.9878,6.9167],['P2',2.4640,6.9583],['B',3.0551,7],['P',11.9268,11.5]]},
+  ans:[['sklon A',0.47,0.002],['sklon P1',0.461,0.002],['sklon B',0.327,0.002]]}
+ ]
+},
+{
+ id:'t7', title:'7 · Výnosnost akcie, EPS, DPS a výplatní poměr',
+ desc:'Celková a roční výnosnost držby akcie (kurzový zisk + dividenda, nárok podle rozhodného dne) a ukazatele zisk na akcii, dividenda na akcii, výplatní poměr a míra zadržení zisku.',
+ cheat:[
+  R`Celková výnosnost držby: $$r=\frac{P_1-P_0+D}{P_0}$$`,
+  R`Roční výnosnost (jednoduše): $$r_{p.a.}=r\cdot\frac{12}{\text{měsíců držby}}$$`,
+  R`Nárok na dividendu má ten, kdo je majitelem akcie k <b>rozhodnému dni</b>. Koupě po rozhodném dni → D = 0.`,
+  R`Zisk na akcii: $$EPS=\frac{\text{čistý zisk}}{\text{počet akcií}}$$`,
+  R`Dividenda na akcii: $$DPS=\frac{\text{suma dividend}}{\text{počet akcií}}$$`,
+  R`Výplatní poměr a míra zadržení: $$p=\frac{DPS}{EPS}\qquad b=1-p$$`
+ ],
+ ex:[
+ {id:'7-1', narocny:true, narocnyPozn:'Dvě varianty podle rozhodného dne, celková i roční výnosnost.', title:'Akcie Beta – výnosnost s dividendou a bez ní', tags:['Seminář 7 – Př. 1','ukol:Úkol 7 – př. 1'],
+  zadani:R`<p>Zahraniční investor nakoupil akcie společnosti Beta 1. 5. 2018 za 2 567 Kč a prodal je 31. 9. 2018 (tj. na konci září) za 2 831 Kč.</p><ol type="a"><li>Majitel akcií k 15. 4. 2018 má právo na dividendu za rok 2017 ve výši 98 Kč. Jaká byla celková výnosnost operace? Vyjádřete i roční výnosnost.</li><li>Majitel akcií k 1. 5. 2018 má právo na dividendu za rok 2017 ve výši 98 Kč. Jaká byla celková a roční výnosnost?</li></ol>`,
+  vzorce:R`$$r=\frac{P_1-P_0+D}{P_0}\qquad r_{p.a.}=r\cdot\frac{12}{n_{\text{měs}}}$$`,
+  postup:R`<ol><li>Doba držby 1. 5. – 30. 9. = 5 měsíců; kurzový zisk \(2\,831-2\,567=264\) Kč.</li><li>a) Rozhodný den 15. 4. je <b>před</b> nákupem → nárok nemá, \(D=0\). \(r=\frac{264}{2\,567}=10{,}28\,\%\); \(r_{p.a.}=10{,}28\cdot\frac{12}{5}=24{,}68\,\%\).</li><li>b) Rozhodný den 1. 5. = den nákupu → je majitelem, \(D=98\) Kč. \(r=\frac{264+98}{2\,567}=\frac{362}{2\,567}=14{,}10\,\%\); \(r_{p.a.}=14{,}10\cdot2{,}4=33{,}84\,\%\).</li></ol>
+  <table class="t"><tr><th>Varianta</th><th>D</th><th>Výnos</th><th>za 5 měs.</th><th>p. a.</th></tr><tr><td>a) 15. 4.</td><td>0 Kč</td><td>264 Kč</td><td>10,28 %</td><td>24,68 %</td></tr><tr><td>b) 1. 5.</td><td>98 Kč</td><td>362 Kč</td><td>14,10 %</td><td>33,84 %</td></tr></table>`,
+  vysledek:R`<p>a) <b>10,28 %</b> za 5 měsíců, <b>24,68 % p. a.</b> · b) <b>14,10 %</b>, <b>33,84 % p. a.</b></p><p class="note">31. 9. neexistuje (září má 30 dní) – bere se konec září, tedy 5 měsíců držby.</p>`,
+  ans:[['a) r (%)',10.28],['a) p. a. (%)',24.68],['b) r (%)',14.10],['b) p. a. (%)',33.84,0.02]]},
+ {id:'7-2', title:'Komerční banka – EPS, DPS, výplatní poměr', tags:['Seminář 7 – Př. 2','ukol:Úkol 7 – př. 2'],
+  zadani:R`<p>Komerční banka vykázala v r. 2023 čistý zisk 15 819 mil. Kč, dividenda na 1 akcii činila 60,42 Kč, počet emitovaných akcií 190 049 260.</p><ol type="a"><li>Vypočtěte zisk na akcii (EPS) a dividendu na akcii (DPS).</li><li>Vypočtěte dividendový výplatní poměr p v %.</li><li>Vypočtěte míru zadrženého zisku b v %.</li></ol>`,
+  vzorce:R`$$EPS=\frac{\text{čistý zisk}}{\text{počet akcií}}\qquad DPS=\frac{\text{suma dividend}}{\text{počet akcií}}\qquad p=\frac{DPS}{EPS}\qquad b=1-p$$`,
+  postup:R`<ol><li>\(EPS=\frac{15\,819\,000\,000}{190\,049\,260}=83{,}24\) Kč.</li><li>Suma dividend \(=60{,}42\cdot190\,049\,260=11\,482\,776\,289\) Kč → \(DPS=60{,}42\) Kč.</li><li>\(p=\frac{60{,}42}{83{,}24}=72{,}59\,\%\).</li><li>\(b=1-0{,}7259=27{,}41\,\%\).</li></ol>`,
+  vysledek:R`<p><b>EPS = 83,24 Kč</b>, <b>DPS = 60,42 Kč</b>, <b>p = 72,59 %</b>, <b>b = 27,41 %</b> – banka vyplatila skoro tři čtvrtiny zisku.</p>`,
+  ans:[['EPS (Kč)',83.24],['DPS (Kč)',60.42],['p (%)',72.59],['b (%)',27.41]]}
+ ]
 }
 ];
 
@@ -699,6 +775,19 @@ function chartSvg(c){
       g+=`<line x1="${x(b)}" y1="${y(e)}" x2="${x(b)}" y2="${y(r)}" stroke="${col}" stroke-dasharray="3 3"/><circle cx="${x(b)}" cy="${y(r)}" r="5" fill="${col}"/><text x="${x(b)+7}" y="${y(r)+4}" font-size="12" font-weight="600" fill="${col}">${n}</text>`});
     g+=`<text x="${(W+L)/2}" y="${H-6}" font-size="11" text-anchor="middle" fill="var(--muted)">beta</text>`;
     return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Přímka SML s akciemi">${g}</svg><div class="legend"><span style="color:var(--accent)">━ SML: E(r) = ${c.rf} % + ${c.rm-c.rf} % · β</span><span style="color:var(--ok)">● nad SML = podhodnocená → koupit</span><span style="color:var(--bad)">● pod SML = nadhodnocená → prodat</span><span style="color:var(--f)">● na SML = držet</span></div>`;
+  }
+  if(c.type==='cml'){
+    const sx=Math.ceil(Math.max(...c.pts.map(p=>p[1]))+1), best=c.pts.find(p=>p[0]===c.best), k=(best[2]-c.u)/best[1];
+    const ymin=Math.floor(c.u-1), ymax=Math.ceil(Math.max(...c.pts.map(p=>p[2]),c.u+k*sx)+0.5);
+    const x=v=>L+v/sx*(W-L-Rr), y=v=>T+(ymax-v)/(ymax-ymin)*(H-T-B);
+    let g='';
+    for(let v=0;v<=sx;v+=2){g+=`<line x1="${x(v)}" y1="${T}" x2="${x(v)}" y2="${H-B}" stroke="var(--line)"/><text x="${x(v)}" y="${H-B+16}" font-size="11" text-anchor="middle" fill="var(--muted)">${v} %</text>`}
+    for(let v=ymin;v<=ymax;v+=1){g+=`<text x="${L-6}" y="${y(v)+4}" font-size="11" text-anchor="end" fill="var(--muted)">${v} %</text>`}
+    g+=`<line x1="${x(0)}" y1="${y(c.u)}" x2="${x(sx)}" y2="${y(c.u+k*sx)}" stroke="var(--accent)" stroke-width="2.5"/><circle cx="${x(0)}" cy="${y(c.u)}" r="4" fill="var(--accent)"/><text x="${x(0)+6}" y="${y(c.u)+14}" font-size="11" fill="var(--accent)">u = ${c.u} %</text>`;
+    c.pts.forEach(([n,sd,e],i)=>{const col=n===c.best?'var(--ok)':'var(--f)', dy=[-8,14,-8,14,-8][i%5];
+      g+=`<circle cx="${x(sd)}" cy="${y(e)}" r="5" fill="${col}"/><text x="${x(sd)+6}" y="${y(e)+dy}" font-size="12" font-weight="600" fill="${col}">${n}</text>`});
+    g+=`<text x="${(W+L)/2}" y="${H-6}" font-size="11" text-anchor="middle" fill="var(--muted)">riziko σ</text>`;
+    return `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Výnos a riziko investic s přímkou z bezrizikové sazby">${g}</svg><div class="legend"><span style="color:var(--accent)">━ přímka z u přes optimální portfolio (sklon ${k.toFixed(3).replace('.',',')})</span><span style="color:var(--ok)">● optimální</span><span style="color:var(--f)">● ostatní investice</span></div>`;
   }
   return '';
 }
