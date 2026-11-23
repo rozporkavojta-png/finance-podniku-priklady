@@ -85,6 +85,23 @@ table.t th{background:var(--accent-soft);font-weight:600}
 .panel ol,.panel ul{margin:.2em 0;padding-left:1.3em}
 .panel li{margin:.25em 0}
 .panel p{margin:.3em 0}
+.kp h5{margin:0 0 6px;font-size:.95rem;color:var(--p)}
+.kp-dano{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:6px 0 12px}
+.kp-t td:first-child{white-space:nowrap;font-weight:600}
+.kp-t td:nth-child(2){white-space:nowrap}
+.kp-t td,.kp-t th{text-align:left!important;vertical-align:top}
+.kp-kroky{list-style:none;padding:0!important;margin:0;counter-reset:none}
+.kp-kroky>li{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--p);border-radius:10px;padding:10px 12px;margin:0 0 10px!important}
+.kp-proc{color:var(--muted);font-size:.93rem}
+.kp-row{display:grid;grid-template-columns:92px 1fr;gap:8px;align-items:start;padding:4px 0;border-top:1px dashed var(--line);overflow-x:auto}
+.kp-lab{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);padding-top:.5em}
+.kp-row .katex-display{margin:.3em 0;text-align:left}
+.kp-row .katex-display>.katex{text-align:left}
+.kp-vysl{font-weight:600;color:var(--r)}
+.kp-tip,.kp-pozor{border-radius:8px;padding:8px 10px;font-size:.93rem}
+.kp-tip{background:var(--accent-soft)} .kp-pozor{background:var(--bad-soft)}
+details.kp-short{margin-top:8px;font-size:.92rem} details.kp-short summary{cursor:pointer;color:var(--muted)}
+@media (max-width:600px){.kp-row{grid-template-columns:1fr;gap:0}.kp-lab{padding-top:0}}
 .note{font-size:.88rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px;margin:6px 0}
 .hidden{display:none!important}
 .check{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;margin-top:8px;padding-top:8px;border-top:1px dashed var(--line)}
@@ -241,6 +258,8 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
 </div></footer>
 
 <script src="teorie.js"></script>
+<script src="podrobne.js"></script>
+<script src="podrobne-ostatni.js"></script>
 <script>
 const R = String.raw;
 /* ---------- DATA ---------- */
@@ -797,6 +816,16 @@ function chartSvg(c){
   return '';
 }
 
+const PODR=()=>window.PODROBNE||{};
+function podrobneHtml(d){
+  const row=(lab,v)=>v?`<div class="kp-row"><span class="kp-lab">${lab}</span><div>${v}</div></div>`:'';
+  let h='<div class="kp">';
+  if(d.dano&&d.dano.length) h+=`<div class="kp-dano"><h5>📋 Co je zadané</h5><table class="t kp-t"><tr><th>Značka</th><th>Hodnota</th><th>Co to je</th></tr>${d.dano.map(r=>`<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]||''}</td></tr>`).join('')}</table>${d.hledame?`<p><b>🎯 Hledáme:</b> ${d.hledame}</p>`:''}</div>`;
+  h+='<ol class="kp-kroky">'+(d.kroky||[]).map((k,i)=>`<li><h5>Krok ${i+1}: ${k.t}</h5>${k.proc?`<p class="kp-proc">💡 ${k.proc}</p>`:''}${row('Vzorec',k.vzorec)}${row('Dosadím',k.dosad)}${row('Spočítám',k.vypocet)}${k.vysl?`<p class="kp-vysl">✅ ${k.vysl}</p>`:''}</li>`).join('')+'</ol>';
+  if(d.kalk) h+=`<p class="kp-tip">🧮 <b>Na kalkulačce:</b> ${d.kalk}</p>`;
+  if(d.pozor) h+=`<p class="kp-pozor">⚠️ <b>Pozor:</b> ${d.pozor}</p>`;
+  return h+'</div>';
+}
 function render(){
   const toc=document.getElementById('toc'), cont=document.getElementById('content');
   let th='', h='';
@@ -817,7 +846,7 @@ function render(){
          <button class="btn r" data-t="r" aria-expanded="true">Výsledek</button>
        </div>
        <div class="panel f" data-k="f"><h4>Vzorce</h4>${e.vzorce}</div>
-       <div class="panel p" data-k="p"><h4>Postup výpočtu</h4>${e.postup}${e.chart?chartSvg(e.chart):''}</div>
+       <div class="panel p" data-k="p">${PODR()[e.id]?`<h4>Postup výpočtu – krok za krokem</h4>${podrobneHtml(PODR()[e.id])}<details class="kp-short"><summary>Stručný postup (jen čísla)</summary>${e.postup}</details>`:`<h4>Postup výpočtu</h4>${e.postup}`}${e.chart?chartSvg(e.chart):''}</div>
        <div class="panel r" data-k="r"><h4>Výsledek</h4>${e.vysledek}</div>
        ${e.ans&&e.ans.length?`<div class="check"><span class="lab">Zkontroluj si výsledek:</span>${e.ans.map((a,j)=>`<span class="ans">${esc(a[0])} <input inputmode="decimal" data-v="${a[1]}" data-tol="${a[2]??''}" aria-label="${esc(a[0])}" placeholder="?"></span>`).join('')}</div>`:''}
       </article>`;
