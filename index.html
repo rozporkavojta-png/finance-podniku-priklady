@@ -96,7 +96,12 @@ table.t th{background:var(--accent-soft);font-weight:600}
 .katex-display{margin:.4em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
 svg.chart{max-width:100%;height:auto;display:block;margin:6px 0}
 .legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.82rem;font-weight:500;margin:0 0 4px}
-footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+.fab{position:fixed;right:20px;bottom:20px;z-index:60;display:inline-flex;align-items:center;gap:8px;min-height:52px;padding:12px 20px;border:0;border-radius:999px;background:var(--accent);color:var(--accent-ink);font:700 1rem Inter,sans-serif;box-shadow:0 6px 22px rgba(0,0,0,.35);cursor:pointer}
+.fab:hover{filter:brightness(1.08)}
+.fab[aria-pressed="true"]{background:var(--card);color:var(--ink);border:2px solid var(--accent)}
+.fab[hidden]{display:none}
+@media (max-width:600px){.fab{right:12px;bottom:12px;font-size:.92rem;padding:10px 16px}}
+footer{color:var(--muted);font-size:.85rem;padding:30px 0 100px;border-top:1px solid var(--line);margin-top:40px}
 @media (max-width:600px){
   .bar .lbl{display:none}
   article.ex{padding:14px 12px}
@@ -194,7 +199,6 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
 <div class="bar"><div class="wrap">
   <nav class="section-switch" aria-label="Hlavní sekce">
     <a class="chip" href="#priklady" data-section="priklady">Příklady</a>
-    <a class="chip" href="#ukoly" data-section="ukoly" title="Jen příklady ze seminárních úkolů za bod">📝 Úkoly<span id="ukolyCount"></span></a>
     <a class="chip" href="#teorie" data-section="teorie">Teorie</a>
   </nav>
   <div class="grp examples-only"><span class="lbl">Zobrazit:</span>
@@ -205,7 +209,6 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
   <button class="chip ghost examples-only" id="practice">✍️ Režim procvičování (skrýt vše)</button>
   <div class="spacer"></div>
   <div class="grp">
-    <button class="chip ghost examples-only" id="onlyTasks" aria-pressed="false">Jen úkoly za bod</button>
     <button class="chip ghost examples-only" id="onlyExtensive" aria-pressed="false">Jen obsáhlé výpočty</button>
     <button class="chip ghost" id="theme" title="Přepnout světlý/tmavý režim">◐</button>
   </div>
@@ -230,6 +233,7 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
     <p id="storageNotice" class="note" role="status" hidden>Prohlížeč nepovolil uložení. Pokrok zůstane dostupný jen do obnovení stránky.</p>
   </section>
 </main>
+<button class="fab examples-only" id="onlyTasks" aria-pressed="false" title="Ukázat jen příklady ze seminárních úkolů za bod (každý týden)">📝 Úkoly ze seminářů<span id="ukolyCount"></span></button>
 
 <footer><div class="wrap">
   Zdroj zadání: studijní materiály předmětu NE_FIP (přednášky 1P–5P, semináře 1–7 a 13, seminární úkoly 1–7), zima 2026. Výsledky přepočítané a zkontrolované; kde se slidy liší nebo je zadání nejednoznačné, je to u příkladu poznamenané.<br>
@@ -850,7 +854,8 @@ function filterExamples(){
 }
 function markSection(theory){
   const tasks=document.getElementById('onlyTasks').getAttribute('aria-pressed')==='true';
-  const cur=theory?'teorie':(tasks?'ukoly':'priklady');
+  const cur=theory?'teorie':'priklady', fab=document.getElementById('onlyTasks'), n=document.querySelectorAll('article.ex[data-task="1"]').length;
+  fab.innerHTML=tasks?'📚 Zpět na všechny příklady':`📝 Úkoly ze seminářů <span>(${n})</span>`;
   document.querySelectorAll('[data-section]').forEach(a=>{if(a.dataset.section===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
 }
 function mathIn(container){
@@ -1082,9 +1087,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.querySelectorAll('.bar .chip[data-g]').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.g]=!state[b.dataset.g];applyGlobal()}));
   document.getElementById('practice').addEventListener('click',()=>{const any=state.f||state.p||state.r;state.f=state.p=state.r=!any;applyGlobal();document.getElementById('practice').textContent=any?'👀 Ukázat vše':'✍️ Režim procvičování (skrýt vše)'});
-  ['onlyTasks','onlyExtensive'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{e.currentTarget.setAttribute('aria-pressed',e.currentTarget.getAttribute('aria-pressed')!=='true');filterExamples();markSection(false)}));
+  ['onlyTasks','onlyExtensive'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{e.currentTarget.setAttribute('aria-pressed',e.currentTarget.getAttribute('aria-pressed')!=='true');filterExamples();markSection(false);if(id==='onlyTasks')document.getElementById('examples').scrollIntoView({behavior:'instant',block:'start'})}));
   document.querySelectorAll('.section-switch a').forEach(a=>a.addEventListener('click',e=>{if(a.hash===location.hash){e.preventDefault();dispatchEvent(new HashChangeEvent('hashchange'))}}));
-  document.getElementById('ukolyCount').textContent=' ('+document.querySelectorAll('article.ex[data-task="1"]').length+')';
+  markSection(location.hash==='#teorie'||location.hash.startsWith('#teorie-'));
   document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
 
   document.getElementById('content').addEventListener('click',e=>{
