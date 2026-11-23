@@ -194,6 +194,7 @@ article.ex.extensive,article.ex.extensive.done{border:2px solid var(--f)}
 <div class="bar"><div class="wrap">
   <nav class="section-switch" aria-label="Hlavní sekce">
     <a class="chip" href="#priklady" data-section="priklady">Příklady</a>
+    <a class="chip" href="#ukoly" data-section="ukoly" title="Jen příklady ze seminárních úkolů za bod">📝 Úkoly<span id="ukolyCount"></span></a>
     <a class="chip" href="#teorie" data-section="teorie">Teorie</a>
   </nav>
   <div class="grp examples-only"><span class="lbl">Zobrazit:</span>
@@ -847,6 +848,11 @@ function filterExamples(){
   document.getElementById('examplesEmpty').hidden=!!document.querySelector('#content article.ex:not(.hidden)');
   updProgress();
 }
+function markSection(theory){
+  const tasks=document.getElementById('onlyTasks').getAttribute('aria-pressed')==='true';
+  const cur=theory?'teorie':(tasks?'ukoly':'priklady');
+  document.querySelectorAll('[data-section]').forEach(a=>{if(a.dataset.section===cur)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+}
 function mathIn(container){
   if(window.renderMathInElement) window.renderMathInElement(container,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false});
 }
@@ -1050,7 +1056,8 @@ function initTheory(){
     const hash=location.hash, theory=hash==='#teorie'||hash.startsWith('#teorie-');
     root.hidden=!theory;document.getElementById('examples').hidden=theory;
     document.querySelectorAll('.examples-only').forEach(el=>el.hidden=theory);
-    document.querySelectorAll('[data-section]').forEach(a=>{if((a.dataset.section==='teorie')===theory)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+    if(!theory&&(hash==='#ukoly'||hash==='#priklady')){document.getElementById('onlyTasks').setAttribute('aria-pressed',hash==='#ukoly');filterExamples();if(hash==='#ukoly')scrollTo(0,0)}
+    markSection(theory);
     if(hash.startsWith('#teorie-')){
       let id;try{id=decodeURIComponent(hash.slice(8))}catch(e){return}
       const topic=topics.find(t=>t.id===id);if(!topic)return;
@@ -1075,7 +1082,9 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.querySelectorAll('.bar .chip[data-g]').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.g]=!state[b.dataset.g];applyGlobal()}));
   document.getElementById('practice').addEventListener('click',()=>{const any=state.f||state.p||state.r;state.f=state.p=state.r=!any;applyGlobal();document.getElementById('practice').textContent=any?'👀 Ukázat vše':'✍️ Režim procvičování (skrýt vše)'});
-  ['onlyTasks','onlyExtensive'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{e.currentTarget.setAttribute('aria-pressed',e.currentTarget.getAttribute('aria-pressed')!=='true');filterExamples()}));
+  ['onlyTasks','onlyExtensive'].forEach(id=>document.getElementById(id).addEventListener('click',e=>{e.currentTarget.setAttribute('aria-pressed',e.currentTarget.getAttribute('aria-pressed')!=='true');filterExamples();markSection(false)}));
+  document.querySelectorAll('.section-switch a').forEach(a=>a.addEventListener('click',e=>{if(a.hash===location.hash){e.preventDefault();dispatchEvent(new HashChangeEvent('hashchange'))}}));
+  document.getElementById('ukolyCount').textContent=' ('+document.querySelectorAll('article.ex[data-task="1"]').length+')';
   document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
 
   document.getElementById('content').addEventListener('click',e=>{
