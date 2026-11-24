@@ -69,6 +69,7 @@ dl.grid{margin:0}
 .fc h4{margin:0;font-size:.9rem}
 .fc .katex-display{margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
 .fc p{margin:0;font-size:.86rem;color:var(--muted)}
+.more{margin:10px 0 0;font-size:.92rem;color:var(--muted)}.more a{color:var(--accent);font-weight:600}
 .traps{background:var(--f-soft);border-radius:12px;padding:10px 16px 10px 34px;margin:10px 0 0;font-size:.92rem}
 .traps li{margin:4px 0}
 .traps b{color:var(--f)}
@@ -554,7 +555,7 @@ function render(){
     L.groups.forEach(g=>{
       h+=`<h3 class="g">${esc(g.h)}</h3><dl class="grid">`+g.items.map(([t,d])=>`<div class="d"><dt>${t}</dt><dd>${d}</dd></div>`).join('')+`</dl>`;
     });
-    h+=`<h3 class="g">Vzorce</h3><div class="fgrid">`+L.formulas.map(f=>`<div class="fc"><h4>${esc(f.h)}</h4>$$${f.tex}$$<p>${esc(f.n)}</p></div>`).join('')+`</div>`;
+    h+=`<h3 class="g">Vzorce</h3><div class="fgrid">`+L.formulas.map(f=>`<div class="fc"><h4>${esc(f.h)}</h4>$$${f.tex}$$<p>${esc(f.n)}</p></div>`).join('')+`</div><p class="more">🧮 Jak se to počítá krok za krokem (co je zadané, proč, vzorec, dosazení, výpočet): <a href="index.html#t${L.num}">řešené příklady k přednášce ${L.num}</a></p>`;
     h+=`<h3 class="g">Pozor na záměnu</h3><ul class="traps">`+L.traps.map(t=>`<li>${t}</li>`).join('')+`</ul>`;
     h+=quizHtml(L)+`</section>`;
   });
