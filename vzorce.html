@@ -27,6 +27,7 @@
   --accent:#6fb0de; --accent-soft:#1d2d3b; --f:#f0c070; --f-soft:#33291a; --shadow:none;
 }
 *{box-sizing:border-box}
+.katex{position:relative} /* skrytý MathML jinak na mobilu roztahuje stránku do šířky */
 html{scroll-behavior:smooth;scroll-padding-top:70px}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
@@ -67,6 +68,15 @@ section.ch>h2{font-size:1.4rem;margin:0 0 2px;letter-spacing:-.01em}
 .gloss .symg{border-top:0;margin-top:0}
 footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
 footer a{color:var(--accent)}
+@media (max-width:600px){
+  html{scroll-padding-top:112px}
+  .bar a.ch,.chip{min-height:40px;display:inline-flex;align-items:center}
+  .spacer{display:none}
+  .fc{padding:10px 12px 8px}
+  .fc .fx .katex-display{font-size:.92em}
+  .symg{grid-template-columns:minmax(0,max-content) minmax(0,1fr)}
+  .sy{white-space:normal}
+}
 @media print{
   .bar,header.top a.back,footer{display:none!important}
   body{background:#fff;font-size:12px}
