@@ -55,7 +55,24 @@ section.topic>h2{font-size:1.45rem;margin:0 0 4px;letter-spacing:-.01em}
 details.cheat{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;margin-bottom:14px;box-shadow:var(--shadow)}
 details.cheat summary{cursor:pointer;font-weight:600;color:var(--f)}
 details.cheat .fl{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:8px 18px;margin-top:10px}
-details.cheat .fl div{padding:8px 10px;background:var(--f-soft);border-radius:8px;font-size:.92rem;overflow-x:auto}
+details.cheat .fl>div{padding:8px 10px;background:var(--f-soft);border-radius:8px;font-size:.92rem;overflow-x:auto}
+/* ---- Co je co ve vzorci ---- */
+.syms{margin-top:10px;padding-top:8px;border-top:1px dashed color-mix(in srgb,var(--f) 40%,transparent)}
+.syms h5,.gloss h4.gh{margin:0 0 4px;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--f)}
+.symg{display:grid;grid-template-columns:max-content minmax(0,1fr) fit-content(45%);font-size:.9rem;line-height:1.45}
+.symg.two{grid-template-columns:max-content minmax(0,1fr)}
+.symg>div{padding:5px 14px 5px 0;border-top:1px solid color-mix(in srgb,var(--f) 18%,transparent)}
+.symg>.sv{padding-right:0}
+.symg.two>.sm{padding-right:0}
+.sy{font-weight:600;white-space:nowrap}
+.sv{display:flex;flex-wrap:wrap;gap:4px;justify-content:flex-end;align-items:baseline;text-align:right}
+.vv{font:500 .82rem "JetBrains Mono",monospace;background:var(--card);border:1px solid var(--line);border-radius:6px;padding:0 6px}
+.vq{font-size:.74rem;font-weight:700;background:var(--accent-soft);color:var(--accent);border-radius:6px;padding:1px 7px;white-space:nowrap}
+.vc{font-size:.74rem;font-weight:600;color:var(--muted);border:1px dashed var(--muted);border-radius:6px;padding:0 6px;white-space:nowrap}
+.fl .symg{font-size:.8rem;margin-top:6px}
+.fl .symg>div{padding-top:3px;padding-bottom:3px}
+.gloss .gg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px 28px;margin-top:10px}
+.gloss .note{margin-top:10px}
 article.ex{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 18px 14px;margin:14px 0;box-shadow:var(--shadow)}
 article.ex.done{border-color:color-mix(in srgb,var(--ok) 50%,var(--line))}
 .ex-head{display:flex;gap:10px;align-items:flex-start;justify-content:space-between;flex-wrap:wrap}
@@ -96,19 +113,25 @@ table.t th{background:var(--accent-soft);font-weight:600}
 .katex-display{margin:.4em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
 svg.chart{max-width:100%;height:auto;display:block;margin:6px 0}
 .legend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:.82rem;font-weight:500;margin:0 0 4px}
+.side{position:fixed;right:16px;bottom:16px;z-index:20;text-decoration:none;font:600 .9rem Inter,sans-serif;color:var(--bad);background:var(--bad-soft);border:1px solid var(--bad);border-radius:999px;padding:9px 16px;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+.side:hover{background:var(--bad);color:var(--bg)}
 footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
 @media (max-width:600px){
   .bar .lbl{display:none}
   article.ex{padding:14px 12px}
   .ans input{width:100px}
+  .symg{grid-template-columns:max-content minmax(0,1fr)}
+  .symg>.sm{padding-right:0}
+  .symg>.sv{grid-column:2;border-top:0;padding-top:0;justify-content:flex-start;text-align:left}
+  .symg>.sv:empty{display:none}
 }
-@media print{.bar,.btns,.check,nav.toc{display:none!important}.hidden{display:block!important}article.ex{break-inside:avoid}}
+@media print{.bar,.btns,.check,nav.toc,.side{display:none!important}.hidden{display:block!important}article.ex{break-inside:avoid}}
 </style>
 </head>
 <body>
 <header class="top"><div class="wrap">
-  <h1>Finance podniku – příklady k procvičení</h1>
-  <p class="sub">NE_FIP · přednášky, semináře a úkoly za bod 1–5 (+ Gordonův model z tématu 13). U každého příkladu: zadání → vzorce → postup → výsledek. Všechno kromě zadání jde schovat a počítat ručně.</p>
+  <h1 id="h1">Finance podniku – příklady k procvičení</h1>
+  <p class="sub" id="sub">NE_FIP · přednášky, semináře a úkoly za bod 1–5 (+ Gordonův model z tématu 13). U každého příkladu: zadání → vzorce (+ co je co ve vzorci a co za to dosadit) → postup → výsledek. Všechno kromě zadání jde schovat a počítat ručně.</p>
 </div></header>
 
 <div class="bar"><div class="wrap">
@@ -120,13 +143,13 @@ footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px so
   <button class="chip ghost" id="practice">✍️ Režim procvičování (skrýt vše)</button>
   <div class="spacer"></div>
   <div class="grp">
-    <button class="chip ghost" id="onlyTasks" aria-pressed="false">Jen úkoly za bod</button>
     <button class="chip ghost" id="theme" title="Přepnout světlý/tmavý režim">◐</button>
   </div>
 </div></div>
 
 <main class="wrap">
   <nav class="toc" id="toc"></nav>
+  <div id="gloss"></div>
   <p class="progress" id="progress"></p>
   <div id="content"></div>
 </main>
@@ -136,429 +159,14 @@ footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px so
   Tip: v režimu procvičování spočítej příklad ručně, výsledek napiš do políčka dole (desetinná čárka i tečka fungují) – zezelená, když sedí.
 </div></footer>
 
+<a class="side" id="side" href="?ukoly">📝 Jen úkoly 1–5</a>
+
+<script src="data.js"></script>
 <script>
-const R = String.raw;
-/* ---------- DATA ---------- */
-const TOPICS = [
-{
- id:'t1', title:'1 · Analýza citlivosti, akcie a jejich ocenění',
- desc:'Dividendový diskontní model (DDM), Gordonův model, PVGO, analýza citlivosti bodu zvratu.',
- cheat:[
-  R`Konstantní dividenda (nulový růst): $$P_0=\frac{D}{r}$$`,
-  R`Gordonův model (konstantní růst, \(r>g\)): $$P_0=\frac{D_1}{r-g},\quad D_1=D_0(1+g)$$`,
-  R`Dividenda za n let: $$D_n=D_0(1+g)^n$$`,
-  R`Růst z reinvestic: $$g=b\cdot ROE,\quad b=1-\frac{D}{EPS}$$`,
-  R`Cena růstové akcie: $$P_0=\frac{E_1}{r}+PVGO\;\Rightarrow\;PVGO=P_0-\frac{E_1}{r}$$`,
-  R`Bod zvratu / min. zisk: $$Q=\frac{FC+Z}{p-v}$$`,
-  R`Pravidlo: \(ROE>r\Rightarrow PVGO>0\) (reinvestice tvoří hodnotu), \(ROE<r\Rightarrow PVGO<0\).`,
-  R`Vnitřní hodnota \(>\) tržní cena → podhodnocená → <b>koupit</b>; \(<\) → nadhodnocená → <b>prodat</b>.`
- ],
- ex:[
- {id:'1-cit', title:'Analýza citlivosti – výrobek A', tags:['lec:Přednáška 1','solved'],
-  zadani:R`<p>Výroba a prodej 2 500 ks výrobku A, rozpočtovaný zisk 325 000 Kč, cena 660 Kč/ks, fixní náklady 300 000 Kč. Pesimistický zisk, který firma ještě akceptuje, je 280 000 Kč.</p>
-  <p>O kolik % může (ostatní beze změny) <b>a)</b> klesnout objem prodeje, <b>b)</b> klesnout cena, <b>c)</b> vzrůst jednotkové variabilní náklady, <b>d)</b> vzrůst fixní náklady?</p>`,
-  vzorce:R`$$Z=Q(p-v)-FC\qquad Q_1=\frac{FC+Z}{p-v}$$ $$\text{změna}=\frac{\text{nová}-\text{původní}}{\text{původní}}\cdot100\,\%$$`,
-  postup:R`<ol>
-  <li>Dopočti \(v\): tržby \(2500\cdot660=1\,650\,000\); variabilní náklady celkem \(=1\,650\,000-300\,000-325\,000=1\,025\,000\) → \(v=410\) Kč/ks, marže \(p-v=250\).</li>
-  <li>a) \(Q_1=\frac{300\,000+280\,000}{250}=2\,320\) ks → pokles \(\frac{180}{2500}=7{,}2\,\%\).</li>
-  <li>b) \(280\,000=2500(p-410)-300\,000\Rightarrow p=642\) → pokles \(\frac{18}{660}=2{,}73\,\%\).</li>
-  <li>c) \(280\,000=2500(660-v)-300\,000\Rightarrow v=428\) → růst \(\frac{18}{410}=4{,}39\,\%\).</li>
-  <li>d) \(280\,000=2500\cdot250-FC\Rightarrow FC=345\,000\) → růst \(\frac{45\,000}{300\,000}=15\,\%\).</li></ol>`,
-  vysledek:R`<p>a) objem −7,2 % · b) cena −2,73 % · c) var. náklady +4,39 % · d) fixní náklady +15 %.</p><p>Nejcitlivější je <b>cena</b> (stačí nejmenší změna), nejméně fixní náklady.</p>`,
-  ans:[['a) %',7.2],['b) %',2.73],['c) %',4.39],['d) %',15]]},
-
- {id:'1-1', title:'Hodnota akcie při rostoucí dividendě', tags:['Seminář 1 – Př. 1'],
-  zadani:R`<p>Podnik vyplatil dividendu 210 Kč na akcii. Výnosová sazba je 10 %, dividenda má růst o 2 % ročně. Jaká je hodnota akcie pro akcionáře, který ji neplánuje prodat?</p>`,
-  vzorce:R`$$P_0=\frac{D_1}{r-g}=\frac{D_0(1+g)}{r-g}$$`,
-  postup:R`<ol><li>210 Kč už bylo vyplaceno → je to \(D_0\). \(D_1=210\cdot1{,}02=214{,}2\) Kč.</li><li>\(P_0=\frac{214{,}2}{0{,}10-0{,}02}=\frac{214{,}2}{0{,}08}\).</li></ol>`,
-  vysledek:R`<p>Hodnota akcie je <b>2 677,50 Kč</b>.</p><p class="note">Pozor na \(D_0\) vs. \(D_1\): „vyplatil“ = minulá dividenda, je potřeba ji navýšit o \(g\).</p>`,
-  ans:[['P₀ (Kč)',2677.5]]},
-
- {id:'1-2', title:'Koupit akcii za 1 500 Kč?', tags:['Seminář 1 – Př. 2'],
-  zadani:R`<p>Akcie společnosti A se prodává za 1 500 Kč. Společnost vyplácí konstantní dividendu 100 Kč ročně, která je zdaněná 15 % daní. Koupíte akcii, pokud požadujete výnosnost minimálně 10 % p. a.?</p>`,
-  vzorce:R`$$P_0=\frac{D_{\text{po dani}}}{r}\qquad \text{nebo}\qquad r_{\text{skut}}=\frac{D}{P}$$`,
-  postup:R`<ol><li>Čistá dividenda \(=100\cdot(1-0{,}15)=85\) Kč.</li><li>Vnitřní hodnota \(=\frac{85}{0{,}10}=850\) Kč.</li><li>Porovnání: 850 Kč \(<\) 1 500 Kč (skutečná výnosnost \(85/1500=5{,}67\,\%<10\,\%\)).</li></ol>`,
-  vysledek:R`<p>Vnitřní hodnota <b>850 Kč</b> &lt; tržní cena 1 500 Kč → akcie je nadhodnocená, <b>nekoupit</b>.</p>`,
-  ans:[['hodnota (Kč)',850]]},
-
- {id:'1-3', title:'Dividenda v 5. roce', tags:['Seminář 1 – Př. 3','ukol:Úkol 1 – př. 2'],
-  zadani:R`<p>Akciová společnost ve finančním plánu na 5 let předpokládá pravidelný růst dividendy o 4 % ročně, stávající dividenda činí 120 Kč. Jaká bude výše dividendy v 5. roce?</p>`,
-  vzorce:R`$$D_n=D_0(1+g)^n$$`,
-  postup:R`<ol><li>\(D_5=120\cdot1{,}04^5\)</li><li>\(1{,}04^5=1{,}216653\) → \(D_5=145{,}998\)</li><li>Kontrola po letech: 124,80 → 129,79 → 134,98 → 140,38 → 146,00.</li></ol>`,
-  vysledek:R`<p>Dividenda v 5. roce bude <b>146,00 Kč</b>.</p>`,
-  ans:[['D₅ (Kč)',146]]},
-
- {id:'1-4', title:'Prioritní akcie', tags:['Seminář 1 – Př. 4'],
-  zadani:R`<p>Roční dividenda z prioritní akcie činí 50 Kč. Investor vyžaduje výnosnost stejnou jako tržní úroková míra, např. 10 %. Jaký je základ tržní ceny akcie?</p>`,
-  vzorce:R`$$P_0=\frac{D}{r}\quad\text{(perpetuita – konstantní dividenda)}$$`,
-  postup:R`<p>\(P_0=\frac{50}{0{,}10}\)</p>`,
-  vysledek:R`<p>Základ tržní ceny je <b>500 Kč</b>.</p>`,
-  ans:[['P₀ (Kč)',500]]},
-
- {id:'1-5', title:'Cena akcie při požadované výnosnosti 15 %', tags:['Seminář 1 – Př. 5','ukol:Úkol 1 – př. 3'],
-  zadani:R`<p>Podnik plánuje, že dividenda po zdanění bude v příštím roce 84 Kč. Dividenda má růst pravidelně o 3 % p. a. Jaká bude cena akcie pro investora, který požaduje výnosnost 15 %?</p>`,
-  vzorce:R`$$P_0=\frac{D_1}{r-g}$$`,
-  postup:R`<ol><li>„V příštím roce“ = už je to \(D_1\), nenásobí se \((1+g)\).</li><li>\(P_0=\frac{84}{0{,}15-0{,}03}=\frac{84}{0{,}12}\)</li></ol>`,
-  vysledek:R`<p>Cena akcie je <b>700 Kč</b>.</p>`,
-  ans:[['P₀ (Kč)',700]]},
-
- {id:'1-6', title:'Firma vyplácí celý zisk vs. reinvestuje 60 %', tags:['Seminář 1 – Př. 6','solved'],
-  zadani:R`<p><b>a)</b> Firma vyplácí celý zisk (\(D_1=E_1\)), EPS = 5 €. Míra tržní kapitalizace je 12,5 %. Jaká je tržní cena akcie?</p>
-  <p><b>b)</b> Podobná firma zadrží 60 % zisku a investuje ho do projektu s ROE 15 % (&gt; 12,5 %). 1) Jaká bude dividenda na akcii? 2) Jaký růst \(g\) to umožní? 3) Jaká je teoretická cena akcie? 4) Jaká je hodnota růstových příležitostí?</p>`,
-  vzorce:R`$$P_0=\frac{E_1}{r}\qquad g=b\cdot ROE\qquad P_0=\frac{D_1}{r-g}\qquad PVGO=P_0-\frac{E_1}{r}$$`,
-  postup:R`<ol><li>a) \(P_0=\frac{5}{0{,}125}=40\) €.</li><li>b1) vyplácí 40 %: \(D_1=0{,}4\cdot5=2\) €.</li><li>b2) \(g=0{,}6\cdot0{,}15=0{,}09=9\,\%\).</li><li>b3) \(P_0=\frac{2}{0{,}125-0{,}09}=57{,}14\) €.</li><li>b4) \(PVGO=57{,}14-40=17{,}14\) €.</li></ol>`,
-  vysledek:R`<p>a) <b>40 €</b> · b) dividenda <b>2 €</b>, \(g=\) <b>9 %</b>, cena <b>57,14 €</b>, PVGO <b>17,14 €</b>.</p><p class="note">Cena roste jen proto, že ROE (15 %) &gt; r (12,5 %).</p>`,
-  ans:[['a) P₀ (€)',40],['g (%)',9],['b) P₀ (€)',57.14],['PVGO (€)',17.14]]},
-
- {id:'1-7', title:'TT, Inc. – nekompetentní management (takeover)', tags:['Seminář 1 – Př. 7','ukol:Úkol 1 – př. 1'],
-  zadani:R`<p>Management firmy TT, Inc. trvá na reinvestování 60 % zisků do projektů s ROE 10 %, ačkoli míra kapitalizace je 15 %. Dividenda na konci roku je 2 $ (EPS = 5 $).</p><ol><li>Za jakou cenu se bude akcie prodávat?</li><li>Jaká je PVGO?</li><li>Proč je firma výhodným cílem pro „takeover“?</li></ol>`,
-  vzorce:R`$$g=b\cdot ROE\qquad P_0=\frac{D_1}{r-g}\qquad PVGO=P_0-\frac{E_1}{r}$$`,
-  postup:R`<ol><li>\(g=0{,}6\cdot0{,}10=6\,\%\).</li><li>\(P_0=\frac{2}{0{,}15-0{,}06}=\frac{2}{0{,}09}=22{,}22\) $.</li><li>Hodnota bez růstu \(\frac{E_1}{r}=\frac{5}{0{,}15}=33{,}33\) $.</li><li>\(PVGO=22{,}22-33{,}33=-11{,}11\) $.</li><li>Takeover: nový vlastník zastaví ztrátové reinvestice, vyplatí celý zisk → akcie má hodnotu 33,33 $ místo 22,22 $ (+11,11 $, tj. +50 %).</li></ol>`,
-  vysledek:R`<p>Cena <b>22,22 $</b> · PVGO <b>−11,11 $</b> · po převzetí a výplatě celého zisku hodnota 33,33 $.</p><p class="note">ROE &lt; r → každý zadržený dolar ničí hodnotu → záporné PVGO = zisk pro toho, kdo firmu převezme.</p>`,
-  ans:[['P₀ ($)',22.22],['PVGO ($)',-11.11]]}
- ]
-},
-{
- id:'t13', title:'1+ · Gordonův růstový model (téma 13)',
- desc:'Navazuje na téma 1: CAPM jako požadovaná výnosnost, implikovaný růst a implikovaná výnosová míra, PVGO a P/E.',
- cheat:[
-  R`CAPM: $$r=r_f+\beta\cdot RP$$`,
-  R`Gordon: $$V_0=\frac{D_0(1+g)}{r-g}$$`,
-  R`Implikovaný růst (z ceny \(P_0\)): $$g=\frac{P_0\,r-D_0}{P_0+D_0}$$`,
-  R`Implikovaná výnosová míra: $$r=\frac{D_1}{P_0}+g$$`,
-  R`$$PVGO=P_0-\frac{E_1}{r}\qquad \frac{P_0}{E_1}$$`
- ],
- ex:[
- {id:'13-1', title:'Teoretická cena akcie (CAPM + Gordon)', tags:['Seminář 13 – Př. 1'],
-  zadani:R`<p>Bezriziková výnosová míra 3,0 %, prémie za riziko 6,0 %, beta 1,20, běžná dividenda \(D_0=2{,}00\) $, růst dividendy \(g=5{,}0\,\%\), aktuální tržní cena 24,00 $. Odhadněte teoretickou cenu akcie \(V_0\).</p>`,
-  vzorce:R`$$r=r_f+\beta\cdot RP\qquad V_0=\frac{D_0(1+g)}{r-g}$$`,
-  postup:R`<ol><li>\(r=3+1{,}2\cdot6=10{,}2\,\%\).</li><li>\(D_1=2\cdot1{,}05=2{,}10\) $.</li><li>\(V_0=\frac{2{,}10}{0{,}102-0{,}05}=\frac{2{,}10}{0{,}052}\).</li></ol>`,
-  vysledek:R`<p>\(r=10{,}2\,\%\), \(V_0=\) <b>40,38 $</b> &gt; 24 $ → akcie je podhodnocená.</p>`,
-  ans:[['r (%)',10.2],['V₀ ($)',40.38]]},
- {id:'13-2', title:'Implikovaná míra růstu dividendy', tags:['Seminář 13 – Př. 2'],
-  zadani:R`<p>Se zadáním z příkladu 1 (r = 10,2 %, \(D_0\) = 2 $) a aktuální cenou 24 $ vypočítejte implikovanou míru růstu dividendy.</p>`,
-  vzorce:R`$$P_0=\frac{D_0(1+g)}{r-g}\;\Rightarrow\;g=\frac{P_0\,r-D_0}{P_0+D_0}$$`,
-  postup:R`<ol><li>\(24(0{,}102-g)=2(1+g)\)</li><li>\(2{,}448-24g=2+2g\Rightarrow 26g=0{,}448\)</li><li>\(g=0{,}01723\)</li></ol>`,
-  vysledek:R`<p>Implikovaný růst <b>≈ 1,72 %</b> (trh čeká mnohem nižší růst než 5 %).</p>`,
-  ans:[['g (%)',1.72]]},
- {id:'13-3', title:'Implikovaná požadovaná výnosová míra', tags:['Seminář 13 – Př. 3'],
-  zadani:R`<p>S využitím zadání z příkladu 1 (\(D_0=2\) $, \(g=5\,\%\)) a ceny 24 $ vypočítejte implikovanou výnosovou míru.</p>`,
-  vzorce:R`$$r=\frac{D_1}{P_0}+g$$`,
-  postup:R`<p>\(r=\frac{2{,}10}{24}+0{,}05=0{,}0875+0{,}05\)</p>`,
-  vysledek:R`<p>Implikovaná výnosová míra <b>13,75 %</b>.</p>`,
-  ans:[['r (%)',13.75]]},
- {id:'13-4', title:'PVGO a P/E', tags:['Seminář 13 – Př. 4'],
-  zadani:R`<p>Cena akcie 80 $, očekávaný zisk na akcii \(E_1=5\) $, požadovaná výnosová míra 10 %. Vypočítejte PVGO a poměr \(P_0/E\).</p>`,
-  vzorce:R`$$PVGO=P_0-\frac{E_1}{r}\qquad \frac{P_0}{E_1}$$`,
-  postup:R`<ol><li>\(\frac{E_1}{r}=\frac{5}{0{,}10}=50\) $.</li><li>\(PVGO=80-50=30\) $.</li><li>\(P/E=80/5=16\).</li></ol>`,
-  vysledek:R`<p>PVGO = <b>30 $</b> (37,5 % ceny tvoří růstové příležitosti), P/E = <b>16</b> – investor platí 16 $ za 1 $ zisku.</p>`,
-  ans:[['PVGO ($)',30],['P/E',16]]},
- {id:'13-5', title:'Samostatně: \(V_0\), implikované g a r', tags:['Seminář 13 – Př. 5'],
-  zadani:R`<p>Bezriziková míra 2,0 %, prémie za riziko 5,5 %, beta 1,5, \(D_0=5{,}00\) $, \(g=1{,}5\,\%\), aktuální cena 60 $.</p><ol><li>Odhadněte teoretickou cenu \(V_0\).</li><li>Implikovaná míra růstu při ceně 60 $?</li><li>Implikovaná výnosová míra?</li></ol>`,
-  vzorce:R`$$r=r_f+\beta\,RP\qquad V_0=\frac{D_0(1+g)}{r-g}\qquad g=\frac{P_0 r-D_0}{P_0+D_0}\qquad r=\frac{D_1}{P_0}+g$$`,
-  postup:R`<ol><li>\(r=2+1{,}5\cdot5{,}5=10{,}25\,\%\); \(D_1=5\cdot1{,}015=5{,}075\).</li><li>\(V_0=\frac{5{,}075}{0{,}1025-0{,}015}=\frac{5{,}075}{0{,}0875}=58{,}00\) $.</li><li>\(g=\frac{60\cdot0{,}1025-5}{65}=\frac{1{,}15}{65}=0{,}01769\).</li><li>\(r=\frac{5{,}075}{60}+0{,}015=0{,}0846+0{,}015=0{,}0996\).</li></ol>`,
-  vysledek:R`<p>\(V_0=\) <b>58,00 $</b> (&lt; 60 $ → mírně nadhodnocená) · implikované \(g\approx\) <b>1,77 %</b> · implikované \(r\approx\) <b>9,96 %</b>.</p>`,
-  ans:[['V₀ ($)',58],['g (%)',1.77],['r (%)',9.96]]}
- ]
-},
-{
- id:'t2', title:'2 · Dluhopisy a jejich ocenění',
- desc:'Kupónový dluhopis, konzola, zero bond, pololetní kupón, pokladniční poukázky, čistý výnos.',
- cheat:[
-  R`Kupónový dluhopis: $$P_0=\sum_{t=1}^{n}\frac{C}{(1+i)^t}+\frac{F}{(1+i)^n}$$`,
-  R`Anuitní zkratka: $$P_0=C\cdot\frac{1-(1+i)^{-n}}{i}+\frac{F}{(1+i)^n}$$`,
-  R`Konzola (věčný dluhopis): $$P_0=\frac{C}{i}$$`,
-  R`Zero bond: $$P_0=\frac{F}{(1+i)^n}$$`,
-  R`Pololetně: \(i\to i/2\), \(n\to 2n\), kupón \(\to C/2\) (pokud je zadán roční).`,
-  R`Pokladniční poukázka (diskont): $$P=F\left(1-d\cdot\frac{t}{360}\right)$$`,
-  R`\(i>r\Rightarrow P<F\) (diskont) · \(i<r\Rightarrow P>F\) (prémie) · \(i=r\Rightarrow P=F\)`,
-  R`Kupónový výnos \(C/F\) · běžný výnos \(C/P\) · YTM = IRR dluhopisu`
- ],
- ex:[
- {id:'2-L', title:'Pětiletý dluhopis 8 % při YTM 10 % (roční vs. pololetní kupón)', tags:['lec:Přednáška 2','solved'],
-  zadani:R`<p>Pětiletý dluhopis s nominální hodnotou 100 Kč, roční kupónová sazba 8 %, výnos do splatnosti 10 %. Určete peněžní toky a cenu dluhopisu. Jak se cena změní, pokud se kupón vyplácí pololetně?</p>`,
-  vzorce:R`$$P_0=\sum\frac{C}{(1+i)^t}+\frac{F}{(1+i)^n}$$`,
-  postup:R`<ol><li>Toky: 8, 8, 8, 8, 108 (součet 140).</li><li>Diskontováno 10 %: 7,27 + 6,61 + 6,01 + 5,46 + 67,06 = 92,42.</li><li>Pololetně: 10 období po 4 Kč, sazba 5 %: \(\sum_{t=1}^{10}\frac{4}{1{,}05^t}+\frac{100}{1{,}05^{10}}=92{,}28\).</li></ol>`,
-  vysledek:R`<p>Roční kupón: <b>92,42 Kč</b> · pololetní: <b>92,28 Kč</b>. Struktura toků ovlivňuje cenu.</p>`,
-  ans:[['roční (Kč)',92.42],['pololetní (Kč)',92.28]]},
- {id:'2-Lz', title:'Zero bond – 2,5 roku do splatnosti', tags:['lec:Přednáška 2','solved'],
-  zadani:R`<p>Cena zero bondu s nominální hodnotou 100 Kč, výnos do splatnosti 8 % p. a., emise 1. 1. 2008, splatnost 1. 1. 2011, vypořádání 1. 7. 2008 (báze 30/360).</p>`,
-  vzorce:R`$$P=\frac{F}{(1+i)^n}$$`,
-  postup:R`<p>Od vypořádání do splatnosti zbývá 2,5 roku: \(P=\frac{100}{1{,}08^{2{,}5}}\).</p>`,
-  vysledek:R`<p>Cena <b>82,50 Kč</b>.</p>`,
-  ans:[['P (Kč)',82.5]]},
- {id:'2-1', title:'Vládní dluhopis 6 %, 3 roky', tags:['Seminář 2 – Př. 1','solved'],
-  zadani:R`<p>Teoretická cena vládního dluhopisu s pevnou roční kupónovou platbou, nominál 10 000 Kč, kupónová sazba 6 % p. a., splatnost 3 roky, tržní úroková sazba 5 %.</p>`,
-  vzorce:R`$$P_0=\frac{C}{1+i}+\frac{C}{(1+i)^2}+\frac{C+F}{(1+i)^3}$$`,
-  postup:R`<p>\(C=600\): \(P_0=\frac{600}{1{,}05}+\frac{600}{1{,}05^2}+\frac{10\,600}{1{,}05^3}=571{,}43+544{,}22+9\,156{,}68\)</p>`,
-  vysledek:R`<p><b>10 272,32 Kč</b>, tj. 102,7232 % nominálu (kupón &gt; tržní sazba → prémie).</p>`,
-  ans:[['P₀ (Kč)',10272.32]]},
- {id:'2-2', title:'Konzola – věčný dluhopis', tags:['Seminář 2 – Př. 2','solved'],
-  zadani:R`<p>Za kolik byste koupili konzolu vyplácející každoročně kupón 600 Kč při tržní úrokové sazbě 6 % p. a.?</p>`,
-  vzorce:R`$$P_0=\frac{C}{i}$$`,
-  postup:R`<p>\(P_0=\frac{600}{0{,}06}\)</p>`,
-  vysledek:R`<p><b>10 000 Kč</b>.</p>`,
-  ans:[['P₀ (Kč)',10000]]},
- {id:'2-3', title:'Zero bond 5 let', tags:['Seminář 2 – Př. 3','solved'],
-  zadani:R`<p>Teoretická cena dluhopisu s nulovým kupónem se splatností 5 let, nominál 10 000 Kč, tržní úroková sazba 5 %.</p>`,
-  vzorce:R`$$P_0=\frac{F}{(1+i)^n}$$`,
-  postup:R`<p>\(P_0=\frac{10\,000}{1{,}05^5}=\frac{10\,000}{1{,}27628}\)</p>`,
-  vysledek:R`<p><b>7 835,26 Kč</b> (78,3526 %).</p>`,
-  ans:[['P₀ (Kč)',7835.26]]},
- {id:'2-4', title:'Tržní hodnota držených dluhopisů (oceňování podniku)', tags:['Seminář 2 – Př. 4','solved'],
-  zadani:R`<p>Nominální hodnota držených dluhopisů je 1 274 tis. Kč (splatné jednorázově na konci). Kupón 5 % → 63,7 tis. Kč ročně, zdanění výnosů 20 % → po dani 51 tis. Kč. Do splatnosti zbývá 7 let, výnos do splatnosti podobných dluhopisů je 7 %. Oceňte dluhopisy tržní hodnotou.</p>`,
-  vzorce:R`$$P=C_{\text{po dani}}\cdot\frac{1-(1+i)^{-n}}{i}+\frac{F}{(1+i)^n}$$`,
-  postup:R`<ol><li>Kupón po dani \(63{,}7\cdot0{,}8=50{,}96\approx51\) tis. (slide zaokrouhluje na 51).</li><li>Zásobitel \(\frac{1-1{,}07^{-7}}{0{,}07}=5{,}3893\) → \(51\cdot5{,}3893=274{,}9\).</li><li>\(\frac{1274}{1{,}07^7}=793{,}4\).</li><li>\(274{,}9+793{,}4=1\,068{,}2\)</li></ol>`,
-  vysledek:R`<p>Tržní hodnota ≈ <b>1 068 tis. Kč</b>.</p><p class="note">S nezaokrouhleným kupónem 50,96 tis. vyjde 1 068,02 tis. – rozdíl je jen ze zaokrouhlení.</p>`,
-  ans:[['P (tis. Kč)',1068.2,0.5]]},
- {id:'2-5', title:'Obligace OSA 12,5 %, 4 roky', tags:['Seminář 2 – Př. 5'],
-  zadani:R`<p>Cena obligace OSA s pevnou roční kupónovou sazbou 12,5 %, nominál 10 000 Kč, splatnost 4 roky od emise. Obvyklé výnosy obdobných obligací jsou 10 %.</p>`,
-  vzorce:R`$$P_0=C\cdot\frac{1-(1+i)^{-n}}{i}+\frac{F}{(1+i)^n}$$`,
-  postup:R`<ol><li>\(C=0{,}125\cdot10\,000=1\,250\).</li><li>\(1\,250\cdot\frac{1-1{,}1^{-4}}{0{,}1}=1\,250\cdot3{,}16987=3\,962{,}33\).</li><li>\(\frac{10\,000}{1{,}1^4}=6\,830{,}13\).</li></ol>`,
-  vysledek:R`<p>Cena <b>10 792,47 Kč</b> (kupón 12,5 % &gt; 10 % → nad nominálem).</p>`,
-  ans:[['P₀ (Kč)',10792.47]]},
- {id:'2-6', title:'Pokladniční poukázky 90 dní', tags:['Seminář 2 – Př. 6'],
-  zadani:R`<p>Za kolik lze koupit pokladniční poukázky s nominální hodnotou 10 000 Kč, splatností 90 dní a diskontní mírou 5,5 % p. a.?</p>`,
-  vzorce:R`$$P=F\left(1-d\cdot\frac{t}{360}\right)$$`,
-  postup:R`<ol><li>Diskont \(=10\,000\cdot0{,}055\cdot\frac{90}{360}=137{,}50\) Kč.</li><li>\(P=10\,000-137{,}50\).</li></ol>`,
-  vysledek:R`<p>Cena <b>9 862,50 Kč</b>.</p>`,
-  ans:[['P (Kč)',9862.5]]},
- {id:'2-U2', title:'Pokladniční poukázky 60 dní', tags:['ukol:Úkol 2 – př. 2'],
-  zadani:R`<p>Určete cenu pokladničních poukázek s nominální hodnotou 20 000 Kč, splatností 60 dní a diskontní mírou 5,00 % p. a. (krátké období → jednoduché odúročení).</p>`,
-  vzorce:R`$$P=F\left(1-d\cdot\frac{t}{360}\right)$$`,
-  postup:R`<ol><li>Diskont \(=20\,000\cdot0{,}05\cdot\frac{60}{360}=166{,}67\) Kč.</li><li>\(P=20\,000-166{,}67\).</li></ol>`,
-  vysledek:R`<p>Cena <b>19 833,33 Kč</b>.</p>`,
-  ans:[['P (Kč)',19833.33]]},
- {id:'2-7', title:'Tříleté státní dluhopisy 2 % se zdaněním', tags:['Seminář 2 – Př. 7'],
-  zadani:R`<p>Stát emituje tříleté dluhopisy, nominál 1 000 Kč, roční kupónová sazba 2 %. Kupóny se vyplácí vždy na začátku (následujícího) roku, po třech letech se s posledním kupónem vyplatí nominál. Kupóny podléhají dani 15 %. Na začátku roku koupíme 1 dluhopis.</p><ol><li>Kolik dostaneme celkem na kupónech?</li><li>Jaká bude hodnota kapitálu po třech letech?</li><li>Jaká je současná hodnota kapitálu při požadované výnosnosti 1 %?</li></ol>`,
-  vzorce:R`$$C_{\text{čistý}}=F\cdot c\cdot(1-t)\qquad PV=\frac{K_3}{(1+r)^3}$$`,
-  postup:R`<ol><li>Hrubý kupón 20 Kč, čistý \(20\cdot0{,}85=17\) Kč → za 3 roky \(3\cdot17=51\) Kč (hrubě 60 Kč).</li><li>Kapitál po 3 letech \(=1\,000+51=1\,051\) Kč.</li><li>Diskontuj skutečné toky: \(PV=\frac{17}{1{,}01}+\frac{17}{1{,}01^2}+\frac{1\,017}{1{,}01^3}=1\,020{,}59\) Kč.</li></ol>`,
-  vysledek:R`<p>1) <b>51 Kč</b> (čistě) · 2) <b>1 051 Kč</b> · 3) <b>≈ 1 020,59 Kč</b></p><p class="note">Zjednodušeně (celých 1 051 Kč diskontovaných až z 3. roku) \(1\,051/1{,}01^3=1\,020{,}09\) Kč. Správnější je diskontovat každý tok v jeho roce – zadání to ale přesně neříká, obě čísla kontrola přijme.</p>`,
-  ans:[['kupóny (Kč)',51],['kapitál (Kč)',1051],['PV (Kč)',1020.59,0.6]]},
- {id:'2-8', title:'Dluhopis s pololetním kupónem 250 Kč', tags:['Seminář 2 – Př. 8','ukol:Úkol 2 – př. 1'],
-  zadani:R`<p>Cena dluhopisu s dobou do splatnosti 2 roky, nominál 50 000 Kč. Kupón 250 Kč se vyplácí pololetně. Roční tržní výnosová míra je 8,5 % p. a.</p>`,
-  vzorce:R`$$P=C\cdot\frac{1-(1+i/2)^{-2n}}{i/2}+\frac{F}{(1+i/2)^{2n}}$$`,
-  postup:R`<ol><li>Pololetní sazba \(0{,}085/2=0{,}0425\), počet období \(2\cdot2=4\), kupón za pololetí 250 Kč.</li><li>Kupóny: \(250\cdot\frac{1-1{,}0425^{-4}}{0{,}0425}=250\cdot3{,}60861=902{,}15\).</li><li>Nominál: \(\frac{50\,000}{1{,}0425^4}=\frac{50\,000}{1{,}181148}=42\,331{,}70\).</li></ol>`,
-  vysledek:R`<p>Cena <b>43 233,86 Kč</b> (kupón je jen 1 % ročně → hluboko pod nominálem).</p>`,
-  ans:[['P (Kč)',43233.86]]},
- {id:'2-9', title:'Pan Koutný – čistý výnos z dluhopisu', tags:['Seminář 2 – Př. 9','ukol:Úkol 2 – př. 3'],
-  zadani:R`<p>Pan Koutný koupil dluhopis za 10 000 Kč, splatnost 5 let, úroková míra 3,2 %. Každý rok dostane úrok z 10 000 Kč, daň z úroku 15 %. Na konci 5. roku dostane s úrokem i vloženou částku. Vypočítejte čistý výnos (zohledněte čas a riziko – alternativní výnos termínovaného vkladu je 1,5 % p. a.).</p>`,
-  vzorce:R`$$NPV=\sum_{t=1}^{5}\frac{CF_t}{(1+r)^t}-I_0$$`,
-  postup:R`<ol><li>Hrubý úrok 320 Kč, daň 48 Kč → čistý 272 Kč ročně.</li><li>Toky: 272, 272, 272, 272, 10 272.</li><li>Diskont 1,5 %: 267,98 + 264,02 + 260,12 + 256,27 + 9 535,09 = 10 583,48.</li><li>\(NPV=10\,583{,}48-10\,000\).</li></ol>`,
-  vysledek:R`<p>Čistý výnos (NPV) <b>583,48 Kč</b> → dluhopis je výhodnější než termínovaný vklad (bez diskontování by to bylo 1 360 Kč).</p>`,
-  ans:[['NPV (Kč)',583.48]]}
- ]
-},
-{
- id:'t3', title:'3 · Opce – výplaty, hodnota, binomický model',
- desc:'Call/put z pohledu držitele (long) a vypisovatele (short), bod zvratu, očekávaná hodnota opce, binomický model, reálné opce.',
- cheat:[
-  R`Long call zisk: $$\max(S-X,0)-c$$ bod zvratu \(X+c\)`,
-  R`Long put zisk: $$\max(X-S,0)-p$$ bod zvratu \(X-p\)`,
-  R`Vypisovatel (short) má přesně opačný zisk/ztrátu. Max. ztráta držitele = prémie.`,
-  R`Očekávaná hodnota opce: $$E(C)=\sum q_i\cdot\max(S_i-X,0)$$ (u put \(\max(X-S_i,0)\))`,
-  R`Binomický model: $$\Delta=\frac{C_u-C_d}{S_u-S_d},\quad \Pi=\Delta S_u-C_u$$ $$PV=\Pi\,e^{-rT},\quad C=\Delta S_0-PV$$`,
-  R`V penězích (call \(S>X\)) · na penězích (\(S=X\)) · mimo peníze (call \(S<X\))`
- ],
- ex:[
- {id:'3-1', title:'Call 1 000 Kč za prémii 50 Kč', tags:['Seminář 3 – Př. 1'],
-  zadani:R`<p>Držitel call opce na akcii s realizační cenou 1 000 Kč ji koupil od upisovatele za 50 Kč. Jaký je zisk/ztráta držitele a upisovatele, je-li k datu uplatnění cena akcie a) 970 Kč, b) 1 020 Kč, c) 1 140 Kč? Zachyťte graficky.</p>`,
-  vzorce:R`$$Z_{\text{držitel}}=\max(S-X,0)-c\qquad Z_{\text{upisovatel}}=-Z_{\text{držitel}}$$`,
-  postup:R`<ol><li>a) 970 &lt; 1 000 → neuplatní: držitel \(-50\), upisovatel \(+50\).</li><li>b) 1 020 → uplatní: \(20-50=-30\) (ztrátu snižuje), upisovatel \(+30\).</li><li>c) 1 140 → uplatní: \(140-50=+90\), upisovatel \(-90\).</li><li>Bod zvratu \(1\,000+50=1\,050\) Kč.</li></ol>`,
-  vysledek:R`<p>Držitel: a) <b>−50</b> · b) <b>−30</b> · c) <b>+90</b> Kč; upisovatel opačně (+50 / +30 / −90). Bod zvratu 1 050 Kč.</p>`,
-  chart:{type:'call',X:1000,c:50,pts:[970,1020,1140],min:900,max:1200,step:50},
-  ans:[['a) držitel',-50],['b) držitel',-30],['c) držitel',90]]},
- {id:'3-2', title:'Opce na akcii ČEZ', tags:['Seminář 3 – Př. 2'],
-  zadani:R`<p>Investor M koupil od N opci na nákup 1 akcie ČEZ za 1 000 Kč ke dni 30. 6. 2018 a zaplatil za ni 80 Kč. Jaký zisk/ztrátu má kupující a prodávající, pokud bude akcie 30. 6. 2018 stát a) 850 Kč, b) 1 230 Kč? Zachyťte graficky.</p>`,
-  vzorce:R`$$Z_M=\max(S-X,0)-c\qquad Z_N=-Z_M$$`,
-  postup:R`<ol><li>a) 850 &lt; 1 000 → M neuplatní: M \(-80\), N \(+80\).</li><li>b) 1 230 → M uplatní: \(230-80=+150\), N \(-150\).</li><li>Bod zvratu 1 080 Kč.</li></ol>`,
-  vysledek:R`<p>a) M <b>−80 Kč</b>, N +80 Kč · b) M <b>+150 Kč</b>, N −150 Kč.</p>`,
-  chart:{type:'call',X:1000,c:80,pts:[850,1230],min:800,max:1300,step:100},
-  ans:[['a) M',-80],['b) M',150]]},
- {id:'3-3', title:'Put opce na 1 000 akcií', tags:['Seminář 3 – Př. 3','solved'],
-  zadani:R`<p>Právo prodat 1 000 akcií za 10 Kč/ks, současná cena 11 Kč, opční poplatek 2 Kč/ks. Cena akcie před splatností klesne na 7 Kč. Jaký je výsledek držitele?</p>`,
-  vzorce:R`$$Z=(X-S)\cdot n-p\cdot n$$`,
-  postup:R`<ol><li>Koupí 1 000 akcií po 7 Kč = 7 000 Kč, prodá vypisovateli po 10 Kč = 10 000 Kč.</li><li>Zisk \(=10\,000-7\,000-2\,000=1\,000\) Kč.</li><li>Výnos na vložený kapitál (prémie 2 000 Kč): 50 % při poklesu akcie o 36,4 % (11 → 7 Kč).</li></ol>`,
-  vysledek:R`<p>Zisk <b>1 000 Kč</b>, tj. <b>50 %</b> z vložené prémie.</p>`,
-  ans:[['zisk (Kč)',1000]]},
- {id:'3-4', title:'Call na 100 akcií (X = 50, prémie 5)', tags:['Seminář 3 – Př. 4','ukol:Úkol 3 – př. 1'],
-  zadani:R`<p>Kontrakt s právem koupit 100 akcií za 50 Kč/ks. Současná cena 45 Kč, opční poplatek 5 Kč/ks.</p><ol type="a"><li>Jak se zachová držitel, když cena krátce před splatností vzroste na 60 Kč? Finanční důsledky?</li><li>Jak se zachová, když cena zůstane pod 50 Kč? Důsledky?</li></ol><p>Situaci popište graficky s konkrétními hodnotami.</p>`,
-  vzorce:R`$$Z=\big(\max(S-X,0)-c\big)\cdot n\qquad \text{bod zvratu}=X+c$$`,
-  postup:R`<ol><li>Zaplacená prémie \(5\cdot100=500\) Kč.</li><li>a) 60 &gt; 50 → uplatní: koupí za 50, hodnota 60 → \((60-50)\cdot100=1\,000\); čistý zisk \(1\,000-500=500\) Kč.</li><li>b) &lt; 50 → neuplatní (na trhu koupí levněji), ztráta = prémie 500 Kč.</li><li>Bod zvratu 55 Kč/akcii.</li></ol>`,
-  vysledek:R`<p>a) uplatní, zisk <b>+500 Kč</b> · b) nechá propadnout, ztráta <b>−500 Kč</b> · bod zvratu <b>55 Kč</b>.</p>`,
-  chart:{type:'call',X:50,c:5,n:100,pts:[45,60],min:40,max:65,step:5},
-  ans:[['a) zisk (Kč)',500],['b) (Kč)',-500],['bod zvratu',55]]},
- {id:'3-5', title:'Očekávaná hodnota evropské call opce (X = 1 200)', tags:['Seminář 3 – výklad','solved'],
-  zadani:R`<p>Evropská kupní opce s termínem 1 rok, realizační cena 1 200. Ceny akcie za rok: 1 100 (p = 0,3), 1 200 (p = 0,4), 1 400 (p = 0,3). Jaká je očekávaná cena akcie a očekávaná hodnota opce?</p>`,
-  vzorce:R`$$E(S)=\sum q_iS_i\qquad E(C)=\sum q_i\max(S_i-X,0)$$`,
-  postup:R`<ol><li>\(E(S)=1100\cdot0{,}3+1200\cdot0{,}4+1400\cdot0{,}3=1\,230\).</li><li>\(E(C)=0\cdot0{,}3+0\cdot0{,}4+200\cdot0{,}3=60\).</li></ol>`,
-  vysledek:R`<p>\(E(S)=\) <b>1 230</b>, hodnota opce <b>60</b>.</p>`,
-  ans:[['E(S)',1230],['E(C)',60]]},
- {id:'3-6', title:'Hodnota evropské put opce (X = 2 200)', tags:['Seminář 3 – Př. 5','ukol:Úkol 3 – př. 2'],
-  zadani:R`<p>Evropská prodejní opce s termínem 1 rok, realizační cena 2 200. Ceny akcie za rok: 2 100 (p = 0,3), 2 200 (p = 0,4), 2 400 (p = 0,3). Určete hodnotu opce.</p>`,
-  vzorce:R`$$E(P)=\sum q_i\max(X-S_i,0)$$`,
-  postup:R`<ol><li>2 100: \(\max(100,0)=100\) → \(100\cdot0{,}3=30\).</li><li>2 200: 0 → 0. 2 400: 0 → 0.</li><li>(Očekávaná cena akcie \(=630+880+720=2\,230\).)</li></ol>`,
-  vysledek:R`<p>Hodnota put opce <b>30</b>.</p>`,
-  ans:[['E(P)',30]]},
- {id:'3-L1', title:'Binomický model – call opce s X = 525', tags:['lec:Přednáška 3','solved'],
-  zadani:R`<p>Akcie stojí 500 Kč, za 3 měsíce bude buď 550 Kč, nebo 450 Kč. Kolik by měla stát evropská call opce s realizační cenou 525 Kč a splatností 3 měsíce? Bezriziková úroková míra 10 % (spojité úročení).</p>`,
-  vzorce:R`$$\Delta S_u-C_u=\Delta S_d-C_d\qquad PV=\Pi\,e^{-rT}\qquad C=\Delta S_0-PV$$`,
-  postup:R`<ol><li>Hodnota opce na konci: \(C_u=550-525=25\), \(C_d=0\).</li><li>Bezrizikové portfolio (long Δ akcií, short 1 call): \(550\Delta-25=450\Delta\Rightarrow\Delta=0{,}25\).</li><li>Hodnota portfolia v obou stavech \(=112{,}5\).</li><li>\(PV=112{,}5\cdot e^{-0{,}10\cdot0{,}25}=109{,}722\).</li><li>\(0{,}25\cdot500-C=109{,}722\Rightarrow C=125-109{,}722\).</li></ol>`,
-  vysledek:R`<p>\(\Delta=0{,}25\), cena opce <b>15,28 Kč</b>.</p>`,
-  ans:[['Δ',0.25],['C (Kč)',15.28]]},
- {id:'3-L2', title:'Zajištění akcie put opcí', tags:['lec:Přednáška 3','solved'],
-  zadani:R`<p>Investor drží 1 akcii (spot 30 EUR) a koupí put opci se strike 30 EUR za prémii 2 EUR. Jaký je výsledek, když A) cena klesne na 25 EUR, B) vzroste na 35 EUR?</p>`,
-  vzorce:R`$$\text{výsledek}=\Delta S+\max(X-S,0)-p$$`,
-  postup:R`<ol><li>A) akcie \(-5\), put uplatní \(+5\), prémie \(-2\) → celkem \(-2\) (opce sama: \(5-2=+3\)).</li><li>B) akcie \(+5\), put nevyužije, prémie \(-2\) → celkem \(+3\).</li></ol>`,
-  vysledek:R`<p>A) celkem <b>−2 EUR</b> (ztráta omezena na prémii) · B) <b>+3 EUR</b>.</p><p class="note">Ve slidu je u scénáře A „celkem = 3“ – to je jen výsledek opce bez poklesu akcie.</p>`,
-  ans:[['A) celkem',-2],['B) celkem',3]]},
- {id:'3-L3', title:'Reálná opce – výzkum a vývoj', tags:['lec:Přednáška 3'],
-  zadani:R`<p>VaV nového produktu stojí 10 mil. Kč. Výrobní náklady budou se stejnou pravděpodobností 30, 60 nebo 90 mil. Kč. Výnosy z prodeje 125 mil. Kč (p = 0,6) nebo 65 mil. Kč (p = 0,4). Ostatní nevýrobní náklady 25 mil. Kč. Jaká je očekávaná NPV bez opce a s opcí projekt nespustit, když vychází ztrátově?</p>`,
-  vzorce:R`$$ČV=\text{výnosy}-\text{výrobní n.}-25\qquad E(ČV)=\sum p_i\,ČV_i\qquad NPV=-10+E(ČV)$$`,
-  postup:R`<ol><li>Scénáře (p = 1/3 · 0,6 = 0,2 a 1/3 · 0,4 = 0,133): náklady 30 → 70 / 10; 60 → 40 / −20; 90 → 10 / −50.</li><li>Bez opce: \(0{,}2(70+40+10)+0{,}133(10-20-50)=24-8=16\) → \(NPV=+6\).</li><li>S opcí (záporné scénáře = 0): \(0{,}2\cdot120+0{,}133\cdot10=25{,}33\) → \(NPV=+15{,}33\).</li></ol>`,
-  vysledek:R`<p>Správně podle zadání (o spuštění se rozhoduje, až jsou známé náklady i poptávka): bez opce <b>NPV = 6 mil.</b>, s opcí <b>15,33 mil. Kč</b> → hodnota opce ≈ 9,33 mil.</p><p class="note">Pozor: ve slidu jsou pravděpodobnosti u výnosů prohozené (125 s p = 0,4), proto tam vychází E(ČV) = 4 → NPV = −6 a s opcí 18 → NPV = +8. Princip je stejný: opce udělá z projektu výhodnější. U testu se drž čísel, která dostaneš.</p>`,
-  ans:[['NPV bez opce',6],['NPV s opcí',15.33]]}
- ]
-},
-{
- id:'t4', title:'4 · Riziko, výnosnost a systematické riziko (beta)',
- desc:'Očekávaný výnos, rozptyl, směrodatná odchylka, portfolio, diverzifikace, CAPM a beta.',
- cheat:[
-  R`Očekávaný výnos: $$E(r)=\sum p_i r_i$$`,
-  R`Rozptyl a sm. odchylka: $$\sigma^2=\sum p_i\,(r_i-E(r))^2\qquad \sigma=\sqrt{\sigma^2}$$`,
-  R`Variační koeficient (riziko na jednotku výnosu): $$V=\frac{\sigma}{E(r)}$$`,
-  R`Výnos portfolia: $$E(r_p)=\sum w_i\,E(r_i)$$`,
-  R`CAPM: $$E(r_i)=r_f+\beta_i\,[E(r_m)-r_f]$$`,
-  R`Citlivost na trh: $$\Delta r_i=\beta\cdot\Delta r_m$$`,
-  R`Beta: $$\beta_i=\frac{\sigma_{iM}}{\sigma_M^2}=\rho_{iM}\frac{\sigma_i}{\sigma_M}$$`
- ],
- ex:[
- {id:'4-1', title:'Tři scénáře – výnos a směrodatná odchylka', tags:['Seminář 4 – Př. 1','solved'],
-  zadani:R`<table class="t"><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>Pravděpodobnost</td><td>0,5</td><td>0,3</td><td>0,2</td></tr><tr><td>Výnosnost (%)</td><td>25</td><td>10</td><td>−25</td></tr></table><p>Vypočítejte očekávanou výnosnost, rozptyl a směrodatnou odchylku.</p>`,
-  vzorce:R`$$E(r)=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
-  postup:R`<ol><li>\(E=25\cdot0{,}5+10\cdot0{,}3-25\cdot0{,}2=10{,}5\,\%\).</li><li>\(\sigma^2=14{,}5^2\cdot0{,}5+(-0{,}5)^2\cdot0{,}3+(-35{,}5)^2\cdot0{,}2=105{,}125+0{,}075+252{,}05=357{,}25\).</li><li>\(\sigma=\sqrt{357{,}25}\).</li></ol>`,
-  vysledek:R`<p>\(E=\) <b>10,5 %</b>, \(\sigma^2=\) <b>357,25</b>, \(\sigma=\) <b>18,9 %</b>.</p><p class="note">Ve slidu je rozptyl 357,21 – ze zadaných čísel ale vychází přesně 357,25 (asi překlep). σ je v obou případech 18,9 %.</p>`,
-  ans:[['E (%)',10.5],['σ² ',357.25,0.1],['σ (%)',18.9]]},
- {id:'4-2', title:'Tři scénáře – samostatně', tags:['Seminář 4 – Př. 2'],
-  zadani:R`<table class="t"><tr><th></th><th>A</th><th>B</th><th>C</th></tr><tr><td>Pravděpodobnost</td><td>0,5</td><td>0,4</td><td>0,1</td></tr><tr><td>Výnosnost (%)</td><td>20</td><td>15</td><td>−30</td></tr></table><p>Vypočítejte výnosnost, rozptyl a směrodatnou odchylku.</p>`,
-  vzorce:R`$$E(r)=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
-  postup:R`<ol><li>\(E=10+6-3=13\,\%\).</li><li>\(\sigma^2=7^2\cdot0{,}5+2^2\cdot0{,}4+(-43)^2\cdot0{,}1=24{,}5+1{,}6+184{,}9=211\).</li><li>\(\sigma=\sqrt{211}\).</li></ol>`,
-  vysledek:R`<p>\(E=\) <b>13 %</b>, \(\sigma^2=\) <b>211</b>, \(\sigma=\) <b>14,53 %</b>.</p>`,
-  ans:[['E (%)',13],['σ²',211],['σ (%)',14.53]]},
- {id:'4-3', title:'Příznivý / nepříznivý výsledek (50 : 50)', tags:['Seminář 4 – Př. 3'],
-  zadani:R`<table class="t"><tr><th>Výsledek</th><th>Pravděpodobnost</th><th>Výnos</th></tr><tr><td>Příznivý</td><td>0,5</td><td>300 000 Kč</td></tr><tr><td>Nepříznivý</td><td>0,5</td><td>−100 000 Kč</td></tr></table><p>Vypočítejte očekávaný výnos, rozptyl a směrodatnou odchylku.</p>`,
-  vzorce:R`$$E=\sum p_iR_i\qquad \sigma=\sqrt{\sum p_i(R_i-E)^2}$$`,
-  postup:R`<ol><li>\(E=150\,000-50\,000=100\,000\) Kč.</li><li>\(\sigma^2=0{,}5\cdot200\,000^2+0{,}5\cdot(-200\,000)^2=4\cdot10^{10}\).</li><li>\(\sigma=200\,000\) Kč.</li></ol>`,
-  vysledek:R`<p>\(E=\) <b>100 000 Kč</b>, \(\sigma^2=\) <b>40 000 000 000 Kč²</b>, \(\sigma=\) <b>200 000 Kč</b> (2× víc než očekávaný výnos → velmi rizikové).</p>`,
-  ans:[['E (Kč)',100000],['σ (Kč)',200000]]},
- {id:'4-U1', title:'Příznivý / nepříznivý / realistický výsledek', tags:['ukol:Úkol 4 – př. 1'],
-  zadani:R`<table class="t"><tr><th>Výsledek</th><th>Pravděpodobnost</th><th>Výnos</th></tr><tr><td>Příznivý</td><td>0,4</td><td>300 000 Kč</td></tr><tr><td>Nepříznivý</td><td>0,3</td><td>−100 000 Kč</td></tr><tr><td>Realistický</td><td>0,3</td><td>100 000 Kč</td></tr></table><p>Vypočítejte očekávaný výnos, rozptyl a směrodatnou odchylku. Vysvětlete z pohledu rozhodovatele.</p>`,
-  vzorce:R`$$E=\sum p_iR_i\qquad \sigma^2=\sum p_i(R_i-E)^2\qquad V=\frac{\sigma}{E}$$`,
-  postup:R`<ol><li>\(E=120\,000-30\,000+30\,000=120\,000\) Kč.</li><li>\(\sigma^2=0{,}4\cdot180\,000^2+0{,}3\cdot(-220\,000)^2+0{,}3\cdot(-20\,000)^2\) \(=(12{,}96+14{,}52+0{,}12)\cdot10^9=27{,}6\cdot10^9\).</li><li>\(\sigma=\sqrt{27{,}6\cdot10^9}=166\,132{,}48\) Kč; \(V=1{,}38\).</li></ol>`,
-  vysledek:R`<p>\(E=\) <b>120 000 Kč</b>, \(\sigma^2=\) <b>27 600 000 000 Kč²</b>, \(\sigma=\) <b>166 132,48 Kč</b>. Odchylka je vyšší než očekávaný výnos (V ≈ 1,38) → investice je riziková, s 30% pravděpodobností ztráta.</p>`,
-  ans:[['E (Kč)',120000],['σ (Kč)',166132.48]]},
- {id:'4-4', title:'Výnos portfolia ze tří akcií', tags:['Seminář 4 – Př. 4','solved'],
-  zadani:R`<table class="t"><tr><th>Akcie</th><th>Počet</th><th>Cena (EUR)</th><th>Výnos (%)</th></tr><tr><td>AAA</td><td>100</td><td>400</td><td>17</td></tr><tr><td>BBB</td><td>400</td><td>200</td><td>13</td></tr><tr><td>CCC</td><td>200</td><td>200</td><td>23</td></tr></table><p>Vypočítejte váhy v portfoliu a střední výnos portfolia.</p>`,
-  vzorce:R`$$w_i=\frac{n_i P_i}{\sum n_jP_j}\qquad E(r_p)=\sum w_i\,r_i$$`,
-  postup:R`<ol><li>Náklady: 40 000 + 80 000 + 40 000 = 160 000 EUR → váhy 0,25 / 0,5 / 0,25.</li><li>\(E(r_p)=0{,}25\cdot17+0{,}5\cdot13+0{,}25\cdot23=4{,}25+6{,}5+5{,}75\).</li></ol>`,
-  vysledek:R`<p>Výnos portfolia <b>16,5 %</b>.</p>`,
-  ans:[['E(rₚ) (%)',16.5]]},
- {id:'4-5', title:'Dva investiční záměry – který je rizikovější?', tags:['Seminář 4 – Př. 5'],
-  zadani:R`<table class="t"><tr><th>Investice I – r (%)</th><th>p</th><th>Investice II – r (%)</th><th>p</th></tr><tr><td>30</td><td>0,5</td><td>46</td><td>0,5</td></tr><tr><td>15</td><td>0,3</td><td>5</td><td>0,3</td></tr><tr><td>5</td><td>0,1</td><td>−15</td><td>0,1</td></tr><tr><td>−20</td><td>0,1</td><td>−50</td><td>0,1</td></tr></table><p>Propočítejte rozptyly a směrodatné odchylky, interpretujte rizikovost.</p>`,
-  vzorce:R`$$E=\sum p_ir_i\qquad \sigma^2=\sum p_i(r_i-E)^2$$`,
-  postup:R`<ol><li>I: \(E=15+4{,}5+0{,}5-2=18\,\%\); \(\sigma^2=72+2{,}7+16{,}9+144{,}4=236\) → \(\sigma=15{,}36\,\%\).</li><li>II: \(E=23+1{,}5-1{,}5-5=18\,\%\); \(\sigma^2=392+50{,}7+108{,}9+462{,}4=1\,014\) → \(\sigma=31{,}84\,\%\).</li></ol>`,
-  vysledek:R`<p>I: E = 18 %, σ² = <b>236</b>, σ = <b>15,36 %</b> · II: E = 18 %, σ² = <b>1 014</b>, σ = <b>31,84 %</b>.</p><p>Stejný výnos, ale II má 2× vyšší riziko → racionální investor volí <b>I</b>.</p>`,
-  ans:[['σ I (%)',15.36],['σ II (%)',31.84]]},
- {id:'4-L', title:'Diverzifikace – dvě akcie v opačném cyklu', tags:['lec:Přednáška 4','solved'],
-  zadani:R`<p>Akcie VŠČ: recese 12 %, konjunktura 8 %. Akcie LL: recese −5 %, konjunktura 15 %. Oba stavy mají p = 0,5. Jaký je výnos a riziko portfolia 5/6 VŠČ + 1/6 LL?</p>`,
-  vzorce:R`$$r_p=w_1r_1+w_2r_2$$`,
-  postup:R`<ol><li>Samostatně: VŠČ E = 10 %, σ = 2 %; LL E = 5 %, σ = 10 %.</li><li>Recese: \(\frac56\cdot12+\frac16\cdot(-5)=10-0{,}833=9{,}17\,\%\).</li><li>Konjunktura: \(\frac56\cdot8+\frac16\cdot15=6{,}67+2{,}5=9{,}17\,\%\).</li></ol>`,
-  vysledek:R`<p>Portfolio vynáší v obou stavech <b>9,17 %</b>, σ = <b>0</b> – diverzifikace (záporná korelace) odstranila veškeré riziko.</p>`,
-  ans:[['rₚ (%)',9.17]]},
- {id:'4-6', title:'CAPM – akcie A s betou 1,4 a posuny SML', tags:['Seminář 4 – Př. 6','solved'],
-  zadani:R`<p>Akcie A má \(\beta=1{,}4\), bezrizikové aktivum vynáší 11 % p. a., očekávaný výnos trhu je 14 % p. a.</p><ol type="a"><li>Jaká je požadovaná míra výnosu akcie A?</li><li>Bezriziková sazba vzroste na 12 %. Jak se změní přímka SML?</li><li>Bezriziková sazba klesne na 10 %. Jak se změní SML?</li><li>Investoři budou více riskovat (změní se averze k riziku). Dopad na SML?</li></ol>`,
-  vzorce:R`$$E(r_A)=r_f+\beta\,[E(r_m)-r_f]$$`,
-  postup:R`<ol><li>a) \(11+1{,}4\cdot(14-11)=11+4{,}2=15{,}2\,\%\).</li><li>b) \(+1\) p. b. → SML se posune <b>paralelně nahoru</b> o 1 % (při stejné tržní prémii 3 % je \(E(r_A)=12+1{,}4\cdot3=16{,}2\,\%\)).</li><li>c) \(-1\) p. b. → SML <b>paralelně dolů</b> (\(E(r_A)=14{,}2\,\%\)).</li><li>d) Mění se sklon (tržní riziková prémie): vyšší averze → strmější SML, ochota riskovat → plošší SML; přímka se otáčí kolem bodu \(r_f\).</li></ol>`,
-  vysledek:R`<p>a) <b>15,2 %</b> · b) paralelní posun nahoru o 1 p. b. · c) paralelní posun dolů o 1 p. b. · d) změna sklonu SML (otočení kolem \(r_f\)).</p><p class="note">Paralelní posun (jako ve slidu) předpokládá, že tržní prémie zůstane 3 %. Kdyby zůstal výnos trhu 14 %, změní se i sklon: b) \(12+1{,}4\cdot2=14{,}8\,\%\), c) \(10+1{,}4\cdot4=15{,}6\,\%\).</p>`,
-  ans:[['a) E(r) (%)',15.2]]},
- {id:'4-7', title:'Dell – beta 1,41', tags:['Seminář 4 – Př. 7'],
-  zadani:R`<p>Koeficient beta společnosti Dell byl v pětiletém období 1,41 a předpokládáme podobný vývoj. Jak se změní výnosnost akcie, pokud trh vzroste o 1 %, nebo klesne o 2 %?</p>`,
-  vzorce:R`$$\Delta r_i=\beta\cdot\Delta r_m$$`,
-  postup:R`<ol><li>\(1{,}41\cdot1=1{,}41\,\%\).</li><li>\(1{,}41\cdot(-2)=-2{,}82\,\%\).</li></ol>`,
-  vysledek:R`<p>Trh +1 % → akcie <b>+1,41 %</b> · trh −2 % → akcie <b>−2,82 %</b>.</p>`,
-  ans:[['růst (%)',1.41],['pokles (%)',-2.82]]},
- {id:'4-U2', title:'Dell – beta 2,41 vs. 1,60', tags:['ukol:Úkol 4 – př. 2'],
-  zadani:R`<p>Beta Dellu byla v pětiletém období 2,41.</p><ol><li>O kolik % se změní výnosnost akcie, když trh vzroste o 1,5 %, nebo klesne o 2,5 %?</li><li>Totéž při nové betě 1,60.</li><li>O kolik procentních bodů se odhadovaná změna liší oproti betě 2,41?</li><li>Jak se snížení bety projeví v systematickém riziku a proč je to důležité při zvýšené averzi k riziku?</li></ol>`,
-  vzorce:R`$$\Delta r_i=\beta\cdot\Delta r_m$$`,
-  postup:R`<ol><li>\(2{,}41\cdot1{,}5=+3{,}615\,\%\); \(2{,}41\cdot(-2{,}5)=-6{,}025\,\%\).</li><li>\(1{,}60\cdot1{,}5=+2{,}4\,\%\); \(1{,}60\cdot(-2{,}5)=-4{,}0\,\%\).</li><li>Rozdíl: \(3{,}615-2{,}4=1{,}215\) p. b.; \(6{,}025-4{,}0=2{,}025\) p. b.</li><li>Nižší beta = nižší citlivost na trh = nižší systematické riziko; v poklesu ztrácí méně → defenzivnější akcie.</li></ol>`,
-  vysledek:R`<p>1) <b>+3,615 %</b> / <b>−6,025 %</b> (≈ +3,62 / −6,03) · 2) <b>+2,4 %</b> / <b>−4,0 %</b> · 3) rozdíl <b>1,215 p. b.</b> a <b>2,025 p. b.</b> (≈ 1,22 / 2,03) · 4) nižší systematické riziko.</p>`,
-  ans:[['β 2,41 růst',3.615],['β 2,41 pokles',-6.025],['β 1,6 růst',2.4],['β 1,6 pokles',-4]]}
- ]
-},
-{
- id:'t5', title:'5 · Náklady kapitálu – WACC, CAPM, alfa',
- desc:'Vážené průměrné náklady kapitálu, zjednodušený výnos do splatnosti, dividendový model, beta z kovariance/korelace, SML a alfa.',
- cheat:[
-  R`WACC: $$WACC=\frac{D}{D+E}\,r_d\,(1-t)+\frac{E}{D+E}\,r_e$$`,
-  R`Zjednodušený výnos do splatnosti obligace: $$r_d=\frac{\acute{u}+\frac{N-P}{n}}{0{,}6P+0{,}4N}$$`,
-  R`Náklady VK – dividendový model: $$r_e=\frac{D_1}{P_0}+g$$`,
-  R`Náklady VK – CAPM: $$r_e=r_f+\beta\,(r_m-r_f)$$`,
-  R`Beta: $$\beta_i=\frac{\sigma_{iM}}{\sigma_M^2}\qquad \rho_{iM}=\frac{\sigma_{iM}}{\sigma_i\sigma_M}\qquad \beta_i=\rho_{iM}\frac{\sigma_i}{\sigma_M}$$`,
-  R`Alfa: $$\alpha_i=r_i-E(r_i)$$ \(\alpha>0\) nad SML → podhodnocená → <b>koupit</b>; \(\alpha<0\) pod SML → nadhodnocená → <b>prodat</b>; \(\alpha\approx0\) → držet`,
-  R`Stavebnicový model: $$r_e=r_f+r_{\text{podnik}}+r_{\text{fin}}+r_{\text{LA}}$$`
- ],
- ex:[
- {id:'5-1', title:'Diskontní míra pro NPV (WACC) – 1', tags:['Seminář 5 – Př. 1'],
-  zadani:R`<p>Jakou diskontní míru použijete při posuzování projektu metodou NPV: požadovaná výnosnost VK 20 %, cena cizího kapitálu 15 %, zadluženost (CK / celkový kapitál) 35 %, daň ze zisku 40 %?</p>`,
-  vzorce:R`$$WACC=\frac{D}{V}\,r_d(1-t)+\frac{E}{V}\,r_e$$`,
-  postup:R`<ol><li>\(D/V=0{,}35\), \(E/V=0{,}65\).</li><li>\(0{,}35\cdot15\cdot0{,}6=3{,}15\,\%\).</li><li>\(0{,}65\cdot20=13\,\%\).</li></ol>`,
-  vysledek:R`<p>WACC = <b>16,15 %</b>.</p>`,
-  ans:[['WACC (%)',16.15]]},
- {id:'5-2', title:'Diskontní míra pro NPV (WACC) – 2', tags:['Seminář 5 – Př. 2'],
-  zadani:R`<p>Požadovaná výnosnost VK 15 %, cena cizího kapitálu 20 %, zadluženost 45 %, daň ze zisku 35 %. Jakou diskontní míru použijete?</p>`,
-  vzorce:R`$$WACC=\frac{D}{V}\,r_d(1-t)+\frac{E}{V}\,r_e$$`,
-  postup:R`<ol><li>\(0{,}45\cdot20\cdot0{,}65=5{,}85\,\%\).</li><li>\(0{,}55\cdot15=8{,}25\,\%\).</li></ol>`,
-  vysledek:R`<p>WACC = <b>14,10 %</b>.</p>`,
-  ans:[['WACC (%)',14.1]]},
- {id:'5-3', title:'WACC společnosti XYZ (obligace + akcie)', tags:['Seminář 5 – Př. 3','solved'],
-  zadani:R`<p><b>Obligace:</b> nominál 800 Kč, tržní hodnota 670 Kč, úrok na konci roku 70 Kč, 10 000 ks, do splatnosti 12 let.<br><b>Akcie:</b> nominál 1 000 Kč, tržní hodnota 1 500 Kč, očekávaná dividenda 180 Kč, růst dividend 3 %, 30 000 ks.<br>Daň ze zisku 24 %. Vypočítejte aktuální WACC.</p>`,
-  vzorce:R`$$r_d=\frac{\acute{u}+\frac{N-P}{n}}{0{,}6P+0{,}4N}\qquad r_e=\frac{D_1}{P}+g\qquad WACC=\frac{D}{V}r_d(1-t)+\frac{E}{V}r_e$$`,
-  postup:R`<ol><li>Tržní hodnoty: obligace \(670\cdot10\,000=6{,}7\) mil.; akcie \(1500\cdot30\,000=45\) mil.; celkem 51,7 mil. (podíly 0,13 / 0,87).</li><li>\(r_d=\frac{70+\frac{800-670}{12}}{0{,}6\cdot670+0{,}4\cdot800}=\frac{80{,}83}{722}=11{,}2\,\%\).</li><li>Daňový štít: \(11{,}2\cdot(1-0{,}24)=8{,}512\,\%\).</li><li>\(r_e=\frac{180}{1500}+3\,\%=12+3=15\,\%\).</li><li>\(WACC=8{,}512\cdot\frac{6{,}7}{51{,}7}+15\cdot\frac{45}{51{,}7}\).</li></ol>`,
-  vysledek:R`<p>\(r_d\) = 11,2 % (po dani 8,51 %), \(r_e\) = 15 %, <b>WACC = 14,16 %</b>.</p>`,
-  ans:[['rd (%)',11.2],['re (%)',15],['WACC (%)',14.16]]},
- {id:'5-4', title:'WACC společnosti XYZ – samostatně', tags:['Seminář 5 – Př. 4','ukol:Úkol 5 – př. 1'],
-  zadani:R`<p><b>Obligace:</b> nominál 900 Kč, tržní hodnota 780 Kč, úrok na konci roku 60 Kč, 20 000 ks, do splatnosti 20 let.<br><b>Akcie:</b> nominál 2 000 Kč, tržní hodnota 2 500 Kč, očekávaná dividenda 280 Kč, růst dividend 2 %, 40 000 ks.<br>Daň ze zisku 24 %. Vypočítejte aktuální WACC.</p>`,
-  vzorce:R`$$r_d=\frac{\acute{u}+\frac{N-P}{n}}{0{,}6P+0{,}4N}\qquad r_e=\frac{D_1}{P}+g\qquad WACC=\frac{D}{V}r_d(1-t)+\frac{E}{V}r_e$$`,
-  postup:R`<ol><li>Tržní hodnoty: obligace \(780\cdot20\,000=15{,}6\) mil.; akcie \(2500\cdot40\,000=100\) mil.; celkem 115,6 mil. → \(D/V=0{,}1349\), \(E/V=0{,}8651\).</li><li>\(r_d=\frac{60+\frac{900-780}{20}}{0{,}6\cdot780+0{,}4\cdot900}=\frac{66}{828}=7{,}97\,\%\).</li><li>Po dani: \(7{,}97\cdot0{,}76=6{,}06\,\%\).</li><li>\(r_e=\frac{280}{2500}+2\,\%=11{,}2+2=13{,}2\,\%\).</li><li>\(WACC=0{,}1349\cdot6{,}06+0{,}8651\cdot13{,}2=0{,}82+11{,}42\).</li></ol>`,
-  vysledek:R`<p>\(r_d\) ≈ 7,97 % (po dani 6,06 %), \(r_e\) = 13,2 %, <b>WACC ≈ 12,24 %</b>.</p><p class="note">Přesný výnos do splatnosti (iteračně, IRR) je 8,03 % → po dani 6,10 % → WACC vyjde také 12,24 %. Na semináři se počítá zjednodušeným vzorcem.</p>`,
-  ans:[['rd (%)',7.97],['re (%)',13.2],['WACC (%)',12.24]]},
- {id:'5-5', title:'CAPM – beta z kovariance a korelace, SML, alfa (5 akcií)', tags:['Seminář 5 – Př. 5','solved'],
-  zadani:R`<p>Na burze se obchoduje 5 společností. Bezrizikové aktivum vynáší 4 % (σ<sub>f</sub> = 0), očekávaná výnosnost trhu 8 % (σ<sub>M</sub> = 9,6 %).</p>
-  <table class="t"><tr><th>Akcie</th><th>r<sub>i</sub></th><th>σ<sub>i</sub></th><th>σ<sub>iM</sub></th></tr><tr><td>A</td><td>10,0 %</td><td>9,0 %</td><td>0,0021</td></tr><tr><td>B</td><td>6,0 %</td><td>10,0 %</td><td>0,0092</td></tr><tr><td>C</td><td>8,3 %</td><td>12,0 %</td><td>0,0100</td></tr><tr><td>D</td><td>10,0 %</td><td>14,0 %</td><td>0,0090</td></tr><tr><td>E</td><td>14,0 %</td><td>20,0 %</td><td>0,0164</td></tr></table>
-  <ol><li>β z kovariance,</li><li>β z korelace,</li><li>rovnovážné výnosnosti \(E(r_i)\),</li><li>přímka SML,</li><li>alfa a investiční doporučení.</li></ol>`,
-  vzorce:R`$$\beta_i=\frac{\sigma_{iM}}{\sigma_M^2}\qquad\rho_{iM}=\frac{\sigma_{iM}}{\sigma_i\sigma_M},\;\beta_i=\rho_{iM}\frac{\sigma_i}{\sigma_M}$$ $$E(r_i)=r_f+\beta_i(E(r_m)-r_f)\qquad\alpha_i=r_i-E(r_i)$$`,
-  postup:R`<ol><li>\(\sigma_M^2=0{,}096^2=0{,}009216\).</li><li>β: A \(0{,}0021/0{,}009216=0{,}228\); B 0,998; C 1,085; D 0,977; E 1,780 (korelační verze dá totéž, např. \(\rho_A=0{,}0021/(0{,}09\cdot0{,}096)=0{,}243\), \(\beta_A=0{,}243\cdot0{,}09/0{,}096=0{,}228\)).</li><li>SML: \(E(r_i)=4\,\%+4\,\%\cdot\beta_i\) (body [0; 4 %] a [1; 8 %]).</li><li>\(E(r)\): A 4,91 %; B 7,99 %; C 8,34 %; D 7,91 %; E 11,12 %.</li><li>α: A +5,09; B −1,99; C −0,04; D +2,09; E +2,88 p. b.</li></ol>
-  <table class="t"><tr><th>Akcie</th><th>β</th><th>ρ</th><th>E(r)</th><th>α</th><th>Doporučení</th></tr><tr><td>A</td><td>0,228</td><td>0,243</td><td>4,91 %</td><td>+5,09</td><td>koupit</td></tr><tr><td>B</td><td>0,998</td><td>0,958</td><td>7,99 %</td><td>−1,99</td><td>prodat</td></tr><tr><td>C</td><td>1,085</td><td>0,868</td><td>8,34 %</td><td>−0,04</td><td>držet</td></tr><tr><td>D</td><td>0,977</td><td>0,670</td><td>7,91 %</td><td>+2,09</td><td>koupit</td></tr><tr><td>E</td><td>1,780</td><td>0,854</td><td>11,12 %</td><td>+2,88</td><td>koupit</td></tr></table>`,
-  vysledek:R`<p>Koupit <b>A, E, D</b> (nad SML, podhodnocené), prodat <b>B</b> (pod SML), <b>C</b> držet (α = −0,04 ≈ 0, leží prakticky na SML).</p>`,
-  chart:{type:'sml',rf:4,rm:8,stocks:[['A',0.228,10],['B',0.998,6],['C',1.085,8.3],['D',0.977,10],['E',1.780,14]]},
-  ans:[['β A',0.228,0.003],['β E',1.78,0.003],['α A (p.b.)',5.09],['α B (p.b.)',-1.99]]},
- {id:'5-6', title:'CAPM – 6 akcií, SML a alfa', tags:['Seminář 5 – Př. 6','ukol:Úkol 5 – př. 2'],
-  zadani:R`<p>Na burze je 6 společností. Bezrizikové aktivum vynáší 3 % (σ<sub>f</sub> = 0), očekávaná výnosnost trhu 9 % (σ<sub>M</sub> = 10,6 %). Vypočtěte rovnovážné výnosnosti \(E(r_i)\), sestavte SML, vypočtěte \(\alpha_i\) a doporučte nákup/prodej.</p>
-  <table class="t"><tr><th>Akcie</th><th>β<sub>i</sub></th><th>Skutečná výnosnost</th></tr><tr><td>A</td><td>1,9</td><td>14 %</td></tr><tr><td>B</td><td>0,78</td><td>3 %</td></tr><tr><td>C</td><td>1,6</td><td>10 %</td></tr><tr><td>D</td><td>1,02</td><td>6 %</td></tr><tr><td>E</td><td>0,61</td><td>2 %</td></tr><tr><td>F</td><td>1,1</td><td>7 %</td></tr></table>`,
-  vzorce:R`$$E(r_i)=r_f+\beta_i\,(E(r_m)-r_f)\qquad \alpha_i=r_i-E(r_i)$$`,
-  postup:R`<ol><li>Tržní prémie \(9-3=6\,\%\) → SML: \(E(r_i)=3\,\%+6\,\%\cdot\beta_i\).</li><li>\(E(r)\): A 14,40; B 7,68; C 12,60; D 9,12; E 6,66; F 9,60 %.</li><li>α: A −0,40; B −4,68; C −2,60; D −3,12; E −4,66; F −2,60 p. b.</li></ol>`,
-  vysledek:R`<p>Všechny akcie mají <b>zápornou alfu</b> → leží pod SML, jsou nadhodnocené → doporučení <b>prodat</b> (nejhorší B a E, nejblíž SML je A).</p>`,
-  chart:{type:'sml',rf:3,rm:9,stocks:[['A',1.9,14],['B',0.78,3],['C',1.6,10],['D',1.02,6],['E',0.61,2],['F',1.1,7]]},
-  ans:[['E(r) A (%)',14.4],['E(r) B (%)',7.68],['α A',-0.4],['α B',-4.68],['α E',-4.66]]}
- ]
-}
-];
-
 /* ---------- RENDER ---------- */
 const LS='fip-umim-v1';
 let done={}; try{done=JSON.parse(localStorage.getItem(LS)||'{}')}catch(e){}
 const saveDone=()=>{try{localStorage.setItem(LS,JSON.stringify(done))}catch(e){}};
-const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 
 function tagHtml(t){
   if(t==='solved') return '<span class="tag solved">vzorově řešeno ve slidu</span>';
@@ -603,17 +211,14 @@ function chartSvg(c){
   return '';
 }
 
-function render(){
-  const toc=document.getElementById('toc'), cont=document.getElementById('content');
-  let th='', h='';
-  TOPICS.forEach(t=>{
-    th+=`<a href="#${t.id}">${esc(t.title.split(' · ')[0])} · ${esc(t.title.split(' · ')[1]||'').split(',')[0]}</a>`;
-    h+=`<section class="topic" id="${t.id}"><h2>${esc(t.title)}</h2><p class="topic-desc">${t.desc}</p>`;
-    h+=`<details class="cheat"><summary>Tahák vzorců k tématu</summary><div class="fl">${t.cheat.map(c=>`<div>${c}</div>`).join('')}</div></details>`;
-    t.ex.forEach((e,i)=>{
-      const isTask=e.tags.some(x=>x.startsWith('ukol:'));
-      h+=`<article class="ex${done[e.id]?' done':''}" id="ex-${e.id}" data-task="${isTask?1:0}">
-       <div class="ex-head"><div><h3>${esc(t.title.split(' · ')[0])}.${i+1} ${e.title}</h3><div class="tags">${e.tags.map(tagHtml).join('')}</div></div>
+/* ?ukoly = samostatný pohled jen s příklady ze seminárních úkolů 1–5 */
+const UKOLY=new URLSearchParams(location.search).has('ukoly');
+const ukolTag=e=>(e.tags.find(x=>x.startsWith('ukol:'))||'').slice(5);
+
+function exHtml(e,head){
+  const isTask=!!ukolTag(e);
+  return `<article class="ex${done[e.id]?' done':''}" id="ex-${e.id}" data-task="${isTask?1:0}">
+       <div class="ex-head"><div><h3>${head} ${e.title}</h3><div class="tags">${e.tags.map(tagHtml).join('')}</div></div>
        <label class="umim"><input type="checkbox" data-done="${e.id}" ${done[e.id]?'checked':''}> umím</label></div>
        <div class="zadani">${e.zadani}</div>
        <div class="btns">
@@ -621,15 +226,41 @@ function render(){
          <button class="btn p" data-t="p" aria-expanded="true">Postup</button>
          <button class="btn r" data-t="r" aria-expanded="true">Výsledek</button>
        </div>
-       <div class="panel f" data-k="f"><h4>Vzorce</h4>${e.vzorce}</div>
+       <div class="panel f" data-k="f"><h4>Vzorce</h4>${e.vzorce}${coHtml(e.id)}</div>
        <div class="panel p" data-k="p"><h4>Postup výpočtu</h4>${e.postup}${e.chart?chartSvg(e.chart):''}</div>
        <div class="panel r" data-k="r"><h4>Výsledek</h4>${e.vysledek}</div>
        ${e.ans&&e.ans.length?`<div class="check"><span class="lab">Zkontroluj si výsledek:</span>${e.ans.map((a,j)=>`<span class="ans">${esc(a[0])} <input inputmode="decimal" data-v="${a[1]}" data-tol="${a[2]??''}" aria-label="${esc(a[0])}" placeholder="?"></span>`).join('')}</div>`:''}
       </article>`;
-    });
+}
+
+function render(){
+  const toc=document.getElementById('toc'), cont=document.getElementById('content');
+  let th='', h='';
+  TOPICS.forEach(t=>{
+    const [num,name]=t.title.split(' · ');
+    if(UKOLY){
+      const list=t.ex.filter(ukolTag).sort((a,b)=>ukolTag(a).localeCompare(ukolTag(b),'cs',{numeric:true}));
+      if(!list.length) return;
+      th+=`<a href="#${t.id}">Úkol ${esc(num)}</a>`;
+      h+=`<section class="topic" id="${t.id}"><h2>Úkol ${esc(num)} · ${esc(name||'')}</h2><p class="topic-desc">${list.length} ${list.length<5?'příklady':'příkladů'} ze seminárního úkolu ${esc(num)}.</p>`;
+      list.forEach(e=>{h+=exHtml(e,esc(ukolTag(e))+':')});
+      h+='</section>';
+      return;
+    }
+    th+=`<a href="#${t.id}">${esc(num)} · ${esc(name||'').split(',')[0]}</a>`;
+    h+=`<section class="topic" id="${t.id}"><h2>${esc(t.title)}</h2><p class="topic-desc">${t.desc}</p>`;
+    h+=`<details class="cheat"><summary>Tahák vzorců k tématu (i s tím, co je co)</summary><div class="fl">${t.cheat.map((c,ci)=>`<div>${c}${keysHtml((CHEAT_KEYS[t.id]||[])[ci])}</div>`).join('')}</div></details>`;
+    t.ex.forEach((e,i)=>{h+=exHtml(e,esc(num)+'.'+(i+1))});
     h+='</section>';
   });
-  toc.innerHTML=th; cont.innerHTML=h;
+  toc.innerHTML=th+'<a href="vzorce.html" style="background:var(--f-soft);color:var(--f)">📐 Jen vzorce</a><a href="uceni.html" style="background:var(--f-soft);color:var(--f)">📖 Učení + testy</a>'; cont.innerHTML=h;
+  document.getElementById('gloss').innerHTML=`<details class="cheat gloss"><summary>📖 Slovníček značek – co znamená které písmenko</summary><p class="note">${GLOSS_NOTE}</p><div class="gg">${glossGroupsHtml()}</div></details>`;
+  if(UKOLY){
+    document.title='Finance podniku – úkoly 1–5';
+    document.getElementById('h1').textContent='Finance podniku – jen úkoly 1–5';
+    document.getElementById('sub').textContent='NE_FIP · jen příklady ze seminárních úkolů za bod 1–5, seřazené podle úkolů. Zadání → vzorce → postup → výsledek; všechno kromě zadání jde schovat a počítat ručně.';
+    const s=document.getElementById('side'); s.href=location.pathname; s.textContent='← Všechny příklady';
+  }
 }
 
 const state={f:true,p:true,r:true};
@@ -643,8 +274,8 @@ function applyGlobal(){
   });
 }
 function updProgress(){
-  const all=document.querySelectorAll('article.ex').length, d=Object.values(done).filter(Boolean).length;
-  document.getElementById('progress').textContent=`Umím ${d} z ${all} příkladů · ${document.querySelectorAll('article.ex[data-task="1"]').length} z nich jsou úkoly za bod`;
+  const all=document.querySelectorAll('article.ex').length, d=document.querySelectorAll('article.ex.done').length;
+  document.getElementById('progress').textContent=UKOLY?`Umím ${d} z ${all} příkladů z úkolů 1–5`:`Umím ${d} z ${all} příkladů · ${document.querySelectorAll('article.ex[data-task="1"]').length} z nich jsou úkoly za bod`;
 }
 function parseNum(s){s=String(s).trim().replace(/\s/g,'').replace(/[−–]/g,'-').replace('%','').replace(',', '.');return s===''?NaN:Number(s)}
 
@@ -655,7 +286,6 @@ document.addEventListener('DOMContentLoaded',()=>{
 
   document.querySelectorAll('.bar .chip[data-g]').forEach(b=>b.addEventListener('click',()=>{state[b.dataset.g]=!state[b.dataset.g];applyGlobal()}));
   document.getElementById('practice').addEventListener('click',()=>{const any=state.f||state.p||state.r;state.f=state.p=state.r=!any;applyGlobal();document.getElementById('practice').textContent=any?'👀 Ukázat vše':'✍️ Režim procvičování (skrýt vše)'});
-  document.getElementById('onlyTasks').addEventListener('click',e=>{const on=e.currentTarget.getAttribute('aria-pressed')!=='true';e.currentTarget.setAttribute('aria-pressed',on);document.querySelectorAll('article.ex').forEach(a=>a.classList.toggle('hidden',on&&a.dataset.task!=='1'))});
   document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
 
   document.getElementById('content').addEventListener('click',e=>{

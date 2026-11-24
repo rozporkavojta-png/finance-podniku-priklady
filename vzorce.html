@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance podniku – vzorce</title>
+<meta name="description" content="NE_FIP Finance podniku: všechny vzorce z kapitol 1–5 na jednom místě, u každého vysvětlené, co znamená které písmenko.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --ink:#1d2129; --muted:#5d6472; --line:#e3e1da;
+  --accent:#1f5f8b; --accent-soft:#e6eff6; --f:#7a4b00; --f-soft:#fbf1df;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
+    --accent:#6fb0de; --accent-soft:#1d2d3b; --f:#f0c070; --f-soft:#33291a; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
+  --accent:#6fb0de; --accent-soft:#1d2d3b; --f:#f0c070; --f-soft:#33291a; --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{padding:28px 0 6px}
+header.top a.back{color:var(--accent);text-decoration:none;font-weight:500;font-size:.9rem}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:6px 0 4px;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0}
+.bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin-top:14px}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:10px;padding-bottom:10px}
+.bar a.ch{text-decoration:none;color:var(--accent);background:var(--accent-soft);padding:4px 11px;border-radius:8px;font-size:.88rem;font-weight:600}
+.spacer{flex:1}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;font:500 .85rem Inter,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#15171c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#15171c}}
+.tip{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--f);border-radius:10px;padding:10px 14px;margin:18px 0 0;font-size:.9rem;color:var(--muted);box-shadow:var(--shadow)}
+.tip b{color:var(--ink)}
+section.ch{margin:34px 0}
+section.ch>h2{font-size:1.4rem;margin:0 0 2px;letter-spacing:-.01em}
+.ch-desc{color:var(--muted);margin:0 0 12px;font-size:.92rem}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,440px),1fr));gap:12px}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 16px 10px;box-shadow:var(--shadow);min-width:0}
+.fc .fx{overflow-x:auto;font-size:.95rem}
+.fc .fx .katex-display{margin:.35em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.fc .fx b{color:var(--accent)}
+/* co je co */
+.symg{display:grid;grid-template-columns:max-content minmax(0,1fr);font-size:.86rem;line-height:1.45;margin-top:6px;padding-top:4px;border-top:1px dashed color-mix(in srgb,var(--f) 45%,transparent)}
+.symg>div{padding:4px 14px 4px 0;border-top:1px solid color-mix(in srgb,var(--f) 14%,transparent)}
+.symg>div:nth-child(-n+2){border-top:0}
+.symg>.sm{padding-right:0;color:var(--ink)}
+.sy{font-weight:600;white-space:nowrap;color:var(--f)}
+.sy .katex{color:var(--ink)}
+.nolegend .symg{display:none}
+.gloss{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 16px;box-shadow:var(--shadow)}
+.gloss summary{cursor:pointer;font-weight:600;color:var(--f)}
+.gloss .gg{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:16px 28px;margin-top:10px}
+.gloss h4.gh{margin:0 0 2px;font-size:.74rem;text-transform:uppercase;letter-spacing:.06em;color:var(--f)}
+.gloss .symg{border-top:0;margin-top:0}
+footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+footer a{color:var(--accent)}
+@media print{
+  .bar,header.top a.back,footer{display:none!important}
+  body{background:#fff;font-size:12px}
+  .grid{grid-template-columns:1fr 1fr;gap:8px}
+  .fc{box-shadow:none;break-inside:avoid;padding:8px 10px}
+  section.ch{margin:16px 0;break-before:auto}
+  details.gloss{display:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="back" href="index.html">← Zpět na příklady</a>
+  <h1>Finance podniku – vzorce</h1>
+  <p class="sub">NE_FIP · všechny vzorce z kapitol 1–5 na jednom místě. Pod každým vzorcem je vysvětlené, co znamená které písmenko.</p>
+</div></header>
+
+<div class="bar"><div class="wrap" id="nav">
+  <span class="spacer"></span>
+  <button class="chip" id="legend" aria-pressed="true">Co je co</button>
+  <button class="chip" id="print" title="Vytisknout jako tahák">🖨 Tisk</button>
+  <button class="chip" id="theme" title="Přepnout světlý/tmavý režim">◐</button>
+</div></div>
+
+<main class="wrap">
+  <p class="tip" id="tip"></p>
+  <div id="content"></div>
+  <section class="ch" id="slovnicek"><details class="gloss"><summary>📖 Slovníček všech značek</summary><div class="gg" id="gloss"></div></details></section>
+</main>
+
+<footer><div class="wrap">
+  Vzorce ze studijních materiálů předmětu NE_FIP (přednášky a semináře 1–5 a 13), zima 2026. Procvičování s postupy a kontrolou výsledků je na stránce <a href="index.html">Příklady</a>.
+</div></footer>
+
+<script src="data.js"></script>
+<script>
+function render(){
+  const nav=document.getElementById('nav'), cont=document.getElementById('content');
+  let navH='', h='';
+  TOPICS.forEach(t=>{
+    const [num,name]=t.title.split(' · ');
+    navH+=`<a class="ch" href="#${t.id}" title="${esc(name||'')}">${esc(num)}</a>`;
+    h+=`<section class="ch" id="${t.id}"><h2>${esc(t.title)}</h2><p class="ch-desc">${t.desc}</p><div class="grid">`;
+    t.cheat.forEach((c,ci)=>{ h+=`<div class="fc"><div class="fx">${c}</div>${keysHtml((CHEAT_KEYS[t.id]||[])[ci])}</div>`; });
+    h+='</div></section>';
+  });
+  navH+=`<a class="ch" href="#slovnicek">📖</a>`;
+  nav.insertAdjacentHTML('afterbegin',navH);
+  cont.innerHTML=h;
+  document.getElementById('tip').innerHTML=GLOSS_NOTE;
+  document.getElementById('gloss').innerHTML=glossGroupsHtml();
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  render();
+  if(window.renderMathInElement){renderMathInElement(document.body,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false})}
+  const lb=document.getElementById('legend');
+  const setLegend=on=>{lb.setAttribute('aria-pressed',on);document.body.classList.toggle('nolegend',!on);try{localStorage.setItem('fip-legend',on?'1':'0')}catch(e){}};
+  let on=true; try{on=localStorage.getItem('fip-legend')!=='0'}catch(e){}
+  setLegend(on);
+  lb.addEventListener('click',()=>setLegend(lb.getAttribute('aria-pressed')!=='true'));
+  document.getElementById('print').addEventListener('click',()=>window.print());
+  document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
+});
+try{const th=localStorage.getItem('fip-theme');if(th)document.documentElement.dataset.theme=th}catch(e){}
+</script>
+</body>
+</html>

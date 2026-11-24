@@ -1,0 +1,591 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Finance podniku – učení</title>
+<meta name="description" content="NE_FIP Finance podniku: zkrácené přednášky 1–5, definice pojmů a test na konci každé přednášky.">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f5f1; --card:#ffffff; --ink:#1d2129; --muted:#5d6472; --line:#e3e1da;
+  --accent:#1f5f8b; --accent-soft:#e6eff6; --f:#7a4b00; --f-soft:#fbf1df;
+  --ok:#1b6e3c; --ok-soft:#e4f3ea; --bad:#a3271f; --bad-soft:#fbe9e7;
+  --shadow:0 1px 2px rgba(0,0,0,.05),0 2px 8px rgba(0,0,0,.04);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
+    --accent:#6fb0de; --accent-soft:#1d2d3b; --f:#f0c070; --f-soft:#33291a;
+    --ok:#7fd3a0; --ok-soft:#18301f; --bad:#f09a92; --bad-soft:#3a1d1a; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15171c; --card:#1d2027; --ink:#e7e9ee; --muted:#9aa1ae; --line:#2e323b;
+  --accent:#6fb0de; --accent-soft:#1d2d3b; --f:#f0c070; --f-soft:#33291a;
+  --ok:#7fd3a0; --ok-soft:#18301f; --bad:#f09a92; --bad-soft:#3a1d1a; --shadow:none;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 Inter,system-ui,-apple-system,Segoe UI,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
+header.top{padding:28px 0 6px}
+header.top a.back{color:var(--accent);text-decoration:none;font-weight:500;font-size:.9rem;margin-right:14px}
+h1{font-size:clamp(1.6rem,4vw,2.2rem);margin:6px 0 4px;letter-spacing:-.02em}
+.sub{color:var(--muted);margin:0;max-width:70ch}
+.bar{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line);margin-top:14px}
+.bar .wrap{display:flex;flex-wrap:wrap;gap:6px;align-items:center;padding-top:10px;padding-bottom:10px}
+.bar a.ch{text-decoration:none;color:var(--accent);background:var(--accent-soft);padding:4px 11px;border-radius:8px;font-size:.88rem;font-weight:600}
+.bar a.ch .sc{font-weight:500;opacity:.8;margin-left:4px}
+.spacer{flex:1}
+.chip{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:999px;padding:5px 12px;font:500 .85rem Inter,sans-serif;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+:root[data-theme="dark"] .chip[aria-pressed="true"]{color:#15171c}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .chip[aria-pressed="true"]{color:#15171c}}
+.tip{background:var(--card);border:1px solid var(--line);border-left:4px solid var(--f);border-radius:10px;padding:10px 14px;margin:18px 0 0;font-size:.9rem;color:var(--muted);box-shadow:var(--shadow)}
+.tip b{color:var(--ink)}
+section.lec{margin:44px 0}
+section.lec>h2{font-size:1.5rem;margin:0 0 2px;letter-spacing:-.01em}
+.lead{color:var(--muted);margin:0 0 6px;max-width:75ch}
+h3.g{font-size:1.02rem;margin:24px 0 8px;color:var(--accent)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,330px),1fr));gap:10px}
+.d{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);min-width:0}
+.d dt{font-weight:600;margin:0}
+.d dd{margin:3px 0 0;font-size:.92rem;color:var(--muted)}
+.d dd b{color:var(--ink);font-weight:600}
+dl.grid{margin:0}
+/* zkoušení: definice skryté, klik odkryje */
+.hide .d{cursor:pointer}
+.hide .d dd{filter:blur(6px);user-select:none;transition:filter .15s}
+.hide .d.show dd{filter:none;user-select:auto}
+.hide .d:not(.show) dt::after{content:" · klikni";font-weight:400;font-size:.78rem;color:var(--muted)}
+.fgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,400px),1fr));gap:10px}
+.fc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 14px;box-shadow:var(--shadow);min-width:0}
+.fc h4{margin:0;font-size:.9rem}
+.fc .katex-display{margin:.5em 0;overflow-x:auto;overflow-y:hidden;padding:2px 0}
+.fc p{margin:0;font-size:.86rem;color:var(--muted)}
+.traps{background:var(--f-soft);border-radius:12px;padding:10px 16px 10px 34px;margin:10px 0 0;font-size:.92rem}
+.traps li{margin:4px 0}
+.traps b{color:var(--f)}
+/* test */
+.quiz{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;box-shadow:var(--shadow)}
+.quiz>header{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:8px}
+.quiz>header h3{margin:0;font-size:1.1rem}
+.score{font-weight:600;font-variant-numeric:tabular-nums;color:var(--accent);background:var(--accent-soft);padding:2px 10px;border-radius:999px;font-size:.88rem}
+.q{padding:14px 0;border-top:1px solid var(--line)}
+.q p.qt{margin:0 0 8px;font-weight:600}
+.q p.qt span{color:var(--muted);font-weight:500;margin-right:6px;font-variant-numeric:tabular-nums}
+.opts{display:grid;gap:6px}
+.opts button{text-align:left;font:inherit;font-size:.94rem;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:8px 12px;cursor:pointer}
+.opts button:hover:not(:disabled){border-color:var(--accent)}
+.opts button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.opts button:disabled{cursor:default;opacity:1}
+.opts button.ok{background:var(--ok-soft);border-color:var(--ok);color:var(--ok);font-weight:600}
+.opts button.bad{background:var(--bad-soft);border-color:var(--bad);color:var(--bad)}
+.opts button.ok::before{content:"✓ "}
+.opts button.bad::before{content:"✗ "}
+.ex{display:none;margin:8px 0 0;font-size:.9rem;color:var(--muted);border-left:3px solid var(--line);padding-left:10px}
+.q.done .ex{display:block}
+.result{display:none;margin:10px 0 0;padding:10px 14px;border-radius:10px;background:var(--accent-soft);font-weight:600}
+.quiz.fin .result{display:block}
+footer{color:var(--muted);font-size:.85rem;padding:30px 0 50px;border-top:1px solid var(--line);margin-top:40px}
+footer a{color:var(--accent)}
+@media print{
+  .bar,header.top a.back,footer,.quiz{display:none!important}
+  body{background:#fff;font-size:12px}
+  .d,.fc{box-shadow:none;break-inside:avoid}
+  .hide .d dd{filter:none}
+}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="back" href="index.html">← Příklady</a><a class="back" href="vzorce.html">📐 Vzorce</a>
+  <h1>Finance podniku – učení</h1>
+  <p class="sub">NE_FIP · přednášky 1–5 zkrácené na definice, které je potřeba znát. Na konci každé přednášky je test s okamžitým vyhodnocením a vysvětlením.</p>
+</div></header>
+
+<div class="bar"><div class="wrap" id="nav">
+  <span class="spacer"></span>
+  <button class="chip" id="hide" aria-pressed="false" title="Schová definice – klikem na kartu si je odkryješ">Zkoušení</button>
+  <button class="chip" id="theme" title="Přepnout světlý/tmavý režim">◐</button>
+</div></div>
+
+<main class="wrap">
+  <p class="tip"><b>Jak na to:</b> přečti si kartičky, pak zapni <b>Zkoušení</b> (definice se rozmažou a odkryješ je klikem – zkus si je nejdřív říct sám) a nakonec si udělej test. Nejlepší skóre testu se ukládá u čísla přednášky nahoře.</p>
+  <div id="content"></div>
+</main>
+
+<footer><div class="wrap">
+  Zpracováno z přednášek předmětu NE_FIP (1–5), zima 2026. Vzorce byly v podkladech jen jako obrázky, proto jsou tu přepsané ve standardním tvaru – u písemky se drž značení ze své přednášky. Počítání je na stránce <a href="index.html">Příklady</a>.
+</div></footer>
+
+<script>
+const R=String.raw;
+const LECT=[
+/* ===================== 1 ===================== */
+{id:'p1',num:'1',title:'Analýza citlivosti · Akcie a jejich ocenění',
+lead:'První půlka: jak moc se změní výsledek (zisk), když se pohne jeden vstup. Druhá půlka: co je akcie, jaké má hodnoty a čtyři způsoby, jak se na její cenu dívat.',
+groups:[
+{h:'Korelace, kauzalita, analýza citlivosti',items:[
+['Korelace','Vztah mezi dvěma veličinami. <b>+1</b> = přímá závislost (jdou spolu), <b>−1</b> = nepřímá (jdou proti sobě).'],
+['Kauzalita','Příčinná souvislost mezi příčinou a následkem. <b>Korelace neimplikuje kauzalitu</b> – to, že se dvě věci hýbou spolu, neznamená, že jedna způsobuje druhou.'],
+['Příčina × důvod','<b>Příčina</b> automaticky vyvolá důsledek (pád ze skály). <b>Důvod</b> vede k vědomému jednání člověka (mám důvod se rozejít).'],
+['Příčina nutná × dostačující','<b>Nutná:</b> bez A nemůže nastat B (z B plyne A). <b>Dostačující:</b> A stačí, aby nastalo B, ale B mohlo způsobit i něco jiného.'],
+['Analýza citlivosti','Postup při plánování, který zjišťuje, <b>jak se změní výsledek modelu, když se mění jeho vstupy</b>. Najde kritické veličiny a ukáže riziko plánu. Ostatní vstupy se drží beze změny.'],
+['Citlivost veličiny','O kolik % se změní X, když se vstup Y změní o 1 % a vše ostatní zůstane stejné.'],
+['Nejcitlivější parametr','Ten, jehož <b>nejmenší změna</b> vyvolá <b>největší změnu</b> hospodářského výsledku. Ten je potřeba hlídat nejvíc.'],
+['Sledované parametry','Objem prodeje <b>Q</b>, cena <b>p</b>, jednotkové variabilní náklady <b>v</b>, fixní náklady <b>FC</b>. Ptáme se, o kolik % se může parametr zhoršit, aby byl ještě dodržen minimální zisk.'],
+['Analytická technika','Přesný matematický vzorec, citlivost je <b>parciální derivace</b>. Přesná, ale matematicky náročná.'],
+['Numerická technika','Vstupy se <b>postupně mění</b> a zapisuje se dopad na výsledek. Výstup: tabulky, grafy, tornádo diagram.'],
+['Simulační technika','Nejnáročnější, dělá se v <b>simulačním softwaru</b>, výstupem je souhrnný numerický přehled.']
+]},
+{h:'Akcie – základní pojmy',items:[
+['Cenný papír','Listina, se kterou je právo spojeno tak, že ho <b>bez listiny nelze uplatnit ani převést</b> (§ 514 občanského zákoníku).'],
+['Emise a emitent','Emise = vydání cenného papíru, emitent = ten, kdo ho vydává. Na trh dohlíží <b>ČNB</b> (do roku 2006 Komise pro cenné papíry).'],
+['Akcie','<b>Majetkový</b> cenný papír – podíl na základním kapitálu a.s. Akcionář má právo podílet se na <b>řízení</b>, na <b>zisku</b> a na <b>likvidačním zůstatku</b>.'],
+['Podoba a forma akcie','Podoba: <b>listinná</b> / <b>zaknihovaná</b>. Forma: <b>na jméno</b> (firma vede seznam akcionářů, převod rubopisem) / <b>na majitele</b> (volně převoditelná, jen zaknihovaná nebo imobilizovaná).'],
+['Emisní kurs','Částka, za kterou firma akcii vydává. <b>Nesmí být nižší než jmenovitá hodnota.</b>'],
+['Emisní ážio','Rozdíl <b>emisní kurs − jmenovitá hodnota</b>, když je kurs vyšší.'],
+['Dividenda','Není právní pojem, správně „podíl na zisku“. Schvaluje ji <b>valná hromada</b>, vyplácí se bezhotovostně na účet.'],
+['IPO','Initial Public Offering – první veřejná nabídka akcií, firma vstupuje na burzu. Každá nová emise <b>ředí podíl</b> původních akcionářů.'],
+['Kmenová akcie','Základní typ akcie se všemi právy bez omezení (není to právní pojem).'],
+['Prioritní akcie','Přednostní právo na <b>zisk nebo likvidační zůstatek</b>, zato obvykle <b>bez hlasovacího práva</b>. Dohromady nejvýše <b>90 % základního kapitálu</b>.'],
+['Kusová akcie','Nemá jmenovitou hodnotu, všechny představují stejný podíl na základním kapitálu.'],
+['Kvalifikovaný akcionář','Může žádat svolání valné hromady a podat akcionářskou žalobu. Potřebuje <b>5 %</b> ZK (ZK do 100 mil. Kč), <b>3 %</b> (nad 100 mil.), <b>1 %</b> (nad 500 mil.).'],
+['Jiné cenné papíry','<b>Zatímní list</b> (nesplacená akcie), <b>kmenový list</b> (podíl v s.r.o.), <b>podílový list</b> (podíl ve fondu), <b>opční list</b>, <b>náložný</b> a <b>skladištní list</b>.']
+]},
+{h:'Hodnoty a ukazatele akcie',items:[
+['Nominální (jmenovitá) hodnota','Základní kapitál / počet akcií. <b>Není to tržní hodnota.</b>'],
+['Účetní hodnota','(Vlastní kapitál − prioritní akcie) / počet kmenových akcií.'],
+['Likvidační hodnota','Likvidační hodnota společnosti / počet akcií.'],
+['Tržní cena (kurz)','Rovnovážná cena na kapitálovém trhu. Emisní kurs je naopak cena na primárním trhu.'],
+['EPS','Čistý zisk na akcii = zisk / počet akcií.'],
+['Výplatní poměr','Dividenda na akcii / EPS. Kolik ze zisku jde akcionářům. Značí se <b>1 − b</b>.'],
+['Aktivační poměr (b)','1 − výplatní poměr. Kolik zisku <b>zůstává ve firmě</b>.'],
+['Dividendové krytí','EPS / dividenda na akcii – kolikrát zisk pokryje dividendu.'],
+['P/E','Tržní cena / EPS. Nízké = akcie je levná, vysoké = možná předražená. Doporučení z přednášky: kupovat pod <b>15</b>. <b>Nelze použít při ztrátě.</b>'],
+['P/B, P/S, PEG','P/B = cena / účetní hodnota. P/S = cena / tržby na akcii. PEG = (P/E) / růst zisku.'],
+['Dividendový výnos','Dividenda na akcii / tržní cena × 100 %.'],
+['Tržní kapitalizace','Tržní cena akcie × počet akcií.']
+]},
+{h:'Čtyři pohledy na cenu akcie',items:[
+['Technická analýza','Pracuje jen s daty z trhu: <b>grafy, historické ceny, objemy</b>. Předpokládá, že kurzy se vyvíjejí v trendech. Odpovídá na otázku <b>KDY koupit</b>.'],
+['Fundamentální analýza','Hledá <b>vnitřní hodnotu</b> akcie z hospodaření firmy, odvětví a ekonomiky a porovnává ji s kurzem. Odpovídá na otázku <b>JAKOU akcii koupit</b>.'],
+['Vnitřní hodnota akcie','„Správná“ hodnota nezávislá na kurzu. Vnitřní hodnota <b>&gt; cena → podhodnocená → koupit</b>. Vnitřní hodnota <b>&lt; cena → nadhodnocená → prodat</b>.'],
+['Dividendové diskontní modely','Vnitřní hodnota = <b>současná hodnota všech budoucích dividend</b>. Pro firmy se stabilní dividendou. Varianty: nulový, jednostupňový, dvou- a vícestupňový růst.'],
+['Ziskové modely','Pracují se ziskem a ukazatelem <b>P/E</b>, na kratší horizont (do 3 let).'],
+['PVGO','Současná hodnota růstových příležitostí. Cena akcie = hodnota bez růstu (E/r) + PVGO. Cena roste jen když <b>ROE &gt; r</b>.'],
+['Psychologická analýza','Zkoumá <b>emoce a náladu investorů</b> (sentiment). Hlavní emoce: <b>chamtivost</b> (ceny nahoru, bubliny) a <b>strach</b> (panické výprodeje).'],
+['Bullish × bearish','Bullish = optimismus, čeká se růst. Bearish = pesimismus, čeká se pokles.'],
+['Psychologický cyklus trhu','Optimismus → nadšení → <b>euforie</b> (vrchol a největší riziko) → panika.'],
+['Davové chování','Investoři kopírují ostatní místo vlastní analýzy → cenové bubliny a panické výprodeje.'],
+['Averze ke ztrátě','Kahneman, teorie prospektu: ztráta bolí asi <b>2× víc</b> než stejně velký zisk. Lidé proto drží ztrátové pozice a zisky vybírají moc brzy.'],
+['Indikátory sentimentu','<b>VIX</b> („index strachu“, očekávaná volatilita S&P 500), <b>put/call ratio</b>, <b>Fear &amp; Greed Index</b>, průzkumy investorů.'],
+['Teorie efektivních trhů','Kurz v každém okamžiku obsahuje všechny informace, akcie jsou <b>vždy správně oceněné</b>, trh nejde systematicky porazit.'],
+['Slabá forma efektivnosti','Kurz obsahuje <b>historická data</b> → nefunguje technická analýza.'],
+['Středně silná forma','Historická data + <b>všechny veřejné informace</b> → nefunguje ani fundamentální analýza.'],
+['Silná forma','Navíc i <b>neveřejné informace</b> → nepomůže ani insider informace.'],
+['Paradox efektivního trhu','Když všichni uvěří, že je trh efektivní, přestanou analyzovat a trh efektivní být přestane.']
+]}],
+formulas:[
+{h:'Bod zvratu a požadovaný zisk',tex:R`Q_0=\frac{FC}{p-v}\qquad Q_1=\frac{FC+Z}{p-v}`,n:'Q₀ = kolik kusů pokryje náklady, Q₁ = kolik kusů je potřeba na zisk Z.'},
+{h:'Totéž v tržbách',tex:R`TR_1=\frac{FC+Z}{\frac{p-v}{p}}`,n:'Dole je podíl příspěvku na úhradu na ceně.'},
+{h:'Dividendový model – nulový růst',tex:R`P_0=\frac{D}{r}`,n:'Stálá dividenda D navždy, r = požadovaná výnosnost.'},
+{h:'Gordonův model – stálý růst',tex:R`P_0=\frac{D_1}{r-g}\qquad g=b\cdot ROE`,n:'D₁ = dividenda příští rok, g = tempo růstu, b = aktivační poměr.'},
+{h:'Cena růstové akcie',tex:R`P_0=\frac{E_1}{r}+PVGO=\frac{E_1(1-b)}{r-b\cdot ROE}`,n:'E₁ = zisk na akcii příští rok.'}
+],
+traps:[
+'<b>Technická = KDY, fundamentální = JAKOU.</b> Tohle se ptá skoro vždycky.',
+'<b>Nominální ≠ účetní ≠ tržní hodnota.</b> Nominální je ze základního kapitálu, účetní z vlastního kapitálu, tržní z burzy.',
+'<b>Výplatní poměr + aktivační poměr = 1.</b> Do vzorce g = b · ROE patří ten aktivační (zadržený zisk).',
+'Příklad z přednášky: 2 500 ks, cena 660, FC 300 000, zisk 325 000 → v = 410. Při minimálním zisku 280 000 může objem klesnout o <b>7,2 %</b>, cena jen o <b>2,73 %</b> – cena je citlivější.'
+],
+quiz:[
+{q:'Co platí o vztahu korelace a kauzality?',o:['Korelace neimplikuje kauzalitu','Korelace vždy znamená příčinnou souvislost','Kauzalita vylučuje korelaci','Korelace −1 znamená, že veličiny spolu nesouvisejí'],e:'Dvě veličiny se mohou hýbat spolu, aniž by jedna způsobovala druhou. Korelace −1 je naopak dokonalá nepřímá závislost.'},
+{q:'Který parametr je v analýze citlivosti „nejcitlivější“?',o:['Ten, jehož nejmenší změna vyvolá největší změnu výsledku','Ten, který má v absolutní částce nejvyšší hodnotu','Ten, který se v čase mění nejčastěji','Ten, který firma dokáže nejsnáz ovlivnit'],e:'Citlivost je o poměru: malá změna vstupu, velká změna hospodářského výsledku.'},
+{q:'FC = 300 000 Kč, cena 660 Kč, variabilní náklady 410 Kč/ks. Kolik kusů je potřeba prodat pro zisk 280 000 Kč?',o:['2 320 ks','1 200 ks','2 500 ks','879 ks'],e:'Q₁ = (FC + Z) / (p − v) = 580 000 / 250 = 2 320 ks. 1 200 ks je jen bod zvratu (bez zisku).'},
+{q:'Čím se vyznačuje analytická technika analýzy citlivosti?',o:['Citlivost je dána parciální derivací, je přesná, ale matematicky náročná','Vstupy se postupně mění a dopady se zapisují do tabulky','Provádí se v simulačním softwaru','Vychází z odhadu nálady investorů'],e:'Postupné měnění vstupů je numerická technika, software je simulační technika.'},
+{q:'Co je emisní ážio?',o:['Rozdíl mezi emisním kursem a jmenovitou hodnotou akcie','Rozdíl mezi tržní cenou a účetní hodnotou akcie','Poplatek burze za přijetí emise','Podíl akcionáře na zisku'],e:'Emisní kurs nesmí být nižší než jmenovitá hodnota; o co je vyšší, to je ážio.'},
+{q:'Co platí pro prioritní akcie?',o:['Mají přednostní právo na zisk, obvykle jsou bez hlasovacího práva a tvoří nejvýše 90 % ZK','Mají dvojnásobný počet hlasů na valné hromadě','Nemají jmenovitou hodnotu','Může je vydat i společnost s ručením omezeným'],e:'Bez jmenovité hodnoty jsou kusové akcie. S.r.o. vydává kmenové listy, ne akcie.'},
+{q:'Jak se počítá účetní hodnota akcie?',o:['(Vlastní kapitál − prioritní akcie) / počet kmenových akcií','Základní kapitál / počet akcií','Tržní cena × počet akcií','Zisk / počet akcií'],e:'ZK / počet akcií je nominální hodnota, cena × počet je tržní kapitalizace, zisk / počet je EPS.'},
+{q:'EPS = 50 Kč, dividenda na akcii = 20 Kč, ROE = 15 %. Jaké je tempo růstu g?',o:['9 %','6 %','15 %','40 %'],e:'Výplatní poměr = 20/50 = 40 %, aktivační poměr b = 60 %. g = b · ROE = 0,6 · 15 % = 9 %.'},
+{q:'Dividenda příští rok D₁ = 20 Kč, požadovaná výnosnost 12 %, růst 4 %. Vnitřní hodnota podle Gordonova modelu?',o:['250 Kč','166,67 Kč','500 Kč','125 Kč'],e:'P₀ = D₁ / (r − g) = 20 / 0,08 = 250 Kč. 166,67 Kč by vyšlo bez růstu (20 / 0,12).'},
+{q:'Na jakou otázku odpovídá technická a na jakou fundamentální analýza?',o:['Technická: kdy koupit · fundamentální: jakou akcii koupit','Technická: jakou akcii koupit · fundamentální: kdy koupit','Obě odpovídají jen na to, kdy prodat','Technická: za kolik emitovat · fundamentální: kolik vyplatit na dividendě'],e:'Technická čte grafy a trendy (načasování), fundamentální hledá vnitřní hodnotu (výběr titulu).'},
+{q:'Vnitřní hodnota akcie je 800 Kč, na burze stojí 650 Kč. Co z toho plyne?',o:['Akcie je podhodnocená – signál ke koupi','Akcie je nadhodnocená – signál k prodeji','Akcie je správně oceněná','Nelze nic říct, vnitřní hodnota s kurzem nesouvisí'],e:'Vnitřní hodnota vyšší než tržní cena = podhodnocená akcie.'},
+{q:'Co říká středně silná forma efektivnosti trhu?',o:['Kurz obsahuje historická data i všechny veřejné informace, nepomůže technická ani fundamentální analýza','Kurz obsahuje jen historická data, nefunguje pouze technická analýza','Kurz obsahuje i neveřejné informace','Kurz se řídí jen náladou investorů'],e:'Jen historická data = slabá forma. I neveřejné informace = silná forma.'},
+{q:'Co znamená averze ke ztrátě podle teorie prospektu?',o:['Ztráta působí zhruba dvakrát silněji než stejně velký zisk','Investoři odmítají jakékoli riziko','Investoři prodávají ztrátové pozice okamžitě','Zisk působí silněji než ztráta'],e:'Proto lidé drží ztrátové pozice (nechtějí ztrátu realizovat) a ziskové prodávají příliš brzy.'},
+{q:'Společnost má základní kapitál 600 mil. Kč. Jaký podíl potřebuje kvalifikovaný akcionář?',o:['1 %','3 %','5 %','10 %'],e:'Nad 500 mil. Kč stačí 1 %, nad 100 mil. Kč 3 %, do 100 mil. Kč 5 %.'}
+]},
+/* ===================== 2 ===================== */
+{id:'p2',num:'2',title:'Dluhopisy a jejich ocenění · Kupní a prodejní opce',
+lead:'Dluhopis je půjčka zabalená do cenného papíru. Jeho cena je současná hodnota toho, co z něj ještě přiteče. Na konci úvod k opcím.',
+groups:[
+{h:'Dluhopis – základní pojmy',items:[
+['Dluh','Kapitál podniku s <b>omezenou dobou trvání</b> – po dohodnuté době se musí věřiteli vrátit.'],
+['Dluhopis (obligace, bond)','Cenný papír, se kterým je spojeno právo na <b>splacení dlužné částky</b> (jmenovité hodnoty) emitentem, najednou nebo postupně. Zákon č. 190/2004 Sb.'],
+['Dluhopis × akcie','Akcie = vlastní, nenávratný zdroj, vydá ji jen a.s. Dluhopis = <b>cizí, návratný zdroj</b>, je to alternativa bankovního úvěru.'],
+['Emitent','Ten, kdo dluhopis vydal = <b>dlužník</b>. Právnická osoba musí existovat aspoň <b>2 roky</b> a mít <b>2 auditované účetní závěrky</b>. Emisní podmínky schvaluje ČNB.'],
+['Jmenovitá hodnota','Částka, kterou emitent zaplatí majiteli v den splatnosti (jistina).'],
+['Kupón','<b>Úroková platba</b> v pravidelných intervalech. Může být pevný, plovoucí (navázaný na referenční sazbu) nebo nulový.'],
+['Frekvence','Kolikrát za rok se kupón vyplácí (ročně, pololetně, čtvrtletně).'],
+['Doba splatnosti','Počet let do splacení. <b>Čím delší, tím vyšší úrokové riziko.</b>'],
+['Kupní (tržní) cena','Cena, za kterou se dluhopis obchoduje, obvykle v % jmenovité hodnoty.'],
+['Diskont','Rozdíl mezi jmenovitou hodnotou a nižší kupní cenou.']
+]},
+{h:'Druhy dluhopisů',items:[
+['S pevnou úrokovou sazbou','Kupón je pevně daný na celou dobu (většina českých státních dluhopisů). Výnos jde spočítat předem.'],
+['S pohyblivou sazbou','Kupón navázaný na mezibankovní sazbu (např. PRIBOR) + přirážka.'],
+['Zerobond (nulový kupón)','Žádné kupóny. Výnos je <b>rozdíl mezi jmenovitou hodnotou a nižší kupní cenou</b> – prodává se s diskontem.'],
+['Svlečený dluhopis','Kupóny byly odděleny a obchodují se samostatně jako bezkupónové dluhopisy.'],
+['Podle splatnosti','Krátkodobé <b>do 1 roku</b> (pokladniční poukázky), střednědobé <b>1–10 let</b>, dlouhodobé <b>nad 10 let</b>, věčné.'],
+['Věčný dluhopis (konzola)','Nemá splatnost, kupón se platí napořád. Vydává jen stát.'],
+['Prioritní dluhopis','Držitel má právo na <b>přednostní úpis akcií</b> emitenta.'],
+['Podřízený dluhopis','Při likvidaci se uspokojuje <b>až po ostatních pohledávkách</b>.'],
+['Vyměnitelný (konvertibilní)','Lze ho vyměnit za akcie emitenta nebo za jiný dluhopis.'],
+['Dluhopis s opcí','Emitent ho může předčasně splatit (nebo o to může požádat investor).'],
+['Krytý dluhopis','Krytý pohledávkami, např. hypoteční zástavní list.']
+]},
+{h:'Ocenění a výnos',items:[
+['Vnitřní hodnota dluhopisu','„Správná cena“ = <b>současná hodnota všech budoucích plateb</b> (kupónů a jmenovité hodnoty). Porovnává se s tržní cenou.'],
+['Prodej s diskontem','Tržní úrok <b>i &gt; kupónová sazba r</b> → hodnota je <b>pod</b> nominálem (V &lt; F).'],
+['Prodej s prémií','<b>i &lt; r</b> → hodnota je <b>nad</b> nominálem (V &gt; F).'],
+['Prodej za nominál (at par)','<b>i = r</b> → V = F.'],
+['Čistá × hrubá cena','Hrubá cena = čistá cena + <b>alikvotní úrokový výnos</b> (naběhlá část kupónu od poslední výplaty).'],
+['Nominální kupónový výnos','Kupón / jmenovitá hodnota. Rychlé, ale málo vypovídající.'],
+['Běžný výnos','Kupón / <b>tržní cena</b>. O něco přesnější, používají ho krátkodobí spekulanti.'],
+['Výnos do splatnosti (YTM)','Výnos, když dluhopis dnes koupím a držím do splatnosti. Zohledňuje kupóny, jmenovitou hodnotu i čas. Je to <b>vnitřní výnosové procento (IRR)</b>. Nejpoužívanější.'],
+['Výnos za dobu držby','Výnos za období, kdy dluhopis skutečně držím (i když ho prodám před splatností).'],
+['Rating','Hodnocení schopnosti splácet. <b>AAA</b> = extrémně silná, AA silná, A silná ale citlivá na ekonomiku, BBB dostatečná, BB a níž = spekulativní až neschopnost splácet. <b>Nižší rating = rizikovější dluhopis.</b>']
+]},
+{h:'Úvod k opcím',items:[
+['Finanční deriváty','<b>Opce</b> = právo. <b>Forwardy a futures</b> = povinnost. <b>Swapy</b> = směna plateb nebo aktiv.'],
+['Opce','Kupující má <b>právo, ne povinnost</b> provést obchod za předem daných podmínek. Může ji uplatnit, nechat propadnout nebo prodat.'],
+['Opční prémie','<b>Cena opce</b> – kupující ji platí prodávajícímu za to právo.'],
+['Kupní opce (call)','Právo <b>koupit</b>. Kupuje ji ten, kdo čeká <b>růst</b> ceny. Prodávající má povinnost prodat.'],
+['Prodejní opce (put)','Právo <b>prodat</b>. Kupuje ji ten, kdo čeká <b>pokles</b> ceny. Prodávající má povinnost koupit.'],
+['Evropská × americká opce','Evropská: uplatnění jen v <b>jeden den</b>. Americká: <b>kdykoli</b> do dne splatnosti.'],
+['Opční list (warrant)','Cenný papír bez úroků a dividend, dává právo koupit (call warrant) nebo prodat (put warrant) podkladové aktivum za realizační cenu.']
+]}],
+formulas:[
+{h:'Kupónový dluhopis',tex:R`V=\sum_{n=1}^{N}\frac{C}{(1+i)^n}+\frac{F}{(1+i)^N}`,n:'C = kupón (F · r), F = jmenovitá hodnota, i = tržní úrok / výnos do splatnosti, N = počet plateb.'},
+{h:'Zerobond',tex:R`V=\frac{F}{(1+i)^N}`,n:'Jen jedna platba na konci.'},
+{h:'Konzola (věčná renta)',tex:R`V=\frac{C}{i}`,n:'Nekonečná řada kupónů.'},
+{h:'Jednoduché výnosy',tex:R`Y_{nom}=\frac{C}{F}\qquad Y_{b\check{e}\check{z}n\acute{y}}=\frac{C}{P}`,n:'P = aktuální tržní cena.'},
+{h:'Výnos do splatnosti',tex:R`P_0=\frac{C}{(1+ytm)}+\dots+\frac{C+F}{(1+ytm)^N}`,n:'ytm se hledá numericky (je to IRR).'}
+],
+traps:[
+'<b>Úrok nahoru → cena dluhopisu dolů.</b> Když je tržní úrok vyšší než kupón, dluhopis se prodává s diskontem.',
+'Příklad z přednášky: 5 let, nominál 100, kupón 8 %, výnos 10 % → <b>92,42</b>. Při pololetní výplatě kupónu <b>92,28</b> – četnost plateb mění cenu.',
+'<b>Nominální výnos</b> dělí kupón nominálem, <b>běžný výnos</b> tržní cenou.',
+'<b>Prioritní dluhopis</b> ≠ přednost při výplatě. Znamená právo na přednostní úpis akcií.'
+],
+quiz:[
+{q:'Čím je dluhopis z pohledu emitenta?',o:['Cizím, návratným zdrojem financování','Vlastním, nenávratným zdrojem','Podílem na základním kapitálu','Pohledávkou za investorem'],e:'Dluhopis je dluh – alternativa bankovního úvěru. Vlastní nenávratný zdroj jsou akcie.'},
+{q:'Co je kupón dluhopisu?',o:['Úroková platba vyplácená v pravidelných intervalech','Částka splacená v den splatnosti','Rozdíl mezi jmenovitou hodnotou a kupní cenou','Poplatek za vydání dluhopisu'],e:'Částka v den splatnosti je jmenovitá hodnota, rozdíl hodnoty a ceny je diskont.'},
+{q:'Jak vzniká výnos u zerobondu?',o:['Rozdílem mezi jmenovitou hodnotou a nižší kupní cenou','Pravidelným kupónem navázaným na PRIBOR','Podílem na zisku emitenta','Výměnou za akcie emitenta'],e:'Zerobond nemá kupón, proto se prodává s diskontem.'},
+{q:'Tržní úroková míra je vyšší než kupónová sazba dluhopisu. Jak se dluhopis prodává?',o:['S diskontem – pod jmenovitou hodnotou','S prémií – nad jmenovitou hodnotou','Přesně za jmenovitou hodnotu','Nelze ho prodat'],e:'i > r → V < F. Investor chce vyšší výnos, než kupón nabízí, takže zaplatí méně.'},
+{q:'Zerobond s nominálem 1 000 Kč, splatnost 3 roky, výnos 6 % p. a. Jaká je jeho hodnota?',o:['839,62 Kč','943,40 Kč','820,00 Kč','1 191,02 Kč'],e:'V = 1 000 / 1,06³ = 1 000 / 1,1910 = 839,62 Kč.'},
+{q:'Konzola vyplácí kupón 50 Kč ročně, tržní úrok je 4 %. Jaká je její hodnota?',o:['1 250 Kč','200 Kč','520 Kč','2 000 Kč'],e:'V = C / i = 50 / 0,04 = 1 250 Kč.'},
+{q:'Dluhopis má roční kupón 80 Kč a obchoduje se za 920 Kč. Jaký je běžný výnos?',o:['8,70 %','8,00 %','9,20 %','11,50 %'],e:'Běžný výnos = kupón / tržní cena = 80 / 920 = 8,70 %. 8 % by byl nominální výnos při nominálu 1 000 Kč.'},
+{q:'Co je výnos do splatnosti (YTM)?',o:['Vnitřní výnosové procento při koupi dnes a držení do splatnosti','Kupón dělený jmenovitou hodnotou','Kupón dělený tržní cenou','Rozdíl mezi prodejní a nákupní cenou'],e:'YTM zohledňuje kupóny, jmenovitou hodnotu, zbývající dobu i časovou hodnotu peněz.'},
+{q:'Dluhopis z přednášky (5 let, kupón 8 %, výnos 10 %) stojí při roční výplatě 92,42. Co se stane při pololetní výplatě kupónu?',o:['Cena se změní (na 92,28) – struktura plateb ovlivňuje cenu','Cena zůstane stejná, rozhoduje jen roční sazba','Cena vzroste nad 100','Dluhopis se změní na zerobond'],e:'Úrokovací období není vždy rok. Četnost výplat mění diskontování, a tím i cenu.'},
+{q:'Co znamená rating AAA?',o:['Extrémně silné předpoklady ke splácení','Dostatečná schopnost splácet','Spekulativní dluhopis','Emitent je v selhání'],e:'AAA je nejvyšší stupeň. Čím nižší rating, tím rizikovější dluhopis.'},
+{q:'Jak se liší opce od forwardu a futures?',o:['Opce je právo, forward a futures jsou povinnost','Opce je povinnost, forward je právo','Opce se obchoduje jen na burze, forward nikdy','Neliší se, jde o totéž'],e:'Kupující opce může obchod provést, ale nemusí. U forwardu a futures musejí plnit obě strany.'},
+{q:'Jaký je rozdíl mezi evropskou a americkou opcí?',o:['Evropskou lze uplatnit jen v den splatnosti, americkou kdykoli do něj','Evropská je na akcie, americká na komodity','Evropská je kupní, americká prodejní','Evropská se obchoduje v Evropě, americká v USA'],e:'Názvy nemají nic společného se zeměpisem, jde o okamžik uplatnění.'},
+{q:'Jaké právo má držitel prioritního dluhopisu?',o:['Právo na přednostní úpis akcií emitenta','Přednostní uspokojení při likvidaci','Vyšší kupón než ostatní věřitelé','Právo hlasovat na valné hromadě'],e:'Pozor na záměnu s prioritní akcií, ta má přednost při výplatě zisku.'},
+{q:'Co platí pro podřízený dluhopis?',o:['Při likvidaci se uspokojuje až po ostatních pohledávkách','Nemá stanovenou dobu splatnosti','Lze ho vyměnit za akcie','Vydává ho jen stát'],e:'Bez splatnosti je konzola, výměna za akcie je vyměnitelný dluhopis.'}
+]},
+/* ===================== 3 ===================== */
+{id:'p3',num:'3',title:'Oceňování opcí · binomický a Black-Scholesův model',
+lead:'Co přesně opce je, čtyři základní pozice, rozdíl mezi finanční a reálnou opcí a dva modely, kterými se opce oceňují.',
+groups:[
+{h:'Opční pojmy',items:[
+['Finanční derivát','Nástroj, jehož hodnota je <b>odvozena od podkladového aktiva</b>. Jde o termínový obchod – mezi uzavřením a plněním je časový odstup.'],
+['Podkladové aktivum','To, na co opce zní: akcie, indexy, dluhopisy, měny, komodity.'],
+['Opce','Smlouva, která dává kupujícímu <b>právo (ne povinnost)</b> koupit nebo prodat aktivum za pevnou cenu v pevném čase.'],
+['Opční prémie','Cena opce. Platí ji <b>kupující</b> vypisovateli (prodávajícímu).'],
+['Strike (realizační cena)','Předem sjednaná cena podkladového aktiva.'],
+['Bod zvratu','Cena aktiva, od které je opce pro kupujícího zisková (strike ± prémie).'],
+['Long × short','<b>Long</b> = kupující opce, má právo se rozhodnout. <b>Short</b> = vypisovatel, má povinnost se přizpůsobit.'],
+['Evropská / americká / bermudská','Uplatnění jen v jeden okamžik / kdykoli do splatnosti / ve více předem daných okamžicích.'],
+['V penězích / na penězích / mimo peníze','Uplatnění je výhodné / lhostejné / nevýhodné (podle vztahu aktuální a realizační ceny).']
+]},
+{h:'Čtyři základní pozice',items:[
+['Long call','Koupil jsem právo <b>koupit</b>. Vydělávám při <b>růstu</b> ceny. Chrání proti růstu cen. Ztráta nejvýše prémie.'],
+['Short call','Vypsal jsem kupní opci, inkasoval prémii. Musím prodat, když kupující opci uplatní. Vydělám, když cena neroste.'],
+['Long put','Koupil jsem právo <b>prodat</b>. Vydělávám při <b>poklesu</b> ceny. Chrání proti poklesu cen. Ztráta nejvýše prémie.'],
+['Short put','Vypsal jsem prodejní opci, inkasoval prémii. Musím koupit, když kupující opci uplatní. Věřím, že opce nebude využita.'],
+['Zajištění akcie putem','Mám akcii za 30, koupím put se strike 30 za prémii 2. Když kurz spadne na 25, put vydělá 5 a pokryje ztrátu akcie. Celkově přijdu jen o prémii 2.'],
+['Opční strategie','Kombinace více opcí: straddle, butterfly spread, iron condor.']
+]},
+{h:'Reálné opce',items:[
+['Reálná opce','<b>Právo na budoucí rozhodnutí o podnikových aktivech</b> podle nově zjištěných informací. Hodnotu má manažerská flexibilita.'],
+['Příklady','Zařízení s proměnlivou kapacitou, licence, outsourcing, výzkum a vývoj.'],
+['Druhy reálných opcí','Opce <b>odložení</b> (vyčkávání), <b>etapová</b> (rozfázování), <b>rozšíření / zúžení</b>, <b>přerušení</b>, <b>ukončení</b> (opuštění).'],
+['Kdy se hodí','NPV je <b>blízko nule</b>, okolí projektu je <b>hodně nejisté</b> a manažeři mají <b>širokou flexibilitu</b>.'],
+['Kdy nemá smysl','Rozhodování za jistoty, rozhodnutí nejde odložit, nízkorozpočtový projekt.'],
+['Finanční × reálná opce','Finanční: krátká splatnost, podkladem je akcie, hodnotu nelze ovlivnit, obchoduje se na trhu, většinou evropská. Reálná: dlouhá splatnost, podkladem je cash flow projektu, <b>hodnotu lze ovlivnit řízením</b>, neobchoduje se, většinou americká a složená.']
+]},
+{h:'Hodnota opce a modely',items:[
+['Vnitřní hodnota opce','Rozdíl mezi aktuálním kurzem a realizační cenou. Kladný = v penězích. Jinak je vnitřní hodnota <b>nula</b> (nikdy není záporná).'],
+['Časová hodnota','Část ceny opce nad vnitřní hodnotou. Ovlivňuje ji <b>doba do vypršení, bezriziková úroková míra, volatilita, dividendy</b>. V den expirace je <b>nulová</b>.'],
+['Modely oceňování','Binomický, Black-Scholesův, Mertonův, Jump Diffusion, Stochastic Volatility.'],
+['Binomický model','Z roku 1979. Čas do expirace rozdělí na období; v každém cena akcie buď <b>vzroste, nebo klesne</b> o danou hodnotu (diskrétní vývoj). Hodí se i pro <b>americké</b> opce.'],
+['Princip binomického ocenění','Sestaví se <b>bezrizikové portfolio</b> (Δ akcií long + 1 call short), které má v obou scénářích stejnou hodnotu. Musí vynášet bezrizikový úrok – jinak by existovala arbitráž.'],
+['Delta (Δ)','Počet akcií na jednu opci, při kterém je portfolio bezrizikové.'],
+['Předpoklady binomického modelu','Efektivní trh bez arbitráže, jedna bezriziková sazba, žádné transakční náklady a daně, žádné dividendy, akcie lze dělit.'],
+['Black-Scholesův model','Ze 70. let, v praxi častější. Pro <b>evropské</b> opce na akcie <b>bez dividend</b>. Cena se vyvíjí spojitě jako náhodný proces (geometrický Brownův pohyb, lognormální rozdělení).'],
+['Předpoklady Black-Scholese','Známý a stálý úrok, žádné dividendy, nulové transakční náklady a daně, nepřetržité obchodování, povolen krátký prodej.']
+]}],
+formulas:[
+{h:'Hodnota opce při expiraci',tex:R`C=\max(S_T-X,\,0)\qquad P=\max(X-S_T,\,0)`,n:'S_T = cena akcie při expiraci, X = realizační cena.'},
+{h:'Binomický model – jedno období',tex:R`f=e^{-rT}\,[\,p\,f_u+(1-p)\,f_d\,]\qquad p=\frac{e^{rT}-d}{u-d}`,n:'f_u, f_d = hodnota opce při růstu / poklesu, u a d = koeficienty růstu a poklesu.'},
+{h:'Bezrizikové portfolio',tex:R`\Delta=\frac{f_u-f_d}{S_u-S_d}`,n:'Z rovnosti hodnot portfolia v obou scénářích.'},
+{h:'Black-Scholes – call a put',tex:R`C=S\,N(d_1)-X\,e^{-rt}N(d_2)\qquad P=X\,e^{-rt}N(-d_2)-S\,N(-d_1)`,n:'N( ) = distribuční funkce normovaného normálního rozdělení.'},
+{h:'d₁ a d₂',tex:R`d_1=\frac{\ln\frac{S}{X}+\left(r+\frac{\sigma^2}{2}\right)t}{\sigma\sqrt{t}}\qquad d_2=d_1-\sigma\sqrt{t}`,n:'σ = volatilita, t = doba do expirace v letech.'}
+],
+traps:[
+'<b>Prémie ≠ strike.</b> Prémie je cena opce, strike je cena, za kterou se obchoduje podkladové aktivum.',
+'<b>Call chrání proti růstu, put proti poklesu.</b>',
+'Příklad z přednášky: akcie 500, za 3 měsíce 550 nebo 450, strike 525, úrok 10 %. Δ = 0,25, portfolio má hodnotu 112,5, současná hodnota 109,72, cena opce = 125 − 109,72 = <b>15,28 Kč</b>.',
+'Reálná opce z přednášky: bez opce vychází projekt −6 mil. Kč, s možností ztrátové scénáře nerealizovat +8 mil. Kč. <b>Flexibilita má hodnotu.</b>'
+],
+quiz:[
+{q:'Co je opční prémie?',o:['Cena opce, kterou platí kupující vypisovateli','Předem sjednaná cena podkladového aktiva','Zisk kupujícího při uplatnění opce','Poplatek burze za zprostředkování'],e:'Předem sjednaná cena aktiva je strike. Prémie je to, co stojí samotné právo.'},
+{q:'Co je strike?',o:['Realizační cena – předem sjednaná cena podkladového aktiva','Aktuální tržní cena podkladového aktiva','Cena opce','Den, kdy opce vyprší'],e:'Strike se nemění, tržní (spotová) cena ano. Jejich rozdíl určuje vnitřní hodnotu.'},
+{q:'Jak se liší pozice long a short?',o:['Long má právo se rozhodnout, short má povinnost plnit','Long má povinnost plnit, short má právo','Long je vždy call, short je vždy put','Long platí daň, short ne'],e:'Long = kupující opce. Short = vypisovatel, který za prémii nese povinnost.'},
+{q:'Call opce má strike 100 Kč, akcie stojí 120 Kč. Co platí?',o:['Je v penězích, vnitřní hodnota je 20 Kč','Je mimo peníze, vnitřní hodnota je 0','Je na penězích, vnitřní hodnota je 0','Je v penězích, vnitřní hodnota je 120 Kč'],e:'Vnitřní hodnota callu = max(S − X, 0) = 20 Kč. Mohu koupit za 100 něco, co stojí 120.'},
+{q:'Kterou opci koupím, když se chci zajistit proti poklesu ceny akcie, kterou držím?',o:['Put (prodejní opci)','Call (kupní opci)','Vypíšu put','Žádnou, opce slouží jen ke spekulaci'],e:'Put dává právo prodat za strike, i když trh spadne.'},
+{q:'Držím akcii za 30 EUR a koupím put se strike 30 za prémii 2. Kurz spadne na 25. Jaký je můj celkový výsledek?',o:['−2 EUR (přijdu jen o prémii)','−5 EUR','+3 EUR','−7 EUR'],e:'Akcie −5, opce +5 (prodám za 30 místo 25), prémie −2. Dohromady −2.'},
+{q:'Jaká je časová hodnota opce v den expirace?',o:['Nulová – cena opce se rovná vnitřní hodnotě','Nejvyšší za celou dobu života opce','Rovná se opční prémii','Záporná'],e:'Už nezbývá žádný čas, ve kterém by se cena mohla pohnout výhodným směrem.'},
+{q:'Co z uvedeného NEOVLIVŇUJE časovou hodnotu opce?',o:['Jmenovitá hodnota akcie','Doba do vypršení opce','Volatilita podkladového aktiva','Bezriziková úroková míra'],e:'Faktory z přednášky: doba do vypršení, bezriziková úroková míra, volatilita a dividendy.'},
+{q:'Co je reálná opce?',o:['Právo na budoucí rozhodnutí o podnikových aktivech podle nových informací','Opce, jejímž podkladem je nemovitost','Opce obchodovaná na burze s fyzickým dodáním','Opce bez opční prémie'],e:'Jde o manažerskou flexibilitu: odložit, rozfázovat, rozšířit, přerušit nebo ukončit projekt.'},
+{q:'Kdy má smysl pracovat s reálnými opcemi?',o:['NPV je blízko nule, okolí je nejisté a manažeři mají flexibilitu','Rozhoduje se za jistoty','Rozhodnutí nelze odložit','Jde o nízkorozpočtový projekt'],e:'Bez nejistoty a bez možnosti reagovat nemá flexibilita žádnou hodnotu.'},
+{q:'Jaký je základní předpoklad binomického modelu?',o:['Cena akcie může v každém období jen vzrůst, nebo klesnout o danou hodnotu','Cena akcie se vyvíjí spojitě podle Brownova pohybu','Cena akcie se po dobu života opce nemění','Opce musí být evropská'],e:'Vývoj je diskrétní. Spojitý vývoj předpokládá Black-Scholes. Binomický model zvládne i americké opce.'},
+{q:'Akcie bude stát 550, nebo 450 Kč. Call opce bude mít hodnotu 25, nebo 0 Kč. Jaké Δ dává bezrizikové portfolio?',o:['0,25','0,50','4','0,05'],e:'550Δ − 25 = 450Δ → 100Δ = 25 → Δ = 0,25.'},
+{q:'Pro jaké opce byl Black-Scholesův model původně vytvořen?',o:['Evropské opce na akcie nevyplácející dividendy','Americké opce na komodity','Reálné opce na investiční projekty','Bermudské opce na dluhopisy'],e:'Model předpokládá evropskou opci, žádné dividendy, stálý úrok a spojitý vývoj ceny.'},
+{q:'Co je bermudská opce?',o:['Lze ji uplatnit ve více předem určených okamžicích','Lze ji uplatnit jen v den splatnosti','Lze ji uplatnit kdykoli do splatnosti','Nelze ji uplatnit, jen prodat'],e:'Je to mezistupeň mezi evropskou (jeden okamžik) a americkou (kdykoli).'}
+]},
+/* ===================== 4 ===================== */
+{id:'p4',num:'4',title:'Riziko a náklady na vlastní kapitál · Systematické riziko',
+lead:'Jak se riziko měří, proč diverzifikace odstraní jen jeho část a jak se z rizika (bety) dopočítá výnos, který vlastníci požadují.',
+groups:[
+{h:'Riziko a jeho měření',items:[
+['Riziko','Stupeň nejistoty – nebezpečí, že se <b>skutečný výnos odchýlí od očekávaného</b>. Měří se kolísáním výnosu kolem střední hodnoty.'],
+['Riziko × neurčitost','<b>Riziko</b> má měřitelnou pravděpodobnost (velikost = pravděpodobnost × dopad). <b>Neurčitost</b> pravděpodobností změřit nejde.'],
+['Riziko ex post','Počítá se z <b>minulých</b>, skutečně dosažených výnosů.'],
+['Riziko ex ante','Počítá se z <b>očekávaných</b> výnosů a jejich pravděpodobností.'],
+['Rozptyl a směrodatná odchylka','Základní míry rizika. <b>Čím vyšší, tím vyšší riziko.</b> Směrodatná odchylka je odmocnina z rozptylu.'],
+['Výnosnost ex post','Historický výnos = důchod (dividenda, kupón) + kapitálový zisk. Čistý výnos navíc odečítá daně a transakční náklady.'],
+['Výnosnost ex ante','Očekávaný výnos = součet možných výnosů vážených pravděpodobností.'],
+['Způsoby eliminace rizika','Vyhýbání se, <b>pojištění / zajištění</b>, <b>diverzifikace</b>, řízení a kontrola, příprava a plánování, <b>přenos na jiný subjekt</b>.'],
+['Přenos rizika – příklady','Dlouhodobé smlouvy s pevnou cenou, termínové obchody (hedging), leasing, faktoring a forfaiting, akreditiv, bankovní záruka, franšíza.']
+]},
+{h:'Systematické a nesystematické riziko',items:[
+['Systematické (tržní) riziko','Vyvolané faktory, které působí na <b>celý trh</b>. <b>Nelze ho odstranit diverzifikací.</b> Zdroje: trh jako celek, politika, devizový kurz, ekonomika.'],
+['Nesystematické (specifické) riziko','Týká se konkrétní firmy nebo cenného papíru. <b>Lze ho odstranit diverzifikací</b>, proto se s ním v oceňovacích modelech nepočítá.'],
+['Druhy nesystematického rizika','Podnikatelské, finanční (bankrot), riziko nelikvidity, managementu, konverze, předčasného odkupu.'],
+['Diverzifikace','Rozložení investice do více aktiv. Funguje tím lépe, čím méně jsou aktiva korelovaná. Při korelaci −1 může riziko zmizet úplně.'],
+['Korelační koeficient','Číslo od <b>−1 do +1</b>. +1 = pohyb v tandemu, −1 = přesně proti sobě, 0 = nezávisle.'],
+['Kovariance','Měří, jak se dvě veličiny hýbou společně. <b>Korelační koeficient je normovaná kovariance</b> (vydělená součinem směrodatných odchylek).'],
+['Beta (β)','Míra systematického rizika – jak citlivě akcie reaguje na pohyb trhu. Kovariance akcie s trhem dělená rozptylem trhu.'],
+['Hodnoty bety','<b>β = 1</b>: stejně riziková jako trh. <b>β &gt; 1</b>: rizikovější, agresivní. <b>β &lt; 1</b>: méně riziková, defenzivní. <b>β &lt; 0</b>: jde proti trhu.'],
+['Odhad bety','Z historických dat: body (výnos trhu, výnos akcie) se proloží přímkou a <b>její sklon je beta</b>. Hotové bety podle odvětví zveřejňuje prof. Damodaran.'],
+['Zadlužená × nezadlužená beta','Nezadlužená = jen provozní riziko oboru. Zadlužená navíc obsahuje <b>finanční riziko z dluhu</b>, používá se v CAPM.']
+]},
+{h:'Náklady na kapitál',items:[
+['Náklady na kapitál','Co firma platí za to, že má kapitál k dispozici. Záleží na kapitálové struktuře.'],
+['Náklady cizího kapitálu','<b>Úroky.</b>'],
+['Náklady vlastního kapitálu','<b>Výnosnost požadovaná vlastníky</b> – zhodnocení, riziková prémie a náklady obětované příležitosti.'],
+['CAPM','Model oceňování kapitálových aktiv. Požadovaný výnos = bezriziková sazba + beta × riziková prémie trhu. Odměňuje se <b>jen systematické riziko</b>.'],
+['CAPM podle korelace s trhem','Kladná korelace → výnos <b>nad</b> bezrizikovým. Nulová → <b>rovný</b> bezrizikovému. Záporná → <b>pod</b> bezrizikovým (aktivum snižuje riziko portfolia).'],
+['CAPM s náhradní betou','Pro firmy mimo burzu: <b>metoda analogie</b> (beta podobných firem nebo odvětví, upravená o zadlužení) nebo odhad z fundamentálních faktorů.'],
+['Stavebnicový model','K bezrizikové sazbě se přičítají přirážky: za <b>obchodní riziko</b>, <b>finanční riziko</b> a <b>sníženou likviditu</b>.'],
+['Dividendový model','Náklady vlastního kapitálu = dividendový výnos (po odečtení emisních nákladů) + očekávaný růst dividendy.'],
+['Další metody','Analýza rizika (kvalita managementu, konkurence, diverzifikace), průměrná rentabilita, odvození z nákladů cizího kapitálu.']
+]}],
+formulas:[
+{h:'Riziko ex post',tex:R`\sigma^2=\frac{\sum_{t=1}^{T}(r_t-\bar r)^2}{T-1}\qquad \sigma=\sqrt{\sigma^2}`,n:'r_t = výnosy v jednotlivých obdobích, r̄ = jejich průměr, T = počet období.'},
+{h:'Výnos a riziko ex ante',tex:R`E(r)=\sum_i P_i\,r_i\qquad \sigma^2=\sum_i P_i\,(r_i-E(r))^2`,n:'P_i = pravděpodobnost scénáře i.'},
+{h:'Čistá výnosnost ex post',tex:R`r=\frac{P_1-P_0+D-T-C}{P_0}`,n:'P₁ prodejní cena, P₀ nákupní cena, D důchod, T daně, C transakční náklady.'},
+{h:'Beta a korelace',tex:R`\beta_i=\frac{\sigma_{im}}{\sigma_m^2}\qquad \rho_{xy}=\frac{\sigma_{xy}}{\sigma_x\,\sigma_y}`,n:'σ_im = kovariance akcie s trhem.'},
+{h:'CAPM',tex:R`E(r_i)=r_f+\beta_i\,[E(r_m)-r_f]`,n:'r_f bezriziková sazba, E(r_m) výnos trhu, závorka = riziková prémie trhu.'},
+{h:'Zadlužená beta',tex:R`\beta_{lev}=\beta_{unlev}\left[1+(1-TR)\frac{D}{E}\right]`,n:'TR sazba daně, D cizí kapitál, E vlastní kapitál (tržní hodnoty).'},
+{h:'Stavebnicový model',tex:R`NVK=r_f+r_{ob}+r_{fin}+r_{lik}`,n:'Přirážky za obchodní riziko, finanční riziko a likviditu.'},
+{h:'Dividendový model',tex:R`NVK=\frac{D_k}{C_k-E}+g`,n:'D_k dividenda, C_k tržní cena akcie, E emisní náklady, g růst dividendy.'}
+],
+traps:[
+'<b>Systematické = tržní = nediverzifikovatelné.</b> Nesystematické = specifické = diverzifikovatelné.',
+'V CAPM se do závorky dává <b>prémie</b> (rm − rf), ne celý výnos trhu.',
+'Příklad diverzifikace z přednášky: dvě akcie s opačnou reakcí na recesi, v poměru 5/6 a 1/6 dávají výnos 9 1/6 % <b>v obou stavech</b> – směrodatná odchylka 0.',
+'Damodaranova verze CAPM pro ocenění přidává k základu ještě <b>rizikovou přirážku země (CRP)</b>, rozdíl inflací a ostatní přirážky.'
+],
+quiz:[
+{q:'Jaký je rozdíl mezi rizikem a neurčitostí?',o:['Riziko má měřitelnou pravděpodobnost, neurčitost ne','Riziko se týká minulosti, neurčitost budoucnosti','Riziko nelze měřit, neurčitost ano','Jde o synonyma'],e:'Velikost rizika = pravděpodobnost vzniku × míra dopadu. U neurčitosti pravděpodobnost neznáme.'},
+{q:'Z čeho se počítá riziko ex post?',o:['Z minulých, skutečně dosažených výnosů','Z očekávaných výnosů a jejich pravděpodobností','Z ratingu emitenta','Z bezrizikové úrokové míry'],e:'Ex post = zpětně z historie. Ex ante = dopředu z odhadů a pravděpodobností.'},
+{q:'Dvě akcie mají stejný očekávaný výnos. Akcie A má směrodatnou odchylku 4 %, akcie B 11 %. Která je rizikovější?',o:['Akcie B','Akcie A','Obě stejně','Bez znalosti bety to nelze říct'],e:'Čím vyšší rozptyl nebo směrodatná odchylka, tím vyšší riziko.'},
+{q:'Co platí pro systematické riziko?',o:['Působí na celý trh a nelze ho odstranit diverzifikací','Týká se jedné firmy a diverzifikací zmizí','Vzniká jen u zadlužených firem','Model CAPM ho neodměňuje'],e:'Je to jediné riziko, za které jsou investoři v CAPM odměňováni.'},
+{q:'Které z uvedených rizik je nesystematické?',o:['Riziko managementu','Politické riziko','Riziko změn devizového kurzu','Ekonomické riziko celého trhu'],e:'Riziko managementu je specifické pro konkrétní firmu. Ostatní tři působí na celý trh.'},
+{q:'Akcie má betu 1,3. Co to znamená?',o:['Je rizikovější než trh – agresivní investice','Je méně riziková než trh – defenzivní investice','Pohybuje se proti trhu','Nemá žádné systematické riziko'],e:'β > 1 znamená, že výnos akcie reaguje na pohyb trhu silněji než trh sám.'},
+{q:'Co znamená záporná beta?',o:['Výnos aktiva se pohybuje opačným směrem než trh','Aktivum má vždy záporný výnos','Aktivum je bezrizikové','Aktivum není obchodováno na burze'],e:'Takové aktivum snižuje celkové riziko portfolia a jeho očekávaný výnos je pod bezrizikovým.'},
+{q:'Bezriziková sazba 3 %, beta 1,2, výnos trhu 8 %. Jaké jsou náklady vlastního kapitálu podle CAPM?',o:['9 %','12,6 %','9,6 %','11 %'],e:'3 % + 1,2 · (8 % − 3 %) = 3 % + 6 % = 9 %. Do závorky patří prémie, ne celý výnos trhu.'},
+{q:'S pravděpodobností 0,5 akcie vynese 12 %, s pravděpodobností 0,5 ztratí 4 %. Jaký je očekávaný výnos?',o:['4 %','8 %','16 %','0 %'],e:'E(r) = 0,5 · 12 % + 0,5 · (−4 %) = 6 % − 2 % = 4 %.'},
+{q:'Dvě akcie mají korelační koeficient −1. Co z toho plyne pro portfolio?',o:['Vhodným poměrem lze riziko zcela odstranit','Diverzifikace nemá žádný účinek','Riziko portfolia je součtem rizik obou akcií','Akcie se pohybují nezávisle na sobě'],e:'Při dokonale záporné korelaci se výkyvy vzájemně vyruší (příklad z přednášky: σ = 0 %).'},
+{q:'Jak se skládají náklady vlastního kapitálu ve stavebnicovém modelu?',o:['Bezriziková sazba + přirážky za obchodní riziko, finanční riziko a likviditu','Bezriziková sazba + beta × riziková prémie trhu','Dividenda / cena akcie + růst','Úroková sazba z úvěru × (1 − daň)'],e:'Druhá možnost je CAPM, třetí dividendový model. Stavebnicový model nepracuje s betou.'},
+{q:'Nezadlužená beta 0,8, daň 20 %, poměr D/E = 0,5. Jaká je zadlužená beta?',o:['1,12','1,20','0,80','1,60'],e:'β_lev = 0,8 · [1 + (1 − 0,2) · 0,5] = 0,8 · 1,4 = 1,12.'},
+{q:'Co je nákladem cizího a co vlastního kapitálu?',o:['Cizí: úroky · vlastní: výnosnost požadovaná vlastníky','Cizí: dividendy · vlastní: úroky','Cizí: daně · vlastní: odpisy','Vlastní kapitál nemá žádné náklady'],e:'Vlastní kapitál není zadarmo – vlastníci chtějí zhodnocení, rizikovou prémii a náhradu obětované příležitosti.'},
+{q:'Dividenda 10 Kč, tržní cena akcie 210 Kč, emisní náklady 10 Kč na akcii, růst dividendy 3 %. Náklady vlastního kapitálu?',o:['8 %','7,76 %','5 %','3 %'],e:'10 / (210 − 10) = 5 %, plus růst 3 % = 8 %.'}
+]},
+/* ===================== 5 ===================== */
+{id:'p5',num:'5',title:'Prémie za riziko – Damodaran · Řízení rizik',
+lead:'Dvě přímky modelu CAPM, alfa jako signál koupit/prodat, riziková prémie země a nástroje, kterými firma riziko řídí.',
+groups:[
+{h:'Model CAPM – SML, CML a alfa',items:[
+['SML (přímka cenných papírů)','Vztah mezi <b>očekávaným výnosem a betou</b>. Slouží k oceňování <b>jednotlivých akcií</b>. Na přímce leží správně oceněné akcie.'],
+['Nad a pod SML','Bod <b>nad</b> přímkou = <b>podhodnocená</b> akcie (dává víc, než odpovídá riziku). Bod <b>pod</b> přímkou = <b>nadhodnocená</b>.'],
+['Alfa (α)','Rozdíl mezi <b>skutečným</b> výnosem akcie a výnosem <b>očekávaným podle CAPM</b>.'],
+['Doporučení podle alfy','<b>α = 0</b> držet (správně oceněná). <b>α &gt; 0</b> koupit (podhodnocená). <b>α &lt; 0</b> prodat (nadhodnocená).'],
+['Charakteristická přímka','Vztah mezi <b>nadvýnosem akcie</b> a <b>nadvýnosem trhu</b> (nadvýnos = výnos nad bezrizikovou sazbou), odhadnutý z historických dat.'],
+['Co se čte z charakteristické přímky','<b>Úsek na ose = α</b>. <b>Sklon = β</b>. <b>Vzdálenost bodů od přímky = nesystematické riziko.</b>'],
+['Agresivní × defenzivní investice','β &gt; 1 agresivní (rizikovější než trh), β &lt; 1 defenzivní.'],
+['Celkové riziko','Systematické (nevyhnutelné: stav ekonomiky, daňové reformy) + nahodilé (odstranitelné: stávky, konkurence). Nahodilé zmizí už při <b>15–20 náhodně vybraných</b> cenných papírech.'],
+['CML (přímka kapitálového trhu)','Vzniká kombinací <b>tržního portfolia s bezrizikovým aktivem</b>. Týká se celých portfolií. Často se chybně zaměňuje se SML.'],
+['Přípustná množina','Všechna portfolia, která lze z daných cenných papírů sestavit (je jich nekonečně mnoho).'],
+['Efektivní množina (hranice)','Portfolia s <b>nejvyšším výnosem při daném riziku</b> a <b>nejnižším rizikem při daném výnosu</b>. Investor vybírá jen z nich.'],
+['Předpoklady CAPM','Vysoce efektivní trh, nulové transakční náklady, žádné daně, žádný investor neovlivní cenu, všichni mají stejné možnosti. Nesystematické riziko nehraje roli.']
+]},
+{h:'Prémie za riziko země',items:[
+['Riziková prémie kapitálového trhu','Dlouhodobá prémie, kterou akcionáři získávají na kapitálovém trhu oproti bezrizikové investici.'],
+['Riziková prémie země (CRP)','Přirážka za to, že investuji v rizikovější zemi. Přičítá se k CAPM.'],
+['Výpočet podle Damodarana','Vychází z <b>rozdílu výnosů státních dluhopisů</b> dané země a země s ratingem <b>AAA</b> (riziko selhání), upraveného o poměr volatility akcií a dluhopisů.'],
+['Koeficient 1,5','Protože volatility se špatně zjišťují, Damodaran doporučuje poměr nahradit koeficientem <b>1,5</b>.'],
+['Vlastnosti metody','Prémie je stejná pro celou ratingovou skupinu bez ohledu na konkrétní zemi. Dává nejvyšší hodnoty a považuje se za nejpřesnější.'],
+['Na co se prémie vztahují','Na velké kotované společnosti a kmenové akcie. Pro malé a střední firmy budou prémie jiné.']
+]},
+{h:'Řízení rizik',items:[
+['Proč řídit riziko','Usnadňuje finanční plánování a snižuje možnost nečekaného finančního deficitu.'],
+['Pojištění','Přenos rizika na pojišťovnu. Ta má zkušenosti s odhadem pravděpodobnosti, odborníky a <b>diverzifikované portfolio pojistek</b>.'],
+['Katastrofické obligace','Dluhopisy, jimiž pojišťovny sdílejí riziko s investory – po katastrofě se výnos sníží.'],
+['Deriváty','Specializované nástroje pro řízení rizik: opce, forwardy, futures, swapy.'],
+['Zajištění opcí','Např. prodejní opce chrání producenta ropy proti poklesu ceny.'],
+['Forward','Dohoda koupit nebo prodat aktivum <b>v budoucnu za cenu stanovenou dnes</b>. Uzavření nic nestojí. Opak spotového obchodu.'],
+['Dlouhá × krátká pozice','Dlouhá = zavazuji se <b>koupit</b>. Krátká = zavazuji se <b>prodat</b>.'],
+['Forwardová prémie / srážka','Rozdíl mezi forwardovou a spotovou cenou, odráží mimo jiné rozdíl úrokových sazeb.'],
+['Futures','Jako forward, ale <b>standardizovaný</b> (množství, kvalita, datum) a obchodovaný na burze. Obě strany mají povinnost. Pozici lze uzavřít prodejem kontraktu.'],
+['Swap','Dohoda dvou stran o <b>výměně finančních toků nebo aktiv</b> za pevně daných podmínek.'],
+['Úrokový swap (IRS)','Výměna úrokových plateb ve <b>stejné měně</b>, typicky pohyblivá za pevnou. <b>Jistina se nevyměňuje</b>, platí se jen rozdíl úroků.'],
+['Měnový swap','Výměna úrokových plateb ve <b>dvou měnách</b>, na začátku a na konci se vymění i jistiny.'],
+['Devizový swap','Nákup měny za spotový kurz a současně sjednaný <b>zpětný prodej za termínový kurz</b>.']
+]}],
+formulas:[
+{h:'SML',tex:R`E(r_i)=r_f+\beta_i\,[E(r_m)-r_f]`,n:'Stejná rovnice jako CAPM z přednášky 4.'},
+{h:'Alfa',tex:R`\alpha_i=r_i-E(r_i)=r_i-\big(r_f+\beta_i[E(r_m)-r_f]\big)`,n:'r_i = skutečný výnos akcie.'},
+{h:'CAPM s prémií země',tex:R`E(R)=r_f+\beta\cdot RP_{CM}+RP_C`,n:'RP_CM riziková prémie kapitálového trhu, RP_C riziková prémie země.'},
+{h:'Riziková prémie země',tex:R`RP_C=\text{riziko selhání země}\cdot\frac{\sigma_{akcie}}{\sigma_{dluhopisy}}\;\approx\;\text{riziko selhání}\cdot 1{,}5`,n:'Poměr volatilit se zjednodušeně nahrazuje koeficientem 1,5.'}
+],
+traps:[
+'<b>SML</b> = jednotlivé akcie, na ose je beta. <b>CML</b> = portfolia složená z tržního portfolia a bezrizikového aktiva.',
+'<b>Nad SML = podhodnocená = koupit.</b> Intuitivně: dává víc výnosu, než by za dané riziko měla.',
+'<b>Forward</b> je individuální dohoda, <b>futures</b> je standardizovaný burzovní kontrakt. V obou případech jde o povinnost, na rozdíl od opce.',
+'Úrokový swap z přednášky: úvěr za PRIBOR + 5 %, banka platí firmě PRIBOR + 1 %, firma bance pevných 5 % → firma platí <b>pevných 9 %</b>, ať se PRIBOR hýbe jakkoli.'
+],
+quiz:[
+{q:'Co popisuje přímka SML?',o:['Vztah mezi očekávaným výnosem jednotlivé akcie a její betou','Kombinace tržního portfolia s bezrizikovým aktivem','Vývoj kurzu akcie v čase','Vztah mezi cenou dluhopisu a úrokovou mírou'],e:'Kombinace tržního portfolia s bezrizikovým aktivem je CML. Tyhle dvě přímky se často zaměňují.'},
+{q:'Akcie leží nad přímkou SML. Co to znamená?',o:['Je podhodnocená','Je nadhodnocená','Je správně oceněná','Má zápornou betu'],e:'Nabízí vyšší výnos, než odpovídá jejímu systematickému riziku.'},
+{q:'Alfa akcie je záporná. Jaké je doporučení?',o:['Prodat – akcie je nadhodnocená','Koupit – akcie je podhodnocená','Držet – akcie je správně oceněná','Počkat na výplatu dividendy'],e:'α < 0: skutečný výnos je nižší, než by podle CAPM měl být.'},
+{q:'Bezriziková sazba 2 %, beta 1,5, výnos trhu 8 %. Akcie skutečně vynáší 13 %. Jaká je alfa?',o:['+2 % – koupit','−2 % – prodat','+11 % – koupit','0 % – držet'],e:'E(r) = 2 % + 1,5 · 6 % = 11 %. α = 13 % − 11 % = +2 %.'},
+{q:'Co udává sklon a co úsek charakteristické přímky?',o:['Sklon je beta, úsek na ose je alfa','Sklon je alfa, úsek na ose je beta','Sklon je bezriziková sazba, úsek je prémie trhu','Sklon je rozptyl, úsek je směrodatná odchylka'],e:'Charakteristická přímka vztahuje nadvýnos akcie k nadvýnosu trhu.'},
+{q:'Co představuje vzdálenost jednotlivých bodů od charakteristické přímky?',o:['Nesystematické (nahodilé) riziko','Systematické riziko','Rizikovou prémii země','Opční prémii'],e:'Systematické riziko je ve sklonu (beta). Rozptýlení kolem přímky je to, co jde diverzifikovat.'},
+{q:'Kolik náhodně vybraných cenných papírů podle přednášky stačí ke snížení nahodilého rizika na nepatrnou úroveň?',o:['15–20','2–3','100 a více','Jeden, pokud má betu 1'],e:'Další přidávání titulů už riziko snižuje jen málo – zbývá riziko systematické.'},
+{q:'Jak vzniká přímka kapitálového trhu (CML)?',o:['Kombinací tržního portfolia s bezrizikovým aktivem','Proložením výnosů akcie a výnosů trhu','Spojením všech neefektivních portfolií','Z rozdílu mezi spotovou a forwardovou cenou'],e:'Body na CML mají lepší poměr rizika a výnosu než samotná riziková portfolia na efektivní hranici.'},
+{q:'Která portfolia tvoří efektivní množinu?',o:['Ta s nejvyšším výnosem při daném riziku a nejnižším rizikem při daném výnosu','Všechna, která lze z daných cenných papírů sestavit','Jen portfolia bez rizika','Ta, která obsahují aspoň 20 titulů'],e:'Všechna sestavitelná portfolia jsou přípustná množina; efektivní množina je její „horní okraj“.'},
+{q:'Z čeho vychází riziková prémie země podle Damodarana?',o:['Z rozdílu výnosů státních dluhopisů země a země s ratingem AAA, upraveného o volatilitu','Z tempa růstu HDP','Z výše státního dluhu k HDP','Z dividendového výnosu místní burzy'],e:'Riziko selhání země se násobí poměrem volatility akcií a vládních dluhopisů.'},
+{q:'Riziko selhání země je 1 %. Jaká je riziková prémie země při Damodaranově zjednodušení?',o:['1,5 %','1 %','2,5 %','0,67 %'],e:'Poměr volatilit se nahrazuje koeficientem 1,5 → 1 % · 1,5 = 1,5 %.'},
+{q:'Jak se liší futures od forwardu?',o:['Futures je standardizovaný burzovní kontrakt, forward individuální dohoda','Futures je právo, forward povinnost','Futures lze sjednat jen na měny','U futures se platí opční prémie'],e:'Oba zavazují obě strany. Právo (ne povinnost) dává jen opce.'},
+{q:'Firma má úvěr za PRIBOR + 5 %. Ve swapu dostává PRIBOR + 1 % a platí pevných 5 %. Kolik platí celkem?',o:['Pevných 9 %','PRIBOR + 9 %','Pevných 5 %','PRIBOR + 1 %'],e:'−(PRIBOR + 5 %) − 5 % + (PRIBOR + 1 %) = −9 %. PRIBOR se vyruší.'},
+{q:'Co platí pro úrokový swap?',o:['Vyměňují se jen úrokové platby ve stejné měně, jistina ne','Na začátku a na konci se vyměňují jistiny ve dvou měnách','Jde o nákup měny se zpětným prodejem','Jedna strana má právo od výměny odstoupit'],e:'Výměna jistin ve dvou měnách je měnový swap, nákup se zpětným prodejem devizový swap.'},
+{q:'Kdo má ve forwardu dlouhou pozici?',o:['Strana, která se zavázala aktivum v budoucnu koupit','Strana, která se zavázala aktivum prodat','Strana s delší dobou splatnosti','Strana, která zaplatila prémii'],e:'Dlouhá = koupit, krátká = prodat. Uzavření forwardu nic nestojí, žádná prémie se neplatí.'}
+]}
+];
+
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
+const best=id=>{try{return localStorage.getItem('fip-quiz-'+id)}catch(e){return null}};
+const saveBest=(id,n,t)=>{try{const o=best(id);if(!o||n>parseInt(o))localStorage.setItem('fip-quiz-'+id,n+'/'+t)}catch(e){}};
+
+function quizHtml(L){
+  let h=`<div class="quiz" id="quiz-${L.id}" data-id="${L.id}"><header><h3>Test – přednáška ${L.num}</h3><span class="score">0 / ${L.quiz.length}</span><span class="spacer"></span><button class="chip again">↻ Znovu</button></header>`;
+  shuffle(L.quiz).forEach((q,i)=>{
+    const opts=shuffle(q.o.map((t,k)=>({t,ok:k===0})));
+    h+=`<div class="q"><p class="qt"><span>${i+1}.</span>${esc(q.q)}</p><div class="opts">`+opts.map(o=>`<button type="button" data-ok="${o.ok?1:0}">${esc(o.t)}</button>`).join('')+`</div><p class="ex">${esc(q.e)}</p></div>`;
+  });
+  return h+`<p class="result"></p></div>`;
+}
+function navHtml(){
+  return LECT.map(L=>{const b=best(L.id);return `<a class="ch" href="#${L.id}" title="${esc(L.title)}">P${L.num}${b?`<span class="sc">${esc(b)}</span>`:''}</a>`}).join('');
+}
+function mathIn(el){ if(window.renderMathInElement) renderMathInElement(el,{delimiters:[{left:'$$',right:'$$',display:true},{left:'\\(',right:'\\)',display:false}],throwOnError:false}); }
+function render(){
+  let h='';
+  LECT.forEach(L=>{
+    h+=`<section class="lec" id="${L.id}"><h2>${L.num}. ${esc(L.title)}</h2><p class="lead">${L.lead}</p>`;
+    L.groups.forEach(g=>{
+      h+=`<h3 class="g">${esc(g.h)}</h3><dl class="grid">`+g.items.map(([t,d])=>`<div class="d"><dt>${t}</dt><dd>${d}</dd></div>`).join('')+`</dl>`;
+    });
+    h+=`<h3 class="g">Vzorce</h3><div class="fgrid">`+L.formulas.map(f=>`<div class="fc"><h4>${esc(f.h)}</h4>$$${f.tex}$$<p>${esc(f.n)}</p></div>`).join('')+`</div>`;
+    h+=`<h3 class="g">Pozor na záměnu</h3><ul class="traps">`+L.traps.map(t=>`<li>${t}</li>`).join('')+`</ul>`;
+    h+=quizHtml(L)+`</section>`;
+  });
+  document.getElementById('content').innerHTML=h;
+  document.getElementById('nav').querySelectorAll('a.ch').forEach(a=>a.remove());
+  document.getElementById('nav').insertAdjacentHTML('afterbegin',navHtml());
+}
+function refreshNav(){
+  const nav=document.getElementById('nav');
+  nav.querySelectorAll('a.ch').forEach(a=>a.remove());
+  nav.insertAdjacentHTML('afterbegin',navHtml());
+}
+document.addEventListener('DOMContentLoaded',()=>{
+  render(); mathIn(document.body);
+  document.getElementById('content').addEventListener('click',e=>{
+    const card=e.target.closest('.d');
+    if(card && document.body.classList.contains('hide')){card.classList.toggle('show');return}
+    const again=e.target.closest('.again');
+    if(again){
+      const old=again.closest('.quiz'), L=LECT.find(x=>x.id===old.dataset.id);
+      old.insertAdjacentHTML('afterend',quizHtml(L)); old.remove();
+      document.getElementById('quiz-'+L.id).scrollIntoView({block:'start'});
+      return;
+    }
+    const b=e.target.closest('.opts button');
+    if(!b||b.disabled)return;
+    const q=b.closest('.q'), quiz=b.closest('.quiz');
+    q.querySelectorAll('button').forEach(x=>{x.disabled=true;if(x.dataset.ok==='1')x.classList.add('ok')});
+    if(b.dataset.ok!=='1')b.classList.add('bad'); else q.dataset.hit='1';
+    q.classList.add('done');
+    const all=quiz.querySelectorAll('.q'), done=quiz.querySelectorAll('.q.done').length, hit=quiz.querySelectorAll('.q[data-hit]').length;
+    quiz.querySelector('.score').textContent=hit+' / '+all.length;
+    if(done===all.length){
+      const pct=Math.round(hit/all.length*100);
+      quiz.querySelector('.result').textContent=`Hotovo: ${hit} z ${all.length} (${pct} %). `+(pct>=85?'Tohle umíš.':pct>=60?'Slušné – projdi si ještě otázky, kde byla chyba.':'Vrať se ke kartičkám a zkus to znovu.');
+      quiz.classList.add('fin');
+      saveBest(quiz.dataset.id,hit,all.length); refreshNav();
+    }
+  });
+  const hb=document.getElementById('hide');
+  hb.addEventListener('click',()=>{
+    const on=hb.getAttribute('aria-pressed')!=='true';
+    hb.setAttribute('aria-pressed',on); document.body.classList.toggle('hide',on);
+    document.querySelectorAll('.d.show').forEach(d=>d.classList.remove('show'));
+  });
+  document.getElementById('theme').addEventListener('click',()=>{const r=document.documentElement;const dark=r.dataset.theme?r.dataset.theme==='dark':matchMedia('(prefers-color-scheme: dark)').matches;r.dataset.theme=dark?'light':'dark';try{localStorage.setItem('fip-theme',r.dataset.theme)}catch(e){}});
+});
+try{const th=localStorage.getItem('fip-theme');if(th)document.documentElement.dataset.theme=th}catch(e){}
+</script>
+</body>
+</html>
